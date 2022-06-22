@@ -133,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `tool` (
   `description` TEXT NULL,
   `availability` VARCHAR(45) NULL,
   `training_required` TINYINT NULL,
-  `operators` DOUBLE NULL,
+  `operators` INT NULL,
   `active` TINYINT NULL,
   `image_url` VARCHAR(2000) NULL,
   `status_id` INT NULL,
@@ -141,6 +141,7 @@ CREATE TABLE IF NOT EXISTS `tool` (
   `owner_id` INT NOT NULL,
   `created_at` DATETIME NULL,
   `updated_at` DATETIME NULL,
+  `available` TINYINT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_tool_status1_idx` (`status_id` ASC),
   INDEX `fk_tool_tool_condition1_idx` (`tool_condition_id` ASC),
@@ -164,18 +165,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `role`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `role` ;
-
-CREATE TABLE IF NOT EXISTS `role` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `project_comment`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `project_comment` ;
@@ -186,11 +175,18 @@ CREATE TABLE IF NOT EXISTS `project_comment` (
   `created_date` DATETIME NULL,
   `active` TINYINT NULL,
   `project_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_project_comment_project1_idx` (`project_id` ASC),
+  INDEX `fk_project_comment_user1_idx` (`user_id` ASC),
   CONSTRAINT `fk_project_comment_project1`
     FOREIGN KEY (`project_id`)
     REFERENCES `project` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_project_comment_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -230,9 +226,13 @@ DROP TABLE IF EXISTS `participant` ;
 CREATE TABLE IF NOT EXISTS `participant` (
   `project_id` INT NOT NULL,
   `user_id` INT NOT NULL,
-  `approved` TINYINT NULL,
-  `id` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`project_id`, `user_id`, `id`),
+  `participant_comment` TEXT NULL,
+  `date_created` DATETIME NULL,
+  `date_approved` DATETIME NULL,
+  `rating` INT NULL,
+  `rating_comment` TEXT NULL,
+  `rating_date` DATETIME NULL,
+  PRIMARY KEY (`project_id`, `user_id`),
   INDEX `fk_Project_has_User_User1_idx` (`user_id` ASC),
   INDEX `fk_Project_has_User_Project_idx` (`project_id` ASC),
   CONSTRAINT `fk_Project_has_User_Project`
@@ -249,13 +249,22 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `project_tools`
+-- Table `project_tool`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `project_tools` ;
+DROP TABLE IF EXISTS `project_tool` ;
 
-CREATE TABLE IF NOT EXISTS `project_tools` (
+CREATE TABLE IF NOT EXISTS `project_tool` (
   `tool_id` INT NOT NULL,
   `project_id` INT NOT NULL,
+  `project_comment` TEXT NULL,
+  `date_created` DATETIME NULL,
+  `date_approved` DATETIME NULL,
+  `project_owner_rating` INT NULL,
+  `tool_owner_rating` INT NULL,
+  `project_owner_rating_date` DATETIME NULL,
+  `tool_owner_rating_date` DATETIME NULL,
+  `project_owner_rating_comment` TEXT NULL,
+  `tool_owner_rating_comment` TEXT NULL,
   PRIMARY KEY (`tool_id`, `project_id`),
   INDEX `fk_Tool_has_Project_Project1_idx` (`project_id` ASC),
   INDEX `fk_Tool_has_Project_Tool1_idx` (`tool_id` ASC),
@@ -345,11 +354,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `project_materials`
+-- Table `project_material`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `project_materials` ;
+DROP TABLE IF EXISTS `project_material` ;
 
-CREATE TABLE IF NOT EXISTS `project_materials` (
+CREATE TABLE IF NOT EXISTS `project_material` (
   `material_id` INT NOT NULL,
   `project_id` INT NOT NULL,
   `id` INT NOT NULL,
@@ -388,49 +397,18 @@ CREATE TABLE IF NOT EXISTS `tool_comment` (
   `created_date` DATETIME NULL,
   `active` TINYINT NULL,
   `tool_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_tool_comment_tool1_idx` (`tool_id` ASC),
+  INDEX `fk_tool_comment_user1_idx` (`user_id` ASC),
   CONSTRAINT `fk_tool_comment_tool1`
     FOREIGN KEY (`tool_id`)
     REFERENCES `tool` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `project_rating`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `project_rating` ;
-
-CREATE TABLE IF NOT EXISTS `project_rating` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `rating` INT NULL,
-  `project_id` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_project_rating_project1_idx` (`project_id` ASC),
-  CONSTRAINT `fk_project_rating_project1`
-    FOREIGN KEY (`project_id`)
-    REFERENCES `project` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `tool_rating`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `tool_rating` ;
-
-CREATE TABLE IF NOT EXISTS `tool_rating` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `rating` INT NULL,
-  `tool_id` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_tool_rating_tool1_idx` (`tool_id` ASC),
-  CONSTRAINT `fk_tool_rating_tool1`
-    FOREIGN KEY (`tool_id`)
-    REFERENCES `tool` (`id`)
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tool_comment_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -456,9 +434,13 @@ DROP TABLE IF EXISTS `project_comment_vote` ;
 CREATE TABLE IF NOT EXISTS `project_comment_vote` (
   `project_comment_id` INT NOT NULL,
   `vote_id` INT NOT NULL,
-  PRIMARY KEY (`project_comment_id`, `vote_id`),
+  `user_id` INT NOT NULL,
+  `vote_date` DATETIME NULL,
+  `reported_for` TEXT NULL,
+  PRIMARY KEY (`project_comment_id`, `user_id`),
   INDEX `fk_project_comment_has_vote_comment_vote_comment1_idx` (`vote_id` ASC),
   INDEX `fk_project_comment_has_vote_comment_project_comment1_idx` (`project_comment_id` ASC),
+  INDEX `fk_project_comment_vote_user1_idx` (`user_id` ASC),
   CONSTRAINT `fk_project_comment_has_vote_comment_project_comment1`
     FOREIGN KEY (`project_comment_id`)
     REFERENCES `project_comment` (`id`)
@@ -467,6 +449,11 @@ CREATE TABLE IF NOT EXISTS `project_comment_vote` (
   CONSTRAINT `fk_project_comment_has_vote_comment_vote_comment1`
     FOREIGN KEY (`vote_id`)
     REFERENCES `vote` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_project_comment_vote_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -480,9 +467,13 @@ DROP TABLE IF EXISTS `tool_comment_vote` ;
 CREATE TABLE IF NOT EXISTS `tool_comment_vote` (
   `vote_id` INT NOT NULL,
   `tool_comment_id` INT NOT NULL,
-  PRIMARY KEY (`vote_id`, `tool_comment_id`),
+  `user_id` INT NOT NULL,
+  `vote_date` DATETIME NULL,
+  `reported_for` TEXT NULL,
+  PRIMARY KEY (`tool_comment_id`, `user_id`),
   INDEX `fk_vote_has_tool_comment_tool_comment1_idx` (`tool_comment_id` ASC),
   INDEX `fk_vote_has_tool_comment_vote1_idx` (`vote_id` ASC),
+  INDEX `fk_tool_comment_vote_user1_idx` (`user_id` ASC),
   CONSTRAINT `fk_vote_has_tool_comment_vote1`
     FOREIGN KEY (`vote_id`)
     REFERENCES `vote` (`id`)
@@ -492,41 +483,10 @@ CREATE TABLE IF NOT EXISTS `tool_comment_vote` (
     FOREIGN KEY (`tool_comment_id`)
     REFERENCES `tool_comment` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `trade_type`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `trade_type` ;
-
-CREATE TABLE IF NOT EXISTS `trade_type` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `project_trade_type`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `project_trade_type` ;
-
-CREATE TABLE IF NOT EXISTS `project_trade_type` (
-  `project_id` INT NOT NULL,
-  `trade_type_id` INT NOT NULL,
-  PRIMARY KEY (`project_id`, `trade_type_id`),
-  INDEX `fk_project_has_trade_type_trade_type1_idx` (`trade_type_id` ASC),
-  INDEX `fk_project_has_trade_type_project1_idx` (`project_id` ASC),
-  CONSTRAINT `fk_project_has_trade_type_project1`
-    FOREIGN KEY (`project_id`)
-    REFERENCES `project` (`id`)
-    ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_project_has_trade_type_trade_type1`
-    FOREIGN KEY (`trade_type_id`)
-    REFERENCES `trade_type` (`id`)
+  CONSTRAINT `fk_tool_comment_vote_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -543,11 +503,31 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- -----------------------------------------------------
+-- Data for table `address`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `tooldragondb`;
+INSERT INTO `address` (`id`, `street1`, `street2`, `city`, `state`, `postal_code`, `active`) VALUES (1, '123 chase lane', NULL, 'el paso', 'texas', '79928', 1);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
 -- Data for table `user`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `tooldragondb`;
 INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `active`, `image_url`, `description`, `address_id`, `created_at`, `updated_at`, `last_login`, `background_image_url`, `enabled`, `role`) VALUES (1, 'Angel', 'Casillas', 'acadmin', '$2a$10$iLZuVQKCjz0QH0xGZFuUeeXuZm7orxQzNlMCKINdR/DvvJIvwX0he', 1, NULL, 'desc', NULL, NULL, NULL, NULL, NULL, 1, 'role_admin');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `project`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `tooldragondb`;
+INSERT INTO `project` (`id`, `description`, `start_date`, `updated_at`, `estimated_end_date`, `completed`, `cancelled`, `active`, `image_url`, `address_id`, `owner_id`, `created_at`) VALUES (1, 'landscaping my yard', NULL, NULL, NULL, NULL, NULL, 1, NULL, 1, 1, NULL);
 
 COMMIT;
 
@@ -578,12 +558,31 @@ COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `role`
+-- Data for table `tool`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `tooldragondb`;
-INSERT INTO `role` (`id`, `name`) VALUES (1, 'standard');
-INSERT INTO `role` (`id`, `name`) VALUES (2, 'admin');
+INSERT INTO `tool` (`id`, `name`, `description`, `availability`, `training_required`, `operators`, `active`, `image_url`, `status_id`, `tool_condition_id`, `owner_id`, `created_at`, `updated_at`, `available`) VALUES (1, 'hammer', NULL, NULL, NULL, NULL, 1, NULL, 1, 1, 1, NULL, NULL, 1);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `project_comment`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `tooldragondb`;
+INSERT INTO `project_comment` (`id`, `comment_body`, `created_date`, `active`, `project_id`, `user_id`) VALUES (1, 'project comment', '2022-06-22', 1, 1, 1);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `material`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `tooldragondb`;
+INSERT INTO `material` (`id`, `name`, `description`, `active`) VALUES (1, 'nails', NULL, 1);
 
 COMMIT;
 
@@ -601,6 +600,76 @@ COMMIT;
 
 
 -- -----------------------------------------------------
+-- Data for table `participant`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `tooldragondb`;
+INSERT INTO `participant` (`project_id`, `user_id`, `participant_comment`, `date_created`, `date_approved`, `rating`, `rating_comment`, `rating_date`) VALUES (1, 1, NULL, '2022-06-22', '2022-06-22', NULL, NULL, NULL);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `project_tool`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `tooldragondb`;
+INSERT INTO `project_tool` (`tool_id`, `project_id`, `project_comment`, `date_created`, `date_approved`, `project_owner_rating`, `tool_owner_rating`, `project_owner_rating_date`, `tool_owner_rating_date`, `project_owner_rating_comment`, `tool_owner_rating_comment`) VALUES (1, 1, NULL, '2022-06-22', '2022-06-22', NULL, NULL, NULL, NULL, NULL, NULL);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `category_tools`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `tooldragondb`;
+INSERT INTO `category_tools` (`category_id`, `tool_id`) VALUES (1, 1);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `project_category`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `tooldragondb`;
+INSERT INTO `project_category` (`category_id`, `project_id`) VALUES (1, 1);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `category_materials`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `tooldragondb`;
+INSERT INTO `category_materials` (`category_id`, `material_id`) VALUES (1, 1);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `project_material`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `tooldragondb`;
+INSERT INTO `project_material` (`material_id`, `project_id`, `id`, `quantity`, `status_id`) VALUES (1, 1, 1, '250', 1);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `tool_comment`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `tooldragondb`;
+INSERT INTO `tool_comment` (`id`, `comment_body`, `created_date`, `active`, `tool_id`, `user_id`) VALUES (1, 'hello', '2022-06-22', 1, 1, 1);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
 -- Data for table `vote`
 -- -----------------------------------------------------
 START TRANSACTION;
@@ -613,13 +682,21 @@ COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `trade_type`
+-- Data for table `project_comment_vote`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `tooldragondb`;
-INSERT INTO `trade_type` (`id`, `name`) VALUES (1, 'labor');
-INSERT INTO `trade_type` (`id`, `name`) VALUES (2, 'training');
-INSERT INTO `trade_type` (`id`, `name`) VALUES (3, 'access');
+INSERT INTO `project_comment_vote` (`project_comment_id`, `vote_id`, `user_id`, `vote_date`, `reported_for`) VALUES (1, 1, 1, '2022-06-22', NULL);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `tool_comment_vote`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `tooldragondb`;
+INSERT INTO `tool_comment_vote` (`vote_id`, `tool_comment_id`, `user_id`, `vote_date`, `reported_for`) VALUES (1, 1, 1, '2022-06-22', NULL);
 
 COMMIT;
 
