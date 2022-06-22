@@ -1,11 +1,16 @@
 package com.skilldistillery.tooldragon.entities;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 public class User {
@@ -21,7 +26,33 @@ public class User {
 	private boolean active;
 
 	private String role;
-
+	
+	@Column(name = "first_name")
+	private String firstName;
+	
+	@Column(name = "last_name")
+	private String lastName;
+	
+	@Column(name = "image_url")
+	private String imageUrl;
+	
+	private String description;
+	
+	@Column(name = "created_at")
+	@CreationTimestamp
+	private LocalDateTime createdAt;
+	
+	@Column(name = "update_at")
+	@UpdateTimestamp
+	private LocalDateTime updatedAt;
+	
+	@Column(name = "last_login")
+	private LocalDateTime lastLogin;
+	
+	@Column(name = "background_image_url")
+	private String backgroundImageUrl;
+	
+	
 	public User() {
 		super();
 	}
@@ -64,6 +95,70 @@ public class User {
 
 	public void setEnabled(boolean enabled) {
 		this.active = enabled;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public LocalDateTime getLastLogin() {
+		return lastLogin;
+	}
+
+	public void setLastLogin(LocalDateTime lastLogin) {
+		this.lastLogin = lastLogin;
+	}
+
+	public String getBackgroundImageUrl() {
+		return backgroundImageUrl;
+	}
+
+	public void setBackgroundImageUrl(String backgroundImageUrl) {
+		this.backgroundImageUrl = backgroundImageUrl;
 	}
 
 	@Override
