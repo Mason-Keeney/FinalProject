@@ -11,6 +11,9 @@
 		<class>com.skilldistillery.tooldragon.entities.Material</class>
 		<class>com.skilldistillery.tooldragon.entities.ParticipantId</class>
 		<class>com.skilldistillery.tooldragon.entities.Participant</class>
+		<class>com.skilldistillery.tooldragon.entities.ProjectToolId</class>
+		<class>com.skilldistillery.tooldragon.entities.ProjectTool</class>
+		<class>com.skilldistillery.tooldragon.entities.ProjectMaterial</class>
 		<!--End Entities  -->
 		
 		<properties>
