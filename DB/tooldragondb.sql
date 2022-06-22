@@ -33,18 +33,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `role`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `role` ;
-
-CREATE TABLE IF NOT EXISTS `role` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `user`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `user` ;
@@ -57,7 +45,6 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` VARCHAR(200) NOT NULL,
   `active` TINYINT NOT NULL,
   `image_url` VARCHAR(2000) NULL,
-  `role_id` INT NOT NULL,
   `description` TEXT NULL,
   `address_id` INT NULL,
   `created_at` DATETIME NULL,
@@ -67,13 +54,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `role` VARCHAR(45) NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `username_UNIQUE` (`username` ASC),
-  INDEX `fk_user_role1_idx` (`role_id` ASC),
   INDEX `fk_user_address1_idx` (`address_id` ASC),
-  CONSTRAINT `fk_user_role1`
-    FOREIGN KEY (`role_id`)
-    REFERENCES `role` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_user_address1`
     FOREIGN KEY (`address_id`)
     REFERENCES `address` (`id`)
@@ -178,6 +159,18 @@ CREATE TABLE IF NOT EXISTS `tool` (
     REFERENCES `user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `role`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `role` ;
+
+CREATE TABLE IF NOT EXISTS `role` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 
@@ -549,22 +542,11 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- -----------------------------------------------------
--- Data for table `role`
--- -----------------------------------------------------
-START TRANSACTION;
-USE `tooldragondb`;
-INSERT INTO `role` (`id`, `name`) VALUES (1, 'standard');
-INSERT INTO `role` (`id`, `name`) VALUES (2, 'admin');
-
-COMMIT;
-
-
--- -----------------------------------------------------
 -- Data for table `user`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `tooldragondb`;
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `active`, `image_url`, `role_id`, `description`, `address_id`, `created_at`, `updated_at`, `last_login`, `background_image_url`, `role`) VALUES (1, 'Angel', 'Casillas', 'acadmin', 'admin', 1, NULL, 2, 'desc', NULL, NULL, NULL, NULL, NULL, 'role_admin');
+INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `active`, `image_url`, `description`, `address_id`, `created_at`, `updated_at`, `last_login`, `background_image_url`, `role`) VALUES (1, 'Angel', 'Casillas', 'acadmin', '$2a$10$kR5d.m9Wj2X/xGqNp4o.8u.fXYMBKHlxzOZH3tAkTApbnZIQE88lO', 1, NULL, 'desc', NULL, NULL, NULL, NULL, NULL, 'role_admin');
 
 COMMIT;
 
@@ -590,6 +572,17 @@ INSERT INTO `tool_condition` (`id`, `name`) VALUES (1, 'new');
 INSERT INTO `tool_condition` (`id`, `name`) VALUES (2, 'lightly used');
 INSERT INTO `tool_condition` (`id`, `name`) VALUES (3, 'needs repair');
 INSERT INTO `tool_condition` (`id`, `name`) VALUES (4, 'broken');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `role`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `tooldragondb`;
+INSERT INTO `role` (`id`, `name`) VALUES (1, 'standard');
+INSERT INTO `role` (`id`, `name`) VALUES (2, 'admin');
 
 COMMIT;
 
