@@ -1,6 +1,8 @@
 package com.skilldistillery.tooldragon.entities;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -9,7 +11,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -53,6 +58,26 @@ public class Tool {
 	@JoinColumn(name = "owner_id")
 	@JsonIgnoreProperties({"tools", "projects", "address"})
 	private User owner;
+	
+	@OneToMany(mappedBy = "tool")
+	@JsonIgnoreProperties("tool")
+	private List<ToolComment> comments;
+	
+	@ManyToOne
+	@JoinColumn(name = "tool_condition_id")
+	private ToolCondition condition;
+	
+	@ManyToMany
+	@JoinTable(name = "category_tools", joinColumns = @JoinColumn(name="tool_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+	private List<Category> categories;
+	
+	@ManyToOne
+	@JoinColumn(name = "status_id")
+	private Status status;
+	
+	@OneToMany(mappedBy = "tool")
+	@JsonIgnoreProperties("tool")
+	private List<ProjectTool> projectsUsedIn;
 
 	public Tool() {
 		super();
@@ -152,6 +177,103 @@ public class Tool {
 
 	public void setOwner(User owner) {
 		this.owner = owner;
+	}
+
+	public List<ToolComment> getComments() {
+		return new ArrayList<>(comments);
+	}
+
+	public void setComments(List<ToolComment> comments) {
+		this.comments = comments;
+	}
+	
+	public void addComment(ToolComment comment) {
+		if(comments == null) {
+			comments = new ArrayList<>();
+		}
+		if(comments != null && !comments.contains(comment)) {
+			comments.add(comment);
+		}
+		if (comment.getTool() == null) {
+			comment.setTool(this);
+		}
+	}
+	
+	public void removeComment(ToolComment comment) {
+		if(comments != null && comments.contains(comment)) {
+			comments.remove(comment);
+		}
+		if(comment.getTool().equals(this)) {
+			comment.setTool(null);
+		}
+	}
+
+	public ToolCondition getCondition() {
+		return condition;
+	}
+
+	public void setCondition(ToolCondition condition) {
+		this.condition = condition;
+	}
+
+	public List<Category> getCategories() {
+		return new ArrayList<>(categories);
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
+	}
+	
+	public void addCategory(Category category) {
+		if (categories == null) {
+			categories = new ArrayList<>();
+		}
+		if(categories != null && !categories.contains(category)) {
+			categories.add(category);
+		}
+	}
+	
+	public void removeCategory(Category category) {
+		if(categories != null && categories.contains(category)) {
+			categories.remove(category);
+		}
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public List<ProjectTool> getProjectsUsedIn() {
+		return new ArrayList<>(projectsUsedIn);
+	}
+
+	public void setProjectsUsedIn(List<ProjectTool> projectsUsedIn) {
+		this.projectsUsedIn = projectsUsedIn;
+	}
+	
+	public void addProjectUsedIn(ProjectTool projectUsedIn) {
+		if(projectsUsedIn == null) {
+			projectsUsedIn = new ArrayList<>();
+		}
+		if(projectsUsedIn != null && !projectsUsedIn.contains(projectUsedIn)) {
+			projectsUsedIn.add(projectUsedIn);
+		}
+		if(projectUsedIn.getTool() == null) {
+			projectUsedIn.setTool(this);
+		}
+	}
+	
+	public void removeProjectUsedIn(ProjectTool projectUsedIn) {
+		if(projectsUsedIn != null && projectsUsedIn.contains(projectUsedIn)) {
+			projectsUsedIn.remove(projectUsedIn);
+		}
+		if(projectUsedIn.getTool().equals(this)) {
+			projectUsedIn.setTool(null);
+		}
 	}
 
 	@Override

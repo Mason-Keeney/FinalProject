@@ -47,5 +47,49 @@ class ToolTest {
 		assertNotNull(tool);
 		assertEquals("hammer", tool.getName());
 	}
+	
+	@Test
+	void test_Tool_owner_mapping() {
+		assertNotNull(tool);
+		assertNotNull(tool.getOwner());
+	}
+	
+	@Test
+	void test_Tool_comments_mapping() {
+		assertNotNull(tool);
+		assertNotNull(tool.getComments());
+		assertTrue(tool.getComments().size() > 0);
+	}
+	
+	@Test
+	void test_Tool_condition_mapping() {
+		assertNotNull(tool);
+		assertNotNull(tool.getCondition());
+	}
+	
+	@Test
+	void test_Tool_categories_mapping() {
+		assertNotNull(tool);
+		assertNotNull(tool.getCategories());
+		assertTrue(tool.getCategories().size() > 0);
+	}
+	
+	@Test
+	void test_Tool_status_mapping() {
+		assertNotNull(tool);
+		assertNotNull(tool.getStatus());
+	}
+	
+	@Test
+	void test_Tool_projectsUsedIn_mapping() {
+		assertNotNull(tool);
+		assertNotNull(tool.getProjectsUsedIn());
+		assertTrue(tool.getProjectsUsedIn().size() > 0);
+	}
+
+
+
+
+
 
 }
