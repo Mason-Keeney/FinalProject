@@ -1,7 +1,7 @@
 package com.skilldistillery.tooldragon.controllers;
 
 import java.security.Principal;
-import java.util.Set;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,8 +29,8 @@ public class AddressController {
 	private AddressService addressService;
 
 	@GetMapping("")
-	public Set<Address> index(HttpServletRequest req, HttpServletResponse res, Principal principal) {
-		Set<Address> address = addressService.index(principal.getName());
+	public List<Address> index(HttpServletRequest req, HttpServletResponse res, Principal principal) {
+		List<Address> address = addressService.index(principal.getName());
 		if (address == null) {
 			res.setStatus(404);
 		}

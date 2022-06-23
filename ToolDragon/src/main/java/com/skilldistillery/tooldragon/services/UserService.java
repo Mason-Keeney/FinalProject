@@ -1,6 +1,6 @@
 package com.skilldistillery.tooldragon.services;
 
-import java.util.Set;
+import java.util.List;
 
 import com.skilldistillery.tooldragon.entities.User;
 
@@ -8,7 +8,7 @@ public interface UserService {
 
 	public User getUserById(int userId);
 
-	public Set<User> index(String username);
+	public List<User> index(String username);
 
 	public User show(String username, int accountId);
 

@@ -9,10 +9,10 @@ import com.skilldistillery.tooldragon.entities.Project;
 
 public interface ProjectRepository extends JpaRepository<Project, Integer> {
 
-	Set<Project> findByProjectDescription(String projectDescription);
-
-	Project findByIdAndProjectDescription(int projectId, String projectDescription);
+	Set<Project> findByDescription(String projectDescription);
 
 	Optional<Project> findById(int projectId);
+	
+	Set<Project> findByOwner_Username(String username);
 
 }

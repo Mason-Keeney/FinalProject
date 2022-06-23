@@ -1,7 +1,8 @@
 package com.skilldistillery.tooldragon.services;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,16 +27,36 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Set<User> index(String username) {
-		if (userRepo.findByUsername_Username(username) == null) {
-			return null;
+	public List<User> index(String username) {
+		List<User> users = null;
+		List<User> filteredUsers = null;
+		if (userRepo.findByUsername(username) != null) {
+			users = userRepo.findAll();
+			filteredUsers = new ArrayList<>();
+			if (users != null && !users.isEmpty()) {
+				for (User user : users) {
+					if (user.isEnabled()) {
+						filteredUsers.add(user);
+					}
+				}
+			}
 		}
-		return null;
+		return filteredUsers;
 	}
 
 	@Override
 	public User show(String username, int accountId) {
-		return userRepo.findByIdAndUsername_Username(accountId, username);
+		User user = null;
+		if (userRepo.findByUsername(username) != null) {
+			Optional<User> op = userRepo.findById(accountId);
+			if (op.isPresent()) {
+				user = op.get();
+				if (!user.isEnabled()) {
+					user = null;
+				}
+			}
+		}
+		return user;
 	}
 
 	@Override
@@ -55,8 +76,6 @@ public class UserServiceImpl implements UserService {
 		if (existing != null) {
 			existing.setFirstName(user.getFirstName());
 			existing.setLastName(user.getLastName());
-			existing.setUsername(user.getUsername());
-			existing.setPassword(user.getPassword());
 			existing.setImageUrl(user.getImageUrl());
 			existing.setDescription(user.getDescription());
 			existing.setCreatedAt(user.getCreatedAt());

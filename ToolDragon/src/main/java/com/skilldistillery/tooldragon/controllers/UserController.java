@@ -1,7 +1,7 @@
 package com.skilldistillery.tooldragon.controllers;
 
 import java.security.Principal;
-import java.util.Set;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,16 +28,16 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-//	@GetMapping("users")
-	public Set<User> index(HttpServletRequest req, HttpServletResponse res, Principal principal) {
-		Set<User> users = userService.index(principal.getName());
+	@GetMapping("users")
+	public List<User> index(HttpServletRequest req, HttpServletResponse res, Principal principal) {
+		List<User> users = userService.index(principal.getName());
 		if (users == null) {
 			res.setStatus(404);
 		}
 		return users;
 	}
 
-//	@GetMapping("users/{aid}")
+	@GetMapping("users/{aid}")
 	public User show(HttpServletRequest req, HttpServletResponse res, @PathVariable int aid, Principal principal) {
 		User user = userService.show(principal.getName(), aid);
 		if (user == null) {
@@ -46,7 +46,7 @@ public class UserController {
 		return user;
 	}
 
-//	@PostMapping("users")
+	@PostMapping("users")
 	public User create(HttpServletRequest req, HttpServletResponse res, @RequestBody User user, Principal principal) {
 		user = userService.create(principal.getName(), user);
 		try {
@@ -68,7 +68,7 @@ public class UserController {
 		return user;
 	}
 
-	@PutMapping("user/{aid}")
+	@PutMapping("users/{aid}")
 	public User update(HttpServletRequest req, HttpServletResponse res, @PathVariable int aid, @RequestBody User user,
 			Principal principal) {
 		user = userService.update(principal.getName(), aid, user);
@@ -78,7 +78,7 @@ public class UserController {
 		return user;
 	}
 
-	@DeleteMapping("user/{aid}")
+	@DeleteMapping("users/{aid}")
 	public void destroy(HttpServletRequest req, HttpServletResponse res, @PathVariable int aid, Principal principal) {
 		try {
 			if (userService.destroy(principal.getName(), aid)) {

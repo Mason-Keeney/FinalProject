@@ -1,6 +1,6 @@
 package com.skilldistillery.tooldragon.services;
 
-import java.util.Set;
+import java.util.List;
 
 import com.skilldistillery.tooldragon.entities.Address;
 
@@ -8,7 +8,7 @@ public interface AddressService {
 	
 	public Address getAddressById(int addressId);
 
-	public Set<Address> index(String address);
+	public List<Address> index(String address);
 
 	public Address show(int addressId);
 

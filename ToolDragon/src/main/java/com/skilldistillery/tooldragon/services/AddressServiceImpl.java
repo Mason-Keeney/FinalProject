@@ -1,7 +1,7 @@
 package com.skilldistillery.tooldragon.services;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,11 +16,8 @@ public class AddressServiceImpl implements AddressService {
 	private AddressRepository addressRepo;
 
 	@Override
-	public Set<Address> index(String address) {
-		if (addressRepo.findByAddress(address) == null) {
-			return null;
-		}
-		return addressRepo.findByAddress(address);
+	public List<Address> index(String address) {
+		return addressRepo.findAll();
 	}
 
 	@Override
