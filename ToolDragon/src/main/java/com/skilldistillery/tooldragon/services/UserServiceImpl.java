@@ -72,8 +72,16 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User update(String username, int accountId, User user) {
-		User existing = userRepo.findByUsername(username);
-		if (existing != null) {
+		User existing = null;
+		User sessionUser = userRepo.findByUsername(username);
+		Optional<User> op = userRepo.findById(accountId);
+		if (op.isPresent()) {
+			existing = op.get();
+			if (!existing.getUsername().equals(username)|| !sessionUser.getRole().equals("role_admin")) {
+				existing = null;
+			}
+		}
+		if (existing != null && existing.getUsername().equals(username)) {
 			existing.setFirstName(user.getFirstName());
 			existing.setLastName(user.getLastName());
 			existing.setImageUrl(user.getImageUrl());
@@ -84,15 +92,23 @@ public class UserServiceImpl implements UserService {
 			existing.setBackgroundImageUrl(user.getBackgroundImageUrl());
 			existing.setRole(user.getRole());
 			userRepo.saveAndFlush(existing);
-			return existing;
 		}
-		return user;
+
+		return existing;
 	}
 
 	@Override
 	public boolean destroy(String username, int accountId) {
 		boolean deleted = false;
-		User toDelete = userRepo.findByUsername(username);
+		User toDelete = null;
+		User sessionUser = userRepo.findByUsername(username);
+		Optional<User> op = userRepo.findById(accountId);
+		if (op.isPresent()) {
+			toDelete = op.get();
+			if (!toDelete.getUsername().equals(username) || !sessionUser.getRole().equals("role_admin")) {
+				toDelete = null;
+			}
+		}
 		if (toDelete != null) {
 			toDelete.setEnabled(false);
 			userRepo.saveAndFlush(toDelete);

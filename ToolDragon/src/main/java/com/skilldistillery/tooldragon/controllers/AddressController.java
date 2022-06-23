@@ -28,7 +28,7 @@ public class AddressController {
 	@Autowired
 	private AddressService addressService;
 
-	@GetMapping("")
+	@GetMapping("addresses")
 	public List<Address> index(HttpServletRequest req, HttpServletResponse res, Principal principal) {
 		List<Address> address = addressService.index(principal.getName());
 		if (address == null) {
@@ -39,17 +39,17 @@ public class AddressController {
 
 	@GetMapping("addresses/{tid}")
 	public Address show(HttpServletRequest req, HttpServletResponse res, @PathVariable int tid, Principal principal) {
-		Address address = addressService.show(tid);
+		Address address = addressService.show(principal.getName(), tid);
 		if (address == null) {
 			res.setStatus(404);
 		}
 		return address;
 	}
 
-	@PostMapping("")
+	@PostMapping("addresses")
 	public Address create(HttpServletRequest req, HttpServletResponse res, @RequestBody Address address,
 			Principal principal) {
-		address = addressService.create(address);
+		address = addressService.create(principal.getName(), address);
 		try {
 			if (address == null) {
 				res.setStatus(404);
@@ -69,20 +69,20 @@ public class AddressController {
 		return address;
 	}
 
-	@PutMapping("")
+	@PutMapping("addresses/{tid}")
 	public Address update(HttpServletRequest req, HttpServletResponse res, @PathVariable int tid,
 			@RequestBody Address address, Principal principal) {
-		address = addressService.update(address, tid);
+		address = addressService.update(principal.getName(), address, tid);
 		if (address == null) {
 			res.setStatus(404);
 		}
 		return address;
 	}
 
-	@DeleteMapping("")
+	@DeleteMapping("addresses/{tid}")
 	public void destroy(HttpServletRequest req, HttpServletResponse res, @PathVariable int tid, Principal principal) {
 		try {
-			if (addressService.destroy(tid)) {
+			if (addressService.destroy(principal.getName(), tid)) {
 				res.setStatus(204);
 			} else {
 				res.setStatus(404);

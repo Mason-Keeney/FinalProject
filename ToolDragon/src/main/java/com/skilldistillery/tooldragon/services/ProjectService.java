@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.skilldistillery.tooldragon.entities.Project;
-import com.skilldistillery.tooldragon.entities.User;
 
 public interface ProjectService {
 
