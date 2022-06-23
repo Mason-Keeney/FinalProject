@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -28,6 +30,14 @@ public class ToolComment {
 	private LocalDateTime createdDate;
 	
 	private Boolean active;
+	
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
+	
+	@ManyToOne
+	@JoinColumn(name = "tool_id")
+	private Tool tool;
 
 	public ToolComment() {
 		super();
@@ -63,6 +73,22 @@ public class ToolComment {
 
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Tool getTool() {
+		return tool;
+	}
+
+	public void setTool(Tool tool) {
+		this.tool = tool;
 	}
 
 	@Override

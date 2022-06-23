@@ -8,9 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "project_comment")
@@ -28,6 +33,16 @@ public class ProjectComment {
 	private LocalDateTime createdDate;
 	
 	private Boolean active;
+	
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	@JsonIgnoreProperties("projectComments")
+	private User user;
+	
+	@ManyToOne
+	@JoinColumn(name = "project_id")
+	@JsonIgnoreProperties("comments")
+	private Project project;
 
 	public ProjectComment() {
 		super();
@@ -63,6 +78,22 @@ public class ProjectComment {
 
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
 	}
 
 	@Override

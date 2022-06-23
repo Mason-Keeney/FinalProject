@@ -46,8 +46,50 @@ class UserTest {
 	void test_User_entity_mapping() {
 		assertNotNull(user);
 		assertEquals("acadmin", user.getUsername());
+
+	}
+	@Test
+	void test_User_Address_mapping() {
+		assertNotNull(user);
 		assertNotNull(user.getAddress());
 		assertEquals("123 chase lane", user.getAddress().getStreet1());
 	}
+	
+	@Test
+	void test_User_Projects_mapping() {
+		assertNotNull(user);
+		assertNotNull(user.getOwnedProjects());
+		assertTrue(user.getOwnedProjects().size() > 0);
+	}
+	
+	@Test
+	void test_User_Tools_mapping() {
+		assertNotNull(user);
+		assertNotNull(user.getTools());
+		assertTrue(user.getTools().size() > 0);
+	}
+	
+	@Test
+	void test_User_ProjectComments_mapping() {
+		assertNotNull(user);
+		assertNotNull(user.getProjectComments());
+		assertTrue(user.getProjectComments().size() > 0);
+	}
+	
+	@Test
+	void test_User_ToolComment_mapping() {
+		assertNotNull(user);
+		assertNotNull(user.getToolComments());
+		assertTrue(user.getToolComments().size() > 0);
+	}
+	
+	@Test
+	void test_User_Participations_mapping() {
+		assertNotNull(user);
+		assertNotNull(user.getParticipations());
+		assertTrue(user.getParticipations().size() > 0);
+	}
+	
+	
 
 }

@@ -8,9 +8,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Tool {
@@ -44,6 +48,11 @@ public class Tool {
 	@Column(name = "updated_at")
 	@UpdateTimestamp
 	private LocalDateTime updatedAt;
+	
+	@ManyToOne
+	@JoinColumn(name = "owner_id")
+	@JsonIgnoreProperties({"tools", "projects", "address"})
+	private User owner;
 
 	public Tool() {
 		super();
@@ -135,6 +144,14 @@ public class Tool {
 
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public User getOwner() {
+		return owner;
+	}
+
+	public void setOwner(User owner) {
+		this.owner = owner;
 	}
 
 	@Override

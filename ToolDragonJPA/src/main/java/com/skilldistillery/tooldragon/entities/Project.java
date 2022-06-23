@@ -1,6 +1,8 @@
 package com.skilldistillery.tooldragon.entities;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -10,9 +12,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Project {
@@ -48,7 +53,11 @@ public class Project {
 
 	@ManyToOne
 	@JoinColumn(name = "owner_id")
+	@JsonIgnoreProperties("ownedProjects")
 	private User owner;
+	
+	@OneToMany(mappedBy = "project")
+	private List<Participant> participants;
 	
 	public Project() {
 		super();
@@ -164,6 +173,35 @@ public class Project {
 
 	public void setOwner(User owner) {
 		this.owner = owner;
+	}
+
+	public List<Participant> getParticipants() {
+		return new ArrayList<>(participants);
+	}
+
+	public void setParticipants(List<Participant> participantUsers) {
+		this.participants = participantUsers;
+	}
+	
+	public void addParticipant(Participant participant) {
+		if(participants == null) {
+			participants = new ArrayList<>();
+		}
+		if(participants != null && !participants.contains(participant)) {
+			participants.add(participant);
+		}
+		if(participant.getProject() == null) {
+			participant.setProject(this);
+		}
+	}
+	
+	public void removeParticipant(Participant participant) {
+		if (participants != null && participants.contains(participant)) {
+			participants.remove(participant);
+		}
+		if(participant.getProject().equals(this)) {
+			participant.setProject(null);
+		}
 	}
 
 	@Override
