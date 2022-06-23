@@ -47,5 +47,24 @@ class ToolCommentTest {
 		assertNotNull(toolComment);
 		assertEquals("hello", toolComment.getCommentBody());
 	}
+	
+	@Test
+	void test_ToolComment_User_mapping() {
+		assertNotNull(toolComment);
+		assertNotNull(toolComment.getUser());
+	}
+	
+	@Test
+	void test_ToolComment_Tool_mapping() {
+		assertNotNull(toolComment);
+		assertNotNull(toolComment.getTool());
+	}
+	
+	@Test
+	void test_ToolComment_Vote_mapping() {
+		assertNotNull(toolComment);
+		assertNotNull(toolComment.getVotes());
+		assertTrue(toolComment.getVotes().size() > 0);
+	}
 
 }

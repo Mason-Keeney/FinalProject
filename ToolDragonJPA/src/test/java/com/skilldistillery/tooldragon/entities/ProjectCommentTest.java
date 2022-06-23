@@ -48,4 +48,26 @@ class ProjectCommentTest {
 		assertEquals("project comment", projectComment.getCommentBody());
 	}
 
+	@Test
+	void test_ProjectComment_Project_mapping() {
+		assertNotNull(projectComment);
+		assertNotNull(projectComment.getProject());
+	}
+	
+	@Test
+	void test_ProjectComment_User_mapping() {
+		assertNotNull(projectComment);
+		assertNotNull(projectComment.getUser());
+	}
+	
+	@Test
+	void test_ProjectComment_votes_mapping() {
+		assertNotNull(projectComment);
+		assertNotNull(projectComment.getVotes());
+		assertTrue(projectComment.getVotes().size() > 0);
+	}
+
+
+
+
 }

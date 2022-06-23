@@ -1,6 +1,8 @@
 package com.skilldistillery.tooldragon.entities;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -10,11 +12,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -43,6 +45,10 @@ public class ProjectComment {
 	@JoinColumn(name = "project_id")
 	@JsonIgnoreProperties("comments")
 	private Project project;
+	
+	@OneToMany(mappedBy = "projectComment")
+	@JsonIgnoreProperties("projectComment")
+	private List<ProjectCommentVote> votes;
 
 	public ProjectComment() {
 		super();
@@ -94,6 +100,35 @@ public class ProjectComment {
 
 	public void setProject(Project project) {
 		this.project = project;
+	}
+
+	public List<ProjectCommentVote> getVotes() {
+		return votes;
+	}
+
+	public void setVotes(List<ProjectCommentVote> votes) {
+		this.votes = votes;
+	}
+	
+	public void addVote(ProjectCommentVote vote) {
+		if(votes == null) {
+			votes = new ArrayList<>();
+		}
+		if(votes != null && !votes.contains(vote)) {
+			votes.add(vote);
+		}
+		if(vote.getProjectComment() == null) {
+			vote.setProjectComment(this);
+		}
+	}
+	
+	public void removeVote(ProjectCommentVote vote) {
+		if(votes != null && votes.contains(vote)) {
+			votes.remove(vote);
+		}
+		if(vote.getProjectComment().equals(this)) {
+			vote.setProjectComment(null);
+		}
 	}
 
 	@Override

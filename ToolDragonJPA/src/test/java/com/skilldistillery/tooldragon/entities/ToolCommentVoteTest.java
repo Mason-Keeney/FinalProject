@@ -50,5 +50,23 @@ class ToolCommentVoteTest {
 		assertNotNull(toolCommentVote);
 		assertNotNull(toolCommentVote.getVoteDate());
 	}
+	
+	@Test
+	void test_ToolCommentVote_User_mapping() {
+		assertNotNull(toolCommentVote);
+		assertNotNull(toolCommentVote.getUser());
+	}
+	
+	@Test
+	void test_ToolCommentVote_ToolComment_mapping() {
+		assertNotNull(toolCommentVote);
+		assertNotNull(toolCommentVote.getToolComment());
+	}
+	
+	@Test
+	void test_ToolCommentVote_Vote_mapping() {
+		assertNotNull(toolCommentVote);
+		assertNotNull(toolCommentVote.getVote());
+	}
 
 }

@@ -50,5 +50,17 @@ class ParticipantTest {
 		assertNotNull(participant);
 		assertNotNull(participant.getDateCreated());
 	}
+	
+	@Test
+	void test_Participant_User_mapping() {
+		assertNotNull(participant);
+		assertNotNull(participant.getUser());
+	}
+	
+	@Test
+	void test_Participant_Project_mapping() {
+		assertNotNull(participant);
+		assertNotNull(participant.getProject());
+	}
 
 }
