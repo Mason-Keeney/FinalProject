@@ -6,7 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "project_material")
@@ -17,6 +21,19 @@ public class ProjectMaterial {
 	private int id;
 	
 	private String quantity;
+	
+	@ManyToOne
+	@JoinColumn(name = "project_id")
+	@JsonIgnoreProperties("projectMaterials")
+	private Project project;
+	
+	@ManyToOne
+	@JoinColumn(name = "material_id")
+	private Material material;
+	
+	@ManyToOne
+	@JoinColumn(name = "status_id")
+	private Status status;
 
 	public ProjectMaterial() {
 		super();
@@ -36,6 +53,30 @@ public class ProjectMaterial {
 
 	public void setQuantity(String quantity) {
 		this.quantity = quantity;
+	}
+
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
+	public Material getMaterial() {
+		return material;
+	}
+
+	public void setMaterial(Material material) {
+		this.material = material;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	@Override
