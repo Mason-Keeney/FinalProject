@@ -15,6 +15,15 @@
 		<class>com.skilldistillery.tooldragon.entities.ProjectTool</class>
 		<class>com.skilldistillery.tooldragon.entities.ProjectMaterial</class>
 		<class>com.skilldistillery.tooldragon.entities.Status</class>
+		<class>com.skilldistillery.tooldragon.entities.ToolCondition</class>
+		<class>com.skilldistillery.tooldragon.entities.Category</class>
+		<class>com.skilldistillery.tooldragon.entities.ToolComment</class>
+		<class>com.skilldistillery.tooldragon.entities.ProjectComment</class>
+		<class>com.skilldistillery.tooldragon.entities.Vote</class>
+		<class>com.skilldistillery.tooldragon.entities.ProjectCommentVoteId</class>
+		<class>com.skilldistillery.tooldragon.entities.ProjectCommentVote</class>
+		<class>com.skilldistillery.tooldragon.entities.ToolCommentVoteId</class>
+		<class>com.skilldistillery.tooldragon.entities.ToolCommentVote</class>
 		<!--End Entities  -->
 		
 		<properties>
