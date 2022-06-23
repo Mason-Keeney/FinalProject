@@ -1,5 +1,9 @@
 package com.skilldistillery.tooldragon.controllers;
 
+import java.security.Principal;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +23,26 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
+	@GetMapping("users")
+	public Set<User> index(HttpServletRequest req, HttpServletResponse res, Principal principal) {
+//		Set<Todo> todos = todoService.index(username);
+		Set<User> todos = userService.index(principal.getName());
+		if (todos == null) {
+			res.setStatus(404);
+		}
+		return todos;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	// SMOKE TEST ONLY, DELETE/COMMENT OUT LATER
 	@GetMapping("test/users/{userId}")
