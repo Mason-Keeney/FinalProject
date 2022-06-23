@@ -46,6 +46,8 @@ class UserTest {
 	void test_User_entity_mapping() {
 		assertNotNull(user);
 		assertEquals("acadmin", user.getUsername());
+		assertNotNull(user.getAddress());
+		assertEquals("123 chase lane", user.getAddress().getStreet1());
 	}
 
 }

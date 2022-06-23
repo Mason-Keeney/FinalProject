@@ -1,6 +1,8 @@
 package com.skilldistillery.tooldragon.entities;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -8,6 +10,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -51,6 +56,13 @@ public class User {
 	
 	@Column(name = "background_image_url")
 	private String backgroundImageUrl;
+	
+	@ManyToOne
+	@JoinColumn(name = "address_id")
+	private Address address;
+	
+	@OneToMany(mappedBy = "owner")
+	private List<Project> projects;
 	
 	
 	public User() {
@@ -159,6 +171,44 @@ public class User {
 
 	public void setBackgroundImageUrl(String backgroundImageUrl) {
 		this.backgroundImageUrl = backgroundImageUrl;
+	}
+	
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public List<Project> getProjects() {
+		return new ArrayList<>(projects);
+	}
+
+	public void setProjects(List<Project> projects) {
+		this.projects = projects;
+	}
+	
+	public void addProject(Project project) {
+		if(projects == null) {
+			projects = new ArrayList<>();
+		}
+		if(projects != null && projects.contains(project)) {
+			projects.add(project);
+		}
+		if(project.getOwner() == null) {
+			project.setOwner(this);
+		}
+	}
+	
+	public void removeProject(Project project) {
+		if (projects != null && projects.contains(project)) {
+			projects.remove(project);
+		}
+		if(project.getOwner().equals(this)) {
+			project.setOwner(null);
+		}
 	}
 
 	@Override
