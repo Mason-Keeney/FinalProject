@@ -517,7 +517,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `tooldragondb`;
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `active`, `image_url`, `description`, `address_id`, `created_at`, `updated_at`, `last_login`, `background_image_url`, `enabled`, `role`) VALUES (1, 'Angel', 'Casillas', 'acadmin', '$2a$10$iLZuVQKCjz0QH0xGZFuUeeXuZm7orxQzNlMCKINdR/DvvJIvwX0he', 1, NULL, 'desc', NULL, NULL, NULL, NULL, NULL, 1, 'role_admin');
+INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `active`, `image_url`, `description`, `address_id`, `created_at`, `updated_at`, `last_login`, `background_image_url`, `enabled`, `role`) VALUES (1, 'Angel', 'Casillas', 'acadmin', '$2a$10$iLZuVQKCjz0QH0xGZFuUeeXuZm7orxQzNlMCKINdR/DvvJIvwX0he', 1, NULL, 'desc', 1, NULL, NULL, NULL, NULL, 1, 'role_admin');
 
 COMMIT;
 
