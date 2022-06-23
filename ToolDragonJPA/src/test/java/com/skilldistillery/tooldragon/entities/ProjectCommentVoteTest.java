@@ -50,5 +50,23 @@ class ProjectCommentVoteTest {
 		assertNotNull(projectCommentVote);
 		assertNotNull(projectCommentVote.getVoteDate());
 	}
+	
+	@Test
+	void test_ProjectCommentVote_User_mapping() {
+		assertNotNull(projectCommentVote);
+		assertNotNull(projectCommentVote.getUser());
+	}
+	
+	@Test
+	void test_ProjectCommentVote_ProjectComment_mapping() {
+		assertNotNull(projectCommentVote);
+		assertNotNull(projectCommentVote.getProjectComment());
+	}
+	
+	@Test
+	void test_ProjectCommentVote_Vote_mapping() {
+		assertNotNull(projectCommentVote);
+		assertNotNull(projectCommentVote.getVote());
+	}
 
 }

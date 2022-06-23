@@ -6,9 +6,14 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "tool_comment_vote")
@@ -23,6 +28,22 @@ public class ToolCommentVote {
 	
 	@Column(name = "reported_for")
 	private String reportedFor;
+	
+	@ManyToOne
+	@JoinColumn(name = "tool_comment_id")
+	@MapsId(value = "toolCommentId")
+	@JsonIgnoreProperties("votes")
+	private ToolComment toolComment;
+	
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	@MapsId(value = "userId")
+	private User user;
+	
+	@ManyToOne
+	@JoinColumn(name = "vote_id")
+	private Vote vote;
+	
 
 	public ToolCommentVote() {
 		super();
@@ -50,6 +71,30 @@ public class ToolCommentVote {
 
 	public void setReportedFor(String reportedFor) {
 		this.reportedFor = reportedFor;
+	}
+
+	public ToolComment getToolComment() {
+		return toolComment;
+	}
+
+	public void setToolComment(ToolComment toolComment) {
+		this.toolComment = toolComment;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Vote getVote() {
+		return vote;
+	}
+
+	public void setVote(Vote vote) {
+		this.vote = vote;
 	}
 
 	@Override

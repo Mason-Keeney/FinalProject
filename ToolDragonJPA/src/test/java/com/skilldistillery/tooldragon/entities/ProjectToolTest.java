@@ -50,5 +50,17 @@ class ProjectToolTest {
 		assertNotNull(projectTool);
 		assertNotNull(projectTool.getDateCreated());
 	}
+	
+	@Test
+	void test_ProjectTool_Project_mapping() {
+		assertNotNull(projectTool);
+		assertNotNull(projectTool.getProject());
+	}
+	
+	@Test
+	void test_ProjectTool_Tool_mapping() {
+		assertNotNull(projectTool);
+		assertNotNull(projectTool.getTool());
+	}
 
 }
