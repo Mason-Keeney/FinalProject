@@ -47,6 +47,7 @@ public class Participant {
 	
 	@Column(name = "rating_date")
 	private LocalDateTime ratingDate;
+	
 
 	public Participant() {
 		super();

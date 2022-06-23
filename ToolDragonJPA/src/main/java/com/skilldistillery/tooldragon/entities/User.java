@@ -1,6 +1,8 @@
 package com.skilldistillery.tooldragon.entities;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -8,9 +10,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class User {
@@ -51,6 +58,30 @@ public class User {
 	
 	@Column(name = "background_image_url")
 	private String backgroundImageUrl;
+	
+	@ManyToOne
+	@JoinColumn(name = "address_id")
+	private Address address;
+	
+	@OneToMany(mappedBy = "owner")
+	@JsonIgnoreProperties({"owner", "participants"})
+	private List<Project> ownedProjects;
+	
+	@OneToMany(mappedBy = "owner")
+	@JsonIgnoreProperties({"owner"})
+	private List<Tool> tools;
+	
+	@OneToMany(mappedBy = "user")
+	@JsonIgnoreProperties("user")
+	private List<ProjectComment> projectComments;
+	
+	@OneToMany(mappedBy = "user")
+	@JsonIgnoreProperties("user")
+	private List<ToolComment> toolComments;
+	
+	@OneToMany(mappedBy = "user")
+	@JsonIgnoreProperties("user")
+	private List<Participant> participations;
 	
 	
 	public User() {
@@ -159,6 +190,162 @@ public class User {
 
 	public void setBackgroundImageUrl(String backgroundImageUrl) {
 		this.backgroundImageUrl = backgroundImageUrl;
+	}
+	
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public List<Project> getOwnedProjects() {
+		return new ArrayList<>(ownedProjects);
+	}
+
+	public void setOwnedProjects(List<Project> projects) {
+		this.ownedProjects = projects;
+	}
+	
+	public void addProject(Project project) {
+		if(ownedProjects == null) {
+			ownedProjects = new ArrayList<>();
+		}
+		if(ownedProjects != null && ownedProjects.contains(project)) {
+			ownedProjects.add(project);
+		}
+		if(project.getOwner() == null) {
+			project.setOwner(this);
+		}
+	}
+	
+	public void removeProject(Project project) {
+		if (ownedProjects != null && ownedProjects.contains(project)) {
+			ownedProjects.remove(project);
+		}
+		if(project.getOwner().equals(this)) {
+			project.setOwner(null);
+		}
+	}
+
+	public List<Tool> getTools() {
+		return new ArrayList<>(tools);
+	}
+
+	public void setTools(List<Tool> tools) {
+		this.tools = tools;
+	}
+	
+	public void addTool(Tool tool) {
+		if (tools == null) {
+			tools = new ArrayList<>();
+		}
+		if(tools != null && !tools.contains(tool)) {
+			tools.add(tool);
+		}
+		if(tool.getOwner() == null) {
+			tool.setOwner(this);
+		}
+	}
+	
+	public void removeTool(Tool tool) {
+		if(tools != null && tools.contains(tool)) {
+			tools.remove(tool);
+		}
+		if(tool.getOwner().equals(this)) {
+			tool.setOwner(null);
+		}
+	}
+
+	public List<ProjectComment> getProjectComments() {
+		return new ArrayList<>(projectComments);
+	}
+
+	public void setProjectComments(List<ProjectComment> projectComments) {
+		this.projectComments = projectComments;
+	}
+	
+	public void addProjectComment(ProjectComment projComment) {
+		if(projectComments == null) {
+			projectComments = new ArrayList<>();
+		}
+		if(projectComments != null && !projectComments.contains(projComment)) {
+			projectComments.add(projComment);
+		}
+		if(projComment.getUser() == null) {
+			projComment.setUser(this);
+		}
+	}
+	
+	public void removeProjectComment(ProjectComment projComment) {
+		if(projectComments != null && projectComments.contains(projComment)) {
+			projectComments.remove(projComment);
+		}
+		if(projComment.getUser().equals(this)) {
+			projComment.setUser(null);
+		}
+	}
+
+	public List<ToolComment> getToolComments() {
+		return new ArrayList<>(toolComments);
+	}
+
+	public void setToolComments(List<ToolComment> toolComments) {
+		this.toolComments = toolComments;
+	}
+	
+	public void addToolComment(ToolComment toolComment) {
+		if(toolComments == null) {
+			toolComments = new ArrayList<>();
+		}
+		
+		if(toolComments != null && !toolComments.contains(toolComment)) {
+			toolComments.add(toolComment);
+		}
+		
+		if(toolComment.getUser() == null) {
+			toolComment.setUser(this);
+		}
+	}
+	
+	public void removeToolComment(ToolComment toolComment) {
+		if(toolComments != null && toolComments.contains(toolComment)) {
+			toolComments.remove(toolComment);
+		}
+		if(toolComment.getUser().equals(this)){
+			toolComment.setUser(null);
+		}
+	}
+
+	public List<Participant> getParticipations() {
+		return new ArrayList<>(participations);
+	}
+
+	public void setParticipations(List<Participant> participations) {
+		this.participations = participations;
+	}
+	
+	public void addParticipation(Participant participation) {
+		if(participations == null){
+			participations = new ArrayList<>();
+		}
+		if(participations != null && !participations.contains(participation)) {
+			participations.add(participation);
+		}
+		if(participation.getUser() == null) {
+			participation.setUser(this);
+		}
+	}
+	
+	public void removeParticipation(Participant participation) {
+		if(participations != null && participations.contains(participation)) {
+			participations.add(participation);
+		}
+		if(participation.getUser().equals(this)) {
+			participation.setUser(null);
+		}
 	}
 
 	@Override
