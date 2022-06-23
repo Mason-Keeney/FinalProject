@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -59,7 +60,7 @@ public class Project {
 	private User owner;
 
 	@OneToMany(mappedBy = "project")
-	@JsonIgnoreProperties("project")
+	@JsonIgnore
 	private List<Participant> participants;
 
 	@ManyToOne
@@ -67,19 +68,20 @@ public class Project {
 	private Address address;
 
 	@OneToMany(mappedBy = "project")
-	@JsonIgnoreProperties("project")
+	@JsonIgnore
 	private List<ProjectTool> projectTools;
 
 	@ManyToMany
 	@JoinTable(name = "project_category", joinColumns = @JoinColumn(name = "project_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+	@JsonIgnore
 	private List<Category> categories;
 
 	@OneToMany(mappedBy = "project")
-	@JsonIgnoreProperties("project")
+	@JsonIgnore
 	private List<ProjectComment> comments;
 
 	@OneToMany(mappedBy = "project")
-	@JsonIgnoreProperties("project")
+	@JsonIgnore
 	private List<ProjectMaterial> projectMaterials;
 
 	public Project() {
