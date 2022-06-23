@@ -26,6 +26,7 @@ public class AuthController {
 		if (user == null) {
 			res.setStatus(400);
 		}
+		user.setEnabled(true);
 		user = authService.register(user);
 		return user;
 	}

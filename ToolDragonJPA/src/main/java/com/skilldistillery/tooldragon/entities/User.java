@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -30,7 +31,7 @@ public class User {
 
 	private String password;
 
-	private boolean active;
+	private Boolean enabled;
 
 	private String role;
 	
@@ -64,23 +65,28 @@ public class User {
 	private Address address;
 	
 	@OneToMany(mappedBy = "owner")
-	@JsonIgnoreProperties({"owner", "participants"})
+	@JsonIgnore
+//	@JsonIgnoreProperties({"owner", "participants", "address"})
 	private List<Project> ownedProjects;
 	
 	@OneToMany(mappedBy = "owner")
-	@JsonIgnoreProperties({"owner"})
+	@JsonIgnore
+//	@JsonIgnoreProperties("owner")
 	private List<Tool> tools;
 	
 	@OneToMany(mappedBy = "user")
-	@JsonIgnoreProperties("user")
+	@JsonIgnore
+//	@JsonIgnoreProperties("user")
 	private List<ProjectComment> projectComments;
 	
 	@OneToMany(mappedBy = "user")
-	@JsonIgnoreProperties("user")
+	@JsonIgnore
+//	@JsonIgnoreProperties("user")
 	private List<ToolComment> toolComments;
 	
 	@OneToMany(mappedBy = "user")
-	@JsonIgnoreProperties("user")
+	@JsonIgnore
+//	@JsonIgnoreProperties("user")
 	private List<Participant> participations;
 	
 	
@@ -121,11 +127,11 @@ public class User {
 	}
 
 	public boolean isEnabled() {
-		return active;
+		return enabled;
 	}
 
 	public void setEnabled(boolean enabled) {
-		this.active = enabled;
+		this.enabled = enabled;
 	}
 
 	public String getFirstName() {
@@ -368,7 +374,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", role=" + role + ", active="
-				+ active + "]";
+				+ enabled + "]";
 	}
 
 }
