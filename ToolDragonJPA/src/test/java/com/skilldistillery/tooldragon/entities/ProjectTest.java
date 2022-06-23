@@ -47,5 +47,52 @@ class ProjectTest {
 		assertNotNull(project);
 		assertEquals("landscaping my yard", project.getDescription().toLowerCase());
 	}
+	
+	@Test
+	void test_Project_address_mapping() {
+		assertNotNull(project);
+		assertNotNull(project.getAddress());
+	}
+	
+	@Test
+	void test_Project_Owner_mapping() {
+		assertNotNull(project);
+		assertNotNull(project.getOwner());
+	}
+	
+	@Test
+	void test_Project_Participants_mapping() {
+		assertNotNull(project);
+		assertNotNull(project.getParticipants());
+		assertTrue(project.getParticipants().size() > 0);
+	}
+	
+	@Test
+	void test_Project_ProjectTools_mapping() {
+		assertNotNull(project);
+		assertNotNull(project.getProjectTools());
+		assertTrue(project.getProjectTools().size() > 0);
+	}
+	
+	@Test
+	void test_Project_Categories_mapping() {
+		assertNotNull(project);
+		assertNotNull(project.getCategories());
+		assertTrue(project.getCategories().size() > 0);
+	}
+	
+	@Test
+	void test_Project_Comments_mapping() {
+		assertNotNull(project);
+		assertNotNull(project.getComments());
+		assertTrue(project.getComments().size() > 0);
+	}
+	
+	@Test
+	void test_Project_ProjectMaterials_mapping() {
+		assertNotNull(project);
+		assertNotNull(project.getProjectMaterials());
+		assertTrue(project.getProjectMaterials().size() > 0);
+	}
 
 }

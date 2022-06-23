@@ -1,6 +1,8 @@
 package com.skilldistillery.tooldragon.entities;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -8,9 +10,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Project {
@@ -44,6 +53,35 @@ public class Project {
 	@CreationTimestamp
 	private LocalDateTime createdAt;
 
+	@ManyToOne
+	@JoinColumn(name = "owner_id")
+	@JsonIgnoreProperties("ownedProjects")
+	private User owner;
+	
+	@OneToMany(mappedBy = "project")
+	@JsonIgnoreProperties("project")
+	private List<Participant> participants;
+	
+	@ManyToOne
+	@JoinColumn(name = "address_id")
+	private Address address;
+	
+	@OneToMany(mappedBy = "project")
+	@JsonIgnoreProperties("project")
+	private List<ProjectTool> projectTools;
+	
+	@ManyToMany
+	@JoinTable(name = "project_category", joinColumns = @JoinColumn(name = "project_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+	private List<Category> categories;
+	
+	@OneToMany(mappedBy = "project")
+	@JsonIgnoreProperties("project")
+	private List<ProjectComment> comments;
+	
+	@OneToMany(mappedBy = "project")
+	@JsonIgnoreProperties("project")
+	private List<ProjectMaterial> projectMaterials;
+	
 	public Project() {
 		super();
 	}
@@ -126,6 +164,186 @@ public class Project {
 
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
+	}
+
+	public Boolean getCompleted() {
+		return completed;
+	}
+
+	public void setCompleted(Boolean completed) {
+		this.completed = completed;
+	}
+
+	public Boolean getCancelled() {
+		return cancelled;
+	}
+
+	public void setCancelled(Boolean cancelled) {
+		this.cancelled = cancelled;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+
+	public User getOwner() {
+		return owner;
+	}
+
+	public void setOwner(User owner) {
+		this.owner = owner;
+	}
+
+	public List<Participant> getParticipants() {
+		return new ArrayList<>(participants);
+	}
+
+	public void setParticipants(List<Participant> participantUsers) {
+		this.participants = participantUsers;
+	}
+	
+	public void addParticipant(Participant participant) {
+		if(participants == null) {
+			participants = new ArrayList<>();
+		}
+		if(participants != null && !participants.contains(participant)) {
+			participants.add(participant);
+		}
+		if(participant.getProject() == null) {
+			participant.setProject(this);
+		}
+	}
+	
+	public void removeParticipant(Participant participant) {
+		if (participants != null && participants.contains(participant)) {
+			participants.remove(participant);
+		}
+		if(participant.getProject().equals(this)) {
+			participant.setProject(null);
+		}
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+	
+
+	public List<ProjectTool> getProjectTools() {
+		return new ArrayList<>(projectTools);
+	}
+
+	public void setProjectTools(List<ProjectTool> projectTools) {
+		this.projectTools = projectTools;
+	}
+	
+	public void addProjectTool(ProjectTool projectTool) {
+		if(projectTools == null) {
+			projectTools = new ArrayList<>();
+		}
+		if(projectTools != null && !projectTools.contains(projectTool)) {
+			projectTools.add(projectTool);
+		}
+		if(projectTool.getProject()== null) {
+			projectTool.setProject(this);
+		}
+	}
+	
+	public void removeProjectTool(ProjectTool projectTool) {
+		if(projectTools != null && projectTools.contains(projectTool)) {
+			projectTools.remove(projectTool);
+		}
+		if(projectTool.getProject().equals(this)) {
+			projectTool.setProject(null);
+		}
+	}
+
+	public List<Category> getCategories() {
+		return new ArrayList<>(categories);
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
+	}
+	
+	public void addCategory(Category category) {
+		if(categories == null) {
+			categories = new ArrayList<>();
+		}
+		if(categories != null && !categories.contains(category)) {
+			categories.add(category);
+		}
+	}
+	
+	public void removeCategory(Category category) {
+		if(categories != null && categories.contains(category)) {
+			categories.remove(category);
+		}
+	}
+
+	public List<ProjectComment> getComments() {
+		return new ArrayList<>(comments);
+	}
+
+	public void setComments(List<ProjectComment> comments) {
+		this.comments = comments;
+	}
+	
+	public void addComment(ProjectComment comment) {
+		if(comments == null) {
+			comments = new ArrayList<>();
+		}
+		if(comments != null && !comments.contains(comment)) {
+			comments.add(comment);
+		}
+		if(comment.getProject() == null) {
+			comment.setProject(this);
+		}
+	}
+	
+	public void removeComment(ProjectComment comment) {
+		if(comments != null && comments.contains(comment)) {
+			comments.remove(comment);
+		}
+		if(comment.getProject().equals(this)) {
+			comment.setProject(null);
+		}
+	}
+
+	public List<ProjectMaterial> getProjectMaterials() {
+		return new ArrayList<>(projectMaterials);
+	}
+
+	public void setProjectMaterials(List<ProjectMaterial> projectMaterials) {
+		this.projectMaterials = projectMaterials;
+	}
+	
+	public void addProjectMaterial(ProjectMaterial projectMaterial) {
+		if(projectMaterials == null) {
+			projectMaterials = new ArrayList<>();
+		}
+		if(projectMaterials != null && !projectMaterials.contains(projectMaterial)) {
+			projectMaterials.add(projectMaterial);
+		}
+		if(projectMaterial.getProject() == null) {
+			projectMaterial.setProject(this);
+		}
+	}
+	
+	public void removeProjectMaterial(ProjectMaterial projectMaterial) {
+		if(projectMaterials != null && projectMaterials.contains(projectMaterial)) {
+			projectMaterials.remove(projectMaterial);
+		}
+		if(projectMaterial.getProject().equals(this)) {
+			projectMaterial.setProject(null);
+		}
 	}
 
 	@Override
