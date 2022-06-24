@@ -8,15 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.skilldistillery.tooldragon.entities.Material;
-import com.skilldistillery.tooldragon.entities.Tool;
 import com.skilldistillery.tooldragon.entities.User;
 import com.skilldistillery.tooldragon.repositories.MaterialRepository;
+import com.skilldistillery.tooldragon.repositories.UserRepository;
 
 @Service
 public class MaterialServiceImpl implements MaterialService {
 
 	@Autowired
 	private MaterialRepository materialRepo;
+
+	@Autowired
+	private UserRepository userRepo;
 
 	@Override
 	public Material getUserById(int materialId) {
@@ -29,10 +32,10 @@ public class MaterialServiceImpl implements MaterialService {
 	}
 
 	@Override
-	public List<Material> index(String name) {
+	public List<Material> index(String username) {
 		List<Material> materials = null;
 		List<Material> filteredMaterial = null;
-		if (materialRepo.findByName(name) != null) {
+		if (userRepo.findByUsername(username) != null) {
 			materials = materialRepo.findAll();
 			filteredMaterial = new ArrayList<>();
 			if (materials != null && !materials.isEmpty()) {
@@ -47,9 +50,9 @@ public class MaterialServiceImpl implements MaterialService {
 	}
 
 	@Override
-	public Material show(String name, int materialId) {
+	public Material show(String username, int materialId) {
 		Material material = null;
-		if (materialRepo.findByName(name) != null) {
+		if (userRepo.findByUsername(username) != null) {
 			Optional<Material> op = materialRepo.findById(materialId);
 			if (op.isPresent()) {
 				material = op.get();
@@ -62,10 +65,12 @@ public class MaterialServiceImpl implements MaterialService {
 	}
 
 	@Override
-	public Material create(String name, Material material) {
-		Material materialName = materialRepo.findByName(name);
-		if (material != null) {
-			material.setName(name);
+	public Material create(String username, Material material) {
+		User owner = userRepo.findByUsername(username);
+		if (material != null && owner != null) {
+			material.setName(material.getName());
+			material.setDescription(material.getDescription());
+			material.setActive(true);
 			materialRepo.saveAndFlush(material);
 			return material;
 		}
@@ -73,25 +78,43 @@ public class MaterialServiceImpl implements MaterialService {
 	}
 
 	@Override
-	public Material update(String name, int materialId, Material material) {
-		Material existing = materialRepo.findByName(name);
-		if (existing != null) {
-			existing.setName(material.getName());
-			existing.setDescription(material.getDescription());
-			materialRepo.saveAndFlush(existing);
-			return existing;
+	public Material update(String username, int materialId, Material material) {
+		User sessionUser = userRepo.findByUsername(username);
+		Material existing = null;
+		if (sessionUser != null) {
+			Optional<Material> op = materialRepo.findById(materialId);
+			if (op.isPresent()) {
+				existing = op.get();
+				if (!existing.getActive())
+					existing = null;
+			}
+			if (existing != null) {
+				existing.setName(material.getName());
+				existing.setDescription(material.getDescription());
+				existing.setActive(true);
+				materialRepo.saveAndFlush(existing);
+				return existing;
+			}
 		}
 		return material;
 	}
 
 	@Override
-	public boolean destroy(String name, int materialId) {
+	public boolean destroy(String username, int materialId) {
 		boolean deleted = false;
-		Material toDelete = materialRepo.findByName(name);
-		if (toDelete != null) {
-			toDelete.setActive(false);
-			materialRepo.saveAndFlush(toDelete);
-			deleted = true;
+		User sessionUser = userRepo.findByUsername(username);
+		Material toDelete = null;
+		if (sessionUser != null) {
+			Optional<Material> op = materialRepo.findById(materialId);
+			if (op.isPresent()) {
+				toDelete = op.get();
+			}
+			if (toDelete != null) {
+				toDelete.setActive(false);
+				materialRepo.saveAndFlush(toDelete);
+				deleted = true;
+			}
+
 		}
 		return deleted;
 	}

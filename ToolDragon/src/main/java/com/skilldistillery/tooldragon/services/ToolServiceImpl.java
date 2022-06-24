@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.skilldistillery.tooldragon.entities.Project;
 import com.skilldistillery.tooldragon.entities.Tool;
 import com.skilldistillery.tooldragon.entities.User;
 import com.skilldistillery.tooldragon.repositories.ToolRepository;
@@ -20,7 +21,7 @@ public class ToolServiceImpl implements ToolService {
 
 	@Autowired
 	private UserRepository userRepo;
-	
+
 	@Override
 	public Tool getUserById(int toolId) {
 		Optional<Tool> toolOpt = toolRepo.findById(toolId);
@@ -52,7 +53,7 @@ public class ToolServiceImpl implements ToolService {
 	@Override
 	public Tool show(String username, int toolId) {
 		Tool tool = null;
-		if (toolRepo.findByName(username) != null) {
+		if (userRepo.findByUsername(username) != null) {
 			Optional<Tool> op = toolRepo.findById(toolId);
 			if (op.isPresent()) {
 				tool = op.get();
@@ -69,6 +70,7 @@ public class ToolServiceImpl implements ToolService {
 		User owner = userRepo.findByUsername(username);
 		if (tool != null) {
 			tool.setOwner(owner);
+			tool.setActive(true);
 			toolRepo.saveAndFlush(tool);
 			return tool;
 		}
@@ -77,19 +79,28 @@ public class ToolServiceImpl implements ToolService {
 
 	@Override
 	public Tool update(String username, int toolId, Tool tool) {
-		Tool existing = toolRepo.findByName(username);
-		if (existing != null) {
-			existing.setName(tool.getName());
-			existing.setDescription(tool.getDescription());
-			existing.setAvailability(tool.getAvailability());
-			existing.setTrainingRequired(tool.getTrainingRequired());
-			existing.setOperators(tool.getOperators());
-			existing.setImageUrl(tool.getImageUrl());
-			existing.setCreatedAt(tool.getCreatedAt());
-			existing.setUpdatedAt(tool.getUpdatedAt());
-			existing.setAvailable(tool.getAvailable());
-			toolRepo.saveAndFlush(existing);
-			return existing;
+		User sessionUser = userRepo.findByUsername(username);
+		Tool existing = null;
+		if (sessionUser != null) {
+			Optional<Tool> op = toolRepo.findById(toolId);
+			if (op.isPresent()) {
+				existing = op.get();
+				if (!existing.getActive())
+					existing = null;
+			}
+			if (existing != null) {
+				existing.setName(tool.getName());
+				existing.setDescription(tool.getDescription());
+				existing.setAvailability(tool.getAvailability());
+				existing.setTrainingRequired(tool.getTrainingRequired());
+				existing.setOperators(tool.getOperators());
+				existing.setImageUrl(tool.getImageUrl());
+				existing.setCreatedAt(tool.getCreatedAt());
+				existing.setUpdatedAt(tool.getUpdatedAt());
+				existing.setAvailable(tool.getAvailable());
+				toolRepo.saveAndFlush(existing);
+				return existing;
+			}
 		}
 		return tool;
 	}
@@ -97,11 +108,20 @@ public class ToolServiceImpl implements ToolService {
 	@Override
 	public boolean destroy(String username, int toolId) {
 		boolean deleted = false;
-		Tool toDelete = toolRepo.findByName(username);
-		if (toDelete != null) {
-			toDelete.setActive(false);
-			toolRepo.saveAndFlush(toDelete);
-			deleted = true;
+		User sessionUser = userRepo.findByUsername(username);
+		Tool toDelete = null;
+		if (sessionUser != null) {
+			Optional<Tool> op = toolRepo.findById(toolId);
+			if (op.isPresent()) {
+				toDelete = op.get();
+			}
+			if (toDelete != null && toDelete.getOwner().getUsername().equals(username)
+					|| sessionUser.getRole().equals("role_admin")) {
+				toDelete.setActive(false);
+				toolRepo.saveAndFlush(toDelete);
+				deleted = true;
+			}
+
 		}
 		return deleted;
 	}

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skilldistillery.tooldragon.entities.Material;
-import com.skilldistillery.tooldragon.entities.User;
 import com.skilldistillery.tooldragon.services.MaterialService;
 
 @RestController

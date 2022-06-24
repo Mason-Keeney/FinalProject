@@ -30,11 +30,11 @@ public class ToolController {
 
 	@GetMapping("tools")
 	public List<Tool> index(HttpServletRequest req, HttpServletResponse res, Principal principal) {
-		List<Tool> users = toolService.index(principal.getName());
-		if (users == null) {
+		List<Tool> tools = toolService.index(principal.getName());
+		if (tools == null) {
 			res.setStatus(404);
 		}
-		return users;
+		return tools;
 	}
 
 	@GetMapping("tools/{tid}")
