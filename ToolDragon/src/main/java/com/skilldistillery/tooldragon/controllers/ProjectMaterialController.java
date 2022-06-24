@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -91,6 +92,20 @@ public class ProjectMaterialController {
 		}
 		
 		return projectMaterial;
+	}
+	
+	@DeleteMapping("projectmaterials/{pid}")
+	public void delete(Principal principal, HttpServletResponse res, HttpServletRequest req, @PathVariable int pid) {
+		try {
+			boolean deleted = projMaterialServ.delete(principal.getName(), pid);
+			if(deleted) {
+				res.setStatus(204);
+			} else {
+				res.setStatus(404);
+			}	
+		} catch (Exception e) {
+			res.setStatus(400);
+		}
 	}
 
 }
