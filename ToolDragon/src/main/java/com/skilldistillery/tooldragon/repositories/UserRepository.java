@@ -7,6 +7,4 @@ import com.skilldistillery.tooldragon.entities.User;
 public interface UserRepository extends JpaRepository<User, Integer> {
 
 	User findByUsername(String username);
-	
-
 }

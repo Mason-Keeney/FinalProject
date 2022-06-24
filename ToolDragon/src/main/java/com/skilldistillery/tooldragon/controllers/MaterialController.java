@@ -17,71 +17,73 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.skilldistillery.tooldragon.entities.Tool;
-import com.skilldistillery.tooldragon.services.ToolService;
+import com.skilldistillery.tooldragon.entities.Material;
+import com.skilldistillery.tooldragon.entities.User;
+import com.skilldistillery.tooldragon.services.MaterialService;
 
 @RestController
 @RequestMapping("api")
 @CrossOrigin({ "*", "http://localhost:4200" })
-public class ToolController {
+public class MaterialController {
 
 	@Autowired
-	private ToolService toolService;
+	private MaterialService materialServ;
 
-	@GetMapping("tools")
-	public List<Tool> index(HttpServletRequest req, HttpServletResponse res, Principal principal) {
-		List<Tool> users = toolService.index(principal.getName());
-		if (users == null) {
+	@GetMapping("materials")
+	public List<Material> index(HttpServletRequest req, HttpServletResponse res, Principal principal) {
+		List<Material> materials = materialServ.index(principal.getName());
+		if (materials == null) {
 			res.setStatus(404);
 		}
-		return users;
+		return materials;
 	}
 
-	@GetMapping("tool/{tid}")
-	public Tool show(HttpServletRequest req, HttpServletResponse res, @PathVariable int tid, Principal principal) {
-		Tool tool = toolService.show(principal.getName(), tid);
-		if (tool == null) {
+	@GetMapping("materials/{aid}")
+	public Material show(HttpServletRequest req, HttpServletResponse res, @PathVariable int aid, Principal principal) {
+		Material material = materialServ.show(principal.getName(), aid);
+		if (material == null) {
 			res.setStatus(404);
 		}
-		return tool;
+		return material;
 	}
 
-	@PostMapping("tools")
-	public Tool create(HttpServletRequest req, HttpServletResponse res, @RequestBody Tool tool, Principal principal) {
-		tool = toolService.create(principal.getName(), tool);
+	@PostMapping("materials")
+	public Material create(HttpServletRequest req, HttpServletResponse res, @RequestBody Material material,
+			Principal principal) {
+		material = materialServ.create(principal.getName(), material);
 		try {
-			if (tool == null) {
+			if (material == null) {
 				res.setStatus(404);
 			} else {
 				res.setStatus(201);
 				StringBuffer url = req.getRequestURL();
-				url.append("/").append(tool.getId());
+				url.append("/").append(material.getId());
 				res.setHeader("Location", url.toString());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("Invalid Todo JSON");
 			res.setStatus(400);
-			tool = null;
+			material = null;
 
 		}
-		return tool;
+		return material;
 	}
 
-	@PutMapping("tools/{aid}")
-	public Tool update(HttpServletRequest req, HttpServletResponse res, @PathVariable int aid, @RequestBody Tool tool,
-			Principal principal) {
-		tool = toolService.update(principal.getName(), aid, tool);
-		if (tool == null) {
+	@PutMapping("materials/{aid}")
+	public Material update(HttpServletRequest req, HttpServletResponse res, @PathVariable int aid,
+			@RequestBody Material material, Principal principal) {
+		material = materialServ.update(principal.getName(), aid, material);
+		if (material == null) {
 			res.setStatus(404);
 		}
-		return tool;
+		return material;
 	}
 
-	@DeleteMapping("tools/{aid}")
+	@DeleteMapping("materials/{aid}")
 	public void destroy(HttpServletRequest req, HttpServletResponse res, @PathVariable int aid, Principal principal) {
 		try {
-			if (toolService.destroy(principal.getName(), aid)) {
+			if (materialServ.destroy(principal.getName(), aid)) {
 				res.setStatus(204);
 			} else {
 				res.setStatus(404);
