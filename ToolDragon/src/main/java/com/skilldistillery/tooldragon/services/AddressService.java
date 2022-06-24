@@ -6,16 +6,16 @@ import com.skilldistillery.tooldragon.entities.Address;
 
 public interface AddressService {
 	
-	public Address getAddressById(int addressId);
+	public Address getAddressById(String username, int addressId);
 
-	public List<Address> index(String address);
+	public List<Address> index(String username);
 
-	public Address show(int addressId);
+	public Address show(String username, int addressId);
 
-	public Address create(Address address);
+	public Address create(String username, Address address);
 
-	public Address update(Address address, int addressId);
+	public Address update(String username, Address address, int addressId);
 
-	public boolean destroy(int addressId);
+	public boolean destroy(String username, int addressId);
 
 }

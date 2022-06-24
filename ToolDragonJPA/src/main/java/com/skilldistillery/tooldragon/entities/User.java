@@ -66,7 +66,7 @@ public class User {
 	
 	@OneToMany(mappedBy = "owner")
 	@JsonIgnore
-//	@JsonIgnoreProperties({"owner", "participants", "address"})
+//	@JsonIgnoreProperties({"owner", "participants", "address", "projectTools"})
 	private List<Project> ownedProjects;
 	
 	@OneToMany(mappedBy = "owner")
@@ -207,9 +207,17 @@ public class User {
 		this.address = address;
 	}
 
+	
+//	SOLUTION FOR JSON NULL POINTER WHEN NO OWNEDPROJECTS
+	
 	public List<Project> getOwnedProjects() {
-		return new ArrayList<>(ownedProjects);
+		if (ownedProjects != null) {
+			return new ArrayList<>(ownedProjects);
+		}
+		return this.ownedProjects;
 	}
+	
+//	SOLUTION FOR JSON NULL POINTER WHEN NO OWNEDPROJECTS END
 
 	public void setOwnedProjects(List<Project> projects) {
 		this.ownedProjects = projects;
