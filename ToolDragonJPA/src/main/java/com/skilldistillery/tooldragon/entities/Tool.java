@@ -60,7 +60,7 @@ public class Tool {
 	private User owner;
 	
 	@OneToMany(mappedBy = "tool")
-	@JsonIgnoreProperties("tool")
+	@JsonIgnoreProperties({"tool", "user"})
 	private List<ToolComment> comments;
 	
 	@ManyToOne
@@ -76,7 +76,7 @@ public class Tool {
 	private Status status;
 	
 	@OneToMany(mappedBy = "tool")
-	@JsonIgnoreProperties("tool")
+	@JsonIgnoreProperties({"tool", "owner"})
 	private List<ProjectTool> projectsUsedIn;
 
 	public Tool() {
@@ -180,7 +180,11 @@ public class Tool {
 	}
 
 	public List<ToolComment> getComments() {
-		return new ArrayList<>(comments);
+		List<ToolComment> copy = new ArrayList<>();
+		if(comments != null) {
+			copy = new ArrayList<>(comments);
+		}
+		return copy;
 	}
 
 	public void setComments(List<ToolComment> comments) {
@@ -217,7 +221,11 @@ public class Tool {
 	}
 
 	public List<Category> getCategories() {
-		return new ArrayList<>(categories);
+		List<Category> copy = new ArrayList<>();
+		if(categories != null) {
+			copy = new ArrayList<>(categories);
+		}
+		return copy;
 	}
 
 	public void setCategories(List<Category> categories) {
@@ -248,7 +256,11 @@ public class Tool {
 	}
 
 	public List<ProjectTool> getProjectsUsedIn() {
-		return new ArrayList<>(projectsUsedIn);
+		List<ProjectTool> copy = new ArrayList<>();
+		if(projectsUsedIn != null) {
+			copy = new ArrayList<>(projectsUsedIn);
+		}
+		return copy;
 	}
 
 	public void setProjectsUsedIn(List<ProjectTool> projectsUsedIn) {

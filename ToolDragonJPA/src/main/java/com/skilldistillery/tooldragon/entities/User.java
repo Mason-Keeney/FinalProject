@@ -17,7 +17,6 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -69,19 +68,19 @@ public class User {
 	private List<Project> ownedProjects;
 	
 	@OneToMany(mappedBy = "owner")
-	@JsonIgnoreProperties("owner")
+	@JsonIgnoreProperties({"owner", "projectsUsedIn"})
 	private List<Tool> tools;
 	
 	@OneToMany(mappedBy = "user")
-	@JsonIgnoreProperties("user")
+	@JsonIgnoreProperties({"user", "project"})
 	private List<ProjectComment> projectComments;
 	
 	@OneToMany(mappedBy = "user")
-	@JsonIgnoreProperties("user")
+	@JsonIgnoreProperties({"user", "tool"})
 	private List<ToolComment> toolComments;
 	
 	@OneToMany(mappedBy = "user")
-	@JsonIgnoreProperties("user")
+	@JsonIgnoreProperties({"user", "project"})
 	private List<Participant> participations;
 	
 	
