@@ -90,12 +90,12 @@ public class ProjectToolController {
 		ProjectToolId id = new ProjectToolId();
 		id.setProjectId(pid);
 		id.setToolId(tid);
+		projTool.setId(id);
 		try {
+			projTool = projToolService.update(principal.getName(), projTool, id);
 			if(projTool == null) {
 				res.setStatus(404);
 			}
-			projTool = projToolService.update(principal.getName(), projTool, id);
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 			res.setStatus(400);

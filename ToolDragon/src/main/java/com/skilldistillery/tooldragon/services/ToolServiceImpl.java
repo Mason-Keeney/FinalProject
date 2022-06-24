@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.skilldistillery.tooldragon.entities.Project;
 import com.skilldistillery.tooldragon.entities.Tool;
 import com.skilldistillery.tooldragon.entities.User;
 import com.skilldistillery.tooldragon.repositories.ToolRepository;
