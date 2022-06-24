@@ -360,7 +360,7 @@ DROP TABLE IF EXISTS `project_material` ;
 CREATE TABLE IF NOT EXISTS `project_material` (
   `material_id` INT NOT NULL,
   `project_id` INT NOT NULL,
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `quantity` VARCHAR(45) NULL,
   `status_id` INT NOT NULL,
   PRIMARY KEY (`id`),

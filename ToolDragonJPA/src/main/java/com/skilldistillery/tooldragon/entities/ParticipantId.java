@@ -7,21 +7,19 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class ParticipantId implements Serializable{
+public class ParticipantId implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	
 	@Column(name = "project_id")
 	private int projectId;
-	
+
 	@Column(name = "user_id")
 	private int userId;
 
 	public ParticipantId() {
 		super();
 	}
-	
-	
+
 	public static long getSerialVersionUID() {
 		return serialVersionUID;
 	}
@@ -42,12 +40,10 @@ public class ParticipantId implements Serializable{
 		this.userId = userId;
 	}
 
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(projectId, userId);
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -61,12 +57,9 @@ public class ParticipantId implements Serializable{
 		return projectId == other.projectId && userId == other.userId;
 	}
 
-
 	@Override
 	public String toString() {
 		return "ParticipantId [projectId=" + projectId + ", userId=" + userId + "]";
 	}
-	
-	
-	
+
 }
