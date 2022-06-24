@@ -22,9 +22,8 @@ public class ParticipantServiceImpl implements ParticipantService {
 	private UserRepository userRepo;
 
 	@Override
-	public Participant getUserById(int participantId, User userId, String username) {
-
-		Optional<Participant> participantOpt = participantRepo.findById(userId);
+	public Participant getParticipantById(ParticipantId participantId, User userId, String username) {
+		Optional<Participant> participantOpt = participantRepo.findById(participantId);
 		Participant participant = null;
 		if (participantOpt.isPresent()) {
 			participant = participantOpt.get();
@@ -44,7 +43,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 	@Override
 	public Participant show(String username, ParticipantId participantId) {
 		Participant participant = null;
-		if (participantRepo.findByUsername(username) != null) {
+		if (userRepo.findByUsername(username) != null) {
 			Optional<Participant> op = participantRepo.findById(participantId);
 			if (op.isPresent()) {
 				participant = op.get();
