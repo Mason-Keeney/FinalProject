@@ -47,6 +47,7 @@ public class ToolComment {
 	private Tool tool;
 	
 	@OneToMany(mappedBy = "toolComment")
+	@JsonIgnoreProperties({"user", "toolComment"})
 	private List<ToolCommentVote> votes;
 
 	public ToolComment() {

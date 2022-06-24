@@ -47,7 +47,7 @@ public class ProjectComment {
 	private Project project;
 	
 	@OneToMany(mappedBy = "projectComment")
-	@JsonIgnoreProperties("projectComment")
+	@JsonIgnoreProperties({"projectComment", "user"})
 	private List<ProjectCommentVote> votes;
 
 	public ProjectComment() {

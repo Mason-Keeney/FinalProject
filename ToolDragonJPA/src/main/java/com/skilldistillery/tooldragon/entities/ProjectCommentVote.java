@@ -13,8 +13,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 @Entity
 @Table(name = "project_comment_vote")
 public class ProjectCommentVote {
@@ -32,7 +30,6 @@ public class ProjectCommentVote {
 	@ManyToOne
 	@JoinColumn(name = "project_comment_id")
 	@MapsId(value = "projectCommentId")
-	@JsonIgnoreProperties("votes")
 	private ProjectComment projectComment;
 	
 	@ManyToOne
