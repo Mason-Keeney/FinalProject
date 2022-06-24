@@ -16,7 +16,8 @@ public class ProjectToolServiceImpl implements ProjectToolService {
 
 	@Autowired
 	private ProjectToolRepository projToolRepo;
-
+	
+	@Autowired
 	private UserRepository userRepo;
 
 	@Override
@@ -29,9 +30,23 @@ public class ProjectToolServiceImpl implements ProjectToolService {
 	}
 
 	@Override
-	public ProjectTool create(String Username, ProjectTool projTool) {
-		if (projTool != null) {
-			projTool = projToolRepo.saveAndFlush(projTool);
+	public ProjectTool show(String username, ProjectToolId projToolId) {
+		ProjectTool tool = null;
+		if(userRepo.findByUsername(username) != null) {
+			Optional<ProjectTool> op = projToolRepo.findById(projToolId);
+			if(op.isPresent()) {
+				tool = op.get();
+			}
+		}
+		return tool;
+	}
+
+	@Override
+	public ProjectTool create(String username, ProjectTool projTool) {
+		if (userRepo.findByUsername(username) != null) {
+			if (projTool != null) {
+				projTool = projToolRepo.saveAndFlush(projTool);
+			}
 		}
 		return projTool;
 	}
@@ -47,8 +62,6 @@ public class ProjectToolServiceImpl implements ProjectToolService {
 					managed = op.get();
 					if (managed != null) {
 						managed.setDateApproved(projTool.getDateApproved());
-						managed.setProject(projTool.getProject());
-						managed.setTool(projTool.getTool());
 						managed.setProjectComment(projTool.getProjectComment());
 						managed.setProjectOwnerRating(projTool.getProjectOwnerRating());
 						managed.setProjectOwnerRatingComment(projTool.getProjectOwnerRatingComment());
@@ -70,11 +83,11 @@ public class ProjectToolServiceImpl implements ProjectToolService {
 	public boolean destroy(String username, ProjectToolId projToolId) {
 		boolean deleted = false;
 		ProjectTool toDelete = null;
-		if(userRepo.findByUsername(username) != null) {
+		if (userRepo.findByUsername(username) != null) {
 			Optional<ProjectTool> op = projToolRepo.findById(projToolId);
-			if(op.isPresent()) {
+			if (op.isPresent()) {
 				toDelete = op.get();
-				if(toDelete != null) {
+				if (toDelete != null) {
 					projToolRepo.delete(toDelete);
 					deleted = true;
 				}
