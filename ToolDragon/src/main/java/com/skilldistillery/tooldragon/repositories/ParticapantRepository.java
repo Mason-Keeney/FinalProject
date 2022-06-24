@@ -12,4 +12,6 @@ public interface ParticapantRepository extends JpaRepository<Participant, Partic
 
 	Optional<Participant> findById(User userId);
 
+	Object findByUsername(String username);
+
 }
