@@ -47,7 +47,7 @@ public class ProjectComment {
 	private Project project;
 	
 	@OneToMany(mappedBy = "projectComment")
-	@JsonIgnoreProperties("projectComment")
+	@JsonIgnoreProperties({"projectComment", "user"})
 	private List<ProjectCommentVote> votes;
 
 	public ProjectComment() {
@@ -103,7 +103,11 @@ public class ProjectComment {
 	}
 
 	public List<ProjectCommentVote> getVotes() {
-		return votes;
+		List<ProjectCommentVote> copy = new ArrayList<>();
+		if(votes != null) {
+			copy = new ArrayList<>(votes);
+		}
+		return copy;
 	}
 
 	public void setVotes(List<ProjectCommentVote> votes) {

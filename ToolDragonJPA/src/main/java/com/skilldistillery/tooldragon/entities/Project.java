@@ -19,7 +19,6 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -60,7 +59,7 @@ public class Project {
 	private User owner;
 
 	@OneToMany(mappedBy = "project")
-	@JsonIgnore
+	@JsonIgnoreProperties({"user", "project"})
 	private List<Participant> participants;
 
 	@ManyToOne
@@ -68,20 +67,19 @@ public class Project {
 	private Address address;
 
 	@OneToMany(mappedBy = "project")
-	@JsonIgnore
+	@JsonIgnoreProperties({"project", "tool"})
 	private List<ProjectTool> projectTools;
 
 	@ManyToMany
 	@JoinTable(name = "project_category", joinColumns = @JoinColumn(name = "project_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-	@JsonIgnore
 	private List<Category> categories;
 
 	@OneToMany(mappedBy = "project")
-	@JsonIgnore
+	@JsonIgnoreProperties({"user", "project"})
 	private List<ProjectComment> comments;
 
 	@OneToMany(mappedBy = "project")
-	@JsonIgnore
+	@JsonIgnoreProperties("project")
 	private List<ProjectMaterial> projectMaterials;
 
 	public Project() {
@@ -189,7 +187,11 @@ public class Project {
 	}
 
 	public List<Participant> getParticipants() {
-		return new ArrayList<>(participants);
+		List<Participant> copy = new ArrayList<>();
+		if(participants != null) {
+			copy = new ArrayList<>(participants);
+		}
+		return copy;
 	}
 
 	public void setParticipants(List<Participant> participantUsers) {
@@ -226,7 +228,11 @@ public class Project {
 	}
 
 	public List<ProjectTool> getProjectTools() {
-		return new ArrayList<>(projectTools);
+		List<ProjectTool> copy = new ArrayList<>();
+		if (projectTools != null) {
+			copy = new ArrayList<>(projectTools);
+		}
+		return copy;
 	}
 
 	public void setProjectTools(List<ProjectTool> projectTools) {
@@ -255,7 +261,10 @@ public class Project {
 	}
 
 	public List<Category> getCategories() {
-		return new ArrayList<>(categories);
+		List<Category> copy = new ArrayList<>();
+		if(categories != null) {
+			copy = new ArrayList<>(categories);		}
+		return copy;
 	}
 
 	public void setCategories(List<Category> categories) {
@@ -278,7 +287,11 @@ public class Project {
 	}
 
 	public List<ProjectComment> getComments() {
-		return new ArrayList<>(comments);
+		List<ProjectComment> copy = new ArrayList<>();
+		if(comments != null) {
+			copy = new ArrayList<>(comments);
+		}
+		return copy;
 	}
 
 	public void setComments(List<ProjectComment> comments) {
@@ -307,7 +320,11 @@ public class Project {
 	}
 
 	public List<ProjectMaterial> getProjectMaterials() {
-		return new ArrayList<>(projectMaterials);
+		List<ProjectMaterial> copy = new ArrayList<>();
+		if(projectMaterials != null) {
+			copy = new ArrayList<>(projectMaterials);
+		}
+		return copy;
 	}
 
 	public void setProjectMaterials(List<ProjectMaterial> projectMaterials) {

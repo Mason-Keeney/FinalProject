@@ -47,6 +47,7 @@ public class ToolComment {
 	private Tool tool;
 	
 	@OneToMany(mappedBy = "toolComment")
+	@JsonIgnoreProperties({"user", "toolComment"})
 	private List<ToolCommentVote> votes;
 
 	public ToolComment() {
@@ -102,7 +103,11 @@ public class ToolComment {
 	}
 
 	public List<ToolCommentVote> getVotes() {
-		return new ArrayList<>(votes);
+		List<ToolCommentVote> copy = new ArrayList<>();
+		if(votes != null) {
+			copy = new ArrayList<>(votes);
+		}
+		return copy;
 	}
 
 	public void setVotes(List<ToolCommentVote> votes) {
