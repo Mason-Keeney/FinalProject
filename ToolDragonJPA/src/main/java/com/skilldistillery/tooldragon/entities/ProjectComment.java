@@ -103,7 +103,11 @@ public class ProjectComment {
 	}
 
 	public List<ProjectCommentVote> getVotes() {
-		return votes;
+		List<ProjectCommentVote> copy = new ArrayList<>();
+		if(votes != null) {
+			copy = new ArrayList<>(votes);
+		}
+		return copy;
 	}
 
 	public void setVotes(List<ProjectCommentVote> votes) {
