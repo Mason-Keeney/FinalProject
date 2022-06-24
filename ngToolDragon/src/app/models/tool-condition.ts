@@ -1,4 +1,4 @@
-export class Category {
+export class ToolCondition {
   id: number | null;
   name: string | null;
 

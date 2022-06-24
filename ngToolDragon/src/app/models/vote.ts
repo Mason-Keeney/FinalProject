@@ -1,4 +1,4 @@
-export class Category {
+export class Vote {
   id: number | null;
   name: string | null;
 

@@ -17,7 +17,7 @@ export class ProjectComment {
     active: boolean = true,
     user: User | null = null,
     project: Project | null = null,
-    votes: ProjectCommentVote | null = null,
+    votes: ProjectCommentVote | null = null
   ) {
     this.id = id;
     this.commentBody = commentBody;
@@ -27,5 +27,4 @@ export class ProjectComment {
     this.project = project;
     this.votes = votes;
   }
-
 }
