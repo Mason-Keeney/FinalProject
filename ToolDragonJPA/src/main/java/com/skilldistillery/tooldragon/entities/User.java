@@ -65,30 +65,29 @@ public class User {
 	private Address address;
 	
 	@OneToMany(mappedBy = "owner")
-	@JsonIgnore
-//	@JsonIgnoreProperties({"owner", "participants", "address", "projectTools"})
+	@JsonIgnoreProperties({"owner", "participants", "address", "projectTools"})
 	private List<Project> ownedProjects;
 	
 	@OneToMany(mappedBy = "owner")
-	@JsonIgnore
-//	@JsonIgnoreProperties("owner")
+	@JsonIgnoreProperties("owner")
 	private List<Tool> tools;
 	
 	@OneToMany(mappedBy = "user")
-	@JsonIgnore
-//	@JsonIgnoreProperties("user")
+	@JsonIgnoreProperties("user")
 	private List<ProjectComment> projectComments;
 	
 	@OneToMany(mappedBy = "user")
-	@JsonIgnore
-//	@JsonIgnoreProperties("user")
+	@JsonIgnoreProperties("user")
 	private List<ToolComment> toolComments;
 	
 	@OneToMany(mappedBy = "user")
-	@JsonIgnore
-//	@JsonIgnoreProperties("user")
+	@JsonIgnoreProperties("user")
 	private List<Participant> participations;
 	
+	
+	{
+		ownedProjects = new ArrayList<>();
+	}
 	
 	public User() {
 		super();
@@ -211,10 +210,11 @@ public class User {
 //	SOLUTION FOR JSON NULL POINTER WHEN NO OWNEDPROJECTS
 	
 	public List<Project> getOwnedProjects() {
+		List<Project> copy = new ArrayList<>();
 		if (ownedProjects != null) {
-			return new ArrayList<>(ownedProjects);
+			copy = new ArrayList<>(ownedProjects);
 		}
-		return this.ownedProjects;
+		return copy;
 	}
 	
 //	SOLUTION FOR JSON NULL POINTER WHEN NO OWNEDPROJECTS END
@@ -245,7 +245,11 @@ public class User {
 	}
 
 	public List<Tool> getTools() {
-		return new ArrayList<>(tools);
+		List<Tool> copy = new ArrayList<>();
+		if(tools != null) {
+			copy = new ArrayList<>(tools);
+		}
+		return copy;
 	}
 
 	public void setTools(List<Tool> tools) {
@@ -274,7 +278,11 @@ public class User {
 	}
 
 	public List<ProjectComment> getProjectComments() {
-		return new ArrayList<>(projectComments);
+		List<ProjectComment> copy = new ArrayList<>();
+		if(projectComments != null) {
+			copy = new ArrayList<>(projectComments);
+		}
+		return copy;
 	}
 
 	public void setProjectComments(List<ProjectComment> projectComments) {
@@ -303,7 +311,11 @@ public class User {
 	}
 
 	public List<ToolComment> getToolComments() {
-		return new ArrayList<>(toolComments);
+		List<ToolComment> copy = new ArrayList<>();
+		if(toolComments != null) {
+			copy = new ArrayList<>(toolComments);
+		}
+		return copy;
 	}
 
 	public void setToolComments(List<ToolComment> toolComments) {
@@ -334,7 +346,11 @@ public class User {
 	}
 
 	public List<Participant> getParticipations() {
-		return new ArrayList<>(participations);
+		List<Participant> copy = new ArrayList<>();
+		if(participations != null) {
+			copy = new ArrayList<>(participations);
+		}
+		return copy;
 	}
 
 	public void setParticipations(List<Participant> participations) {
