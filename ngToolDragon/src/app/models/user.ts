@@ -1,14 +1,13 @@
+import { Address } from './address';
 import { Participant } from './participant';
-import { ToolComment } from './tool-comment';
+import { Project } from './project';
 import { ProjectComment } from './project-comment';
 import { Tool } from './tool';
-import { Address } from './address';
-import { Project } from './project';
+import { ToolComment } from './tool-comment';
 export class User {
-
   id: number | null;
-  username: string|null;
-  password: string|null;
+  username: string | null;
+  password: string | null;
   enabled: boolean;
   role: string | null;
   firstName: string | null;
@@ -26,8 +25,6 @@ export class User {
   toolComments: ToolComment[] | null;
   participations: Participant[] | null;
 
-
-
   constructor(
     id: number | null = 0,
     username: string = '',
@@ -42,14 +39,13 @@ export class User {
     updatedAt: Date | null = null,
     lastLogin: Date | null = null,
     backgroundImageUrl: string | null = '',
-    address: Address | null = '',
+    address: Address | null = null,
     projects: Project[] | null = null,
     tools: Tool[] | null = null,
     projectComments: ProjectComment[] | null = null,
     toolComments: ToolComment[] | null = null,
     participations: Participant[] | null = null
-
-  ){
+  ) {
     this.id = id;
     this.username = username;
     this.password = password;
