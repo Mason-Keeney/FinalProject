@@ -8,7 +8,7 @@ import com.skilldistillery.tooldragon.entities.User;
 
 public interface ParticipantService {
 
-	public Participant getUserById(int participantId, User userId, String username);
+	public Participant getParticipantById(ParticipantId participantId, User userId, String username);
 
 	List<Participant> index(String username);
 
