@@ -37,7 +37,7 @@ public class ToolController {
 		return users;
 	}
 
-	@GetMapping("tool/{tid}")
+	@GetMapping("tools/{tid}")
 	public Tool show(HttpServletRequest req, HttpServletResponse res, @PathVariable int tid, Principal principal) {
 		Tool tool = toolService.show(principal.getName(), tid);
 		if (tool == null) {

@@ -8,14 +8,14 @@ public interface ToolService {
 	
 	public Tool getUserById(int toolId);
 
-	public List<Tool> index(String name);
+	public List<Tool> index(String username);
 
-	public Tool show(String name, int toolId);
+	public Tool show(String username, int toolId);
 
-	public Tool create(String name, Tool tool);
+	public Tool create(String username, Tool tool);
 
-	public Tool update(String name, int toolId, Tool tool);
+	public Tool update(String username, int toolId, Tool tool);
 
-	public boolean destroy(String name, int toolId);
+	public boolean destroy(String username, int toolId);
 
 }

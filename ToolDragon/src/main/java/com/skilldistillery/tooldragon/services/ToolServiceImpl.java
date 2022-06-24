@@ -50,9 +50,9 @@ public class ToolServiceImpl implements ToolService {
 	}
 
 	@Override
-	public Tool show(String name, int toolId) {
+	public Tool show(String username, int toolId) {
 		Tool tool = null;
-		if (toolRepo.findByName(name) != null) {
+		if (toolRepo.findByName(username) != null) {
 			Optional<Tool> op = toolRepo.findById(toolId);
 			if (op.isPresent()) {
 				tool = op.get();
@@ -65,10 +65,10 @@ public class ToolServiceImpl implements ToolService {
 	}
 
 	@Override
-	public Tool create(String name, Tool tool) {
-		Tool toolName = toolRepo.findByName(name);
+	public Tool create(String username, Tool tool) {
+		User owner = userRepo.findByUsername(username);
 		if (tool != null) {
-			tool.setName(name);
+			tool.setOwner(owner);
 			toolRepo.saveAndFlush(tool);
 			return tool;
 		}
@@ -76,8 +76,8 @@ public class ToolServiceImpl implements ToolService {
 	}
 
 	@Override
-	public Tool update(String name, int toolId, Tool tool) {
-		Tool existing = toolRepo.findByName(name);
+	public Tool update(String username, int toolId, Tool tool) {
+		Tool existing = toolRepo.findByName(username);
 		if (existing != null) {
 			existing.setName(tool.getName());
 			existing.setDescription(tool.getDescription());
@@ -95,9 +95,9 @@ public class ToolServiceImpl implements ToolService {
 	}
 
 	@Override
-	public boolean destroy(String name, int toolId) {
+	public boolean destroy(String username, int toolId) {
 		boolean deleted = false;
-		Tool toDelete = toolRepo.findByName(name);
+		Tool toDelete = toolRepo.findByName(username);
 		if (toDelete != null) {
 			toDelete.setActive(false);
 			toolRepo.saveAndFlush(toDelete);
