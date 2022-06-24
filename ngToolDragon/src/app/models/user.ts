@@ -1,3 +1,9 @@
+import { Participant } from './participant';
+import { ToolComment } from './tool-comment';
+import { ProjectComment } from './project-comment';
+import { Tool } from './tool';
+import { Address } from './address';
+import { Project } from './project';
 export class User {
 
   id: number | null;
@@ -13,6 +19,12 @@ export class User {
   updatedAt: Date | null;
   lastLogin: Date | null;
   backgroundImageUrl: string | null;
+  address: Address | null;
+  projects: Project[] | null;
+  tools: Tool[] | null;
+  projectComments: ProjectComment[] | null;
+  toolComments: ToolComment[] | null;
+  participations: Participant[] | null;
 
 
 
@@ -29,7 +41,13 @@ export class User {
     createdAt: Date | null = null,
     updatedAt: Date | null = null,
     lastLogin: Date | null = null,
-    backgroundImageUrl: string | null = ''
+    backgroundImageUrl: string | null = '',
+    address: Address | null = '',
+    projects: Project[] | null = null,
+    tools: Tool[] | null = null,
+    projectComments: ProjectComment[] | null = null,
+    toolComments: ToolComment[] | null = null,
+    participations: Participant[] | null = null
 
   ){
     this.id = id;
@@ -45,5 +63,11 @@ export class User {
     this.updatedAt = updatedAt;
     this.lastLogin = lastLogin;
     this.backgroundImageUrl = backgroundImageUrl;
+    this.address = address;
+    this.projects = projects;
+    this.tools = tools;
+    this.projectComments = projectComments;
+    this.toolComments = toolComments;
+    this.participations = participations;
   }
 }
