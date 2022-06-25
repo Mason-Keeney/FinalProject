@@ -1,3 +1,4 @@
+import { UserService } from './../../services/user.service';
 import { RegisterComponent } from './../register/register.component';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
@@ -12,10 +13,12 @@ import { User } from 'src/app/models/user';
 export class LoginComponent implements OnInit {
 
   loginUser: User = new User();
+  today = new Date();
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {}
 
   login(user: User){
