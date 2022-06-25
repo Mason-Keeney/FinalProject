@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { AuthService } from './../../services/auth.service';
+import { User } from 'src/app/models/user';
+import { UserHomeComponent } from './../user-home/user-home.component';
+import { HomeComponent } from './../home/home.component';
+import { Component, Input, OnInit } from '@angular/core';
+import { applyStyles } from '@popperjs/core';
+
 
 @Component({
   selector: 'app-edituser',
@@ -7,7 +13,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EdituserComponent implements OnInit {
 
-  constructor() { }
+  @Input() editUser: any;
+
+  constructor(
+    private authService: AuthService
+  ) { }
+
 
   ngOnInit(): void {
   }

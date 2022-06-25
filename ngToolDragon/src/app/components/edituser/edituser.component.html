@@ -1,1 +1,5 @@
-<p>edituser works!</p>
+<h1>{{editUser.firstName}}</h1>
+<form class="form">
+  <input type="text" class="form-control" placeholder="First Name" name="firstName" [(ngModel)]="editUser.firstName">
+  <input type="text" class="form-control" placeholder="Last Name" name="lastName" [(ngModel)]="editUser.lastName">
+</form>
