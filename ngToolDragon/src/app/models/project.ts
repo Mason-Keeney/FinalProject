@@ -23,7 +23,6 @@ export class Project {
   catergories: Category[] | null;
   comments: ProjectComment[] | null;
   projectMaterials: ProjectMaterial[] | null;
-  completeDate: string | null;
 
   constructor(
     id: number | null = 0,

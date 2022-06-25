@@ -63,46 +63,46 @@ export class ProjectComponent implements OnInit {
     });
   }
 
-  create(project: Project): Observable<Project> {
-    project.completed = false;
-    project.description = '';
-
-    return this.http.post<Project>(this.url, project, this.getHttpOptions()).pipe(
-      catchError((err: any) => {
-        console.log(err);
-        return throwError(
-          () => new Error('ProjectService.create(): error creating project: ' + err)
-        );
-      })
-    );
+  addProject(project: Project) {
+    this.projectServ.create(project).subscribe({
+      next: (result) => {
+        this.reload();
+        this.editProject = null;
+      },
+      error: (fail) => {
+        console.error('ProjectComponent.adding: error adding project');
+        console.error(fail);
+      },
+    });
   }
 
-  update(project: Project): Observable<Project> {
-    if (project.completed) {
-      project.completeDate = this.datePipe.transform(Date.now(), 'shortDate');
-    } else {
-      project.completeDate = '';
-    }
-
-    return this.http.put<Project>(this.url + '/' + project.id, project, this.getHttpOptions()).pipe(
-      catchError((err: any) => {
-        console.log(err);
-        return throwError(
-          () => new Error('ProjectService.update(): error updating project: ' + err)
-        );
-      })
-    );
+  updateProject(id: number | null, project: Project, setSelected: boolean = true) {
+    this.projectServ.update(id, project).subscribe({
+      next: (updated) => {
+        this.reload();
+        if (setSelected) {
+          this.selected = updated;
+        }
+        this.selected = updated;
+        this.editProject = null;
+      },
+      error: (nojoy) => {
+        console.error('ProjectComponent.adding: error');
+        console.error(nojoy);
+      },
+    });
   }
 
-  destroy(id: number): Observable<void> {
-    return this.http.delete<void>(this.url + '/' + id, this.getHttpOptions()).pipe(
-      catchError((err: any) => {
-        console.log(err);
-        return throwError(
-          () => new Error('ProjectService.delete(): error deleting project: ' + err)
-        );
-      })
-    );
+  deleteProject(id: number): void {
+    this.projectServ.destroy(id).subscribe({
+      next: () => {
+        this.reload();
+      },
+      error: (nojoy) => {
+        console.error('ProjectComponent.deleting: error');
+        console.error(nojoy);
+      },
+    });
   }
 
 }
