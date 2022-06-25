@@ -1,3 +1,4 @@
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user';
@@ -10,6 +11,7 @@ import { User } from 'src/app/models/user';
 export class UserHomeComponent implements OnInit {
 
   user: User = new User();
+  faUser = faUser;
   constructor(
     private authService: AuthService
   ) {}
