@@ -1,3 +1,4 @@
+import { faDragon } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
@@ -10,7 +11,7 @@ import { Component, OnInit } from '@angular/core';
 export class NavigationComponent implements OnInit {
 
   public isCollapsed = false;
-
+  public faDragon = faDragon;
   constructor(
     private authService: AuthService,
     private router: Router

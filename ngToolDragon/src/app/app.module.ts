@@ -12,6 +12,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { RegisterComponent } from './components/register/register.component';
 import { UserHomeComponent } from './components/user-home/user-home.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { UserHomeComponent } from './components/user-home/user-home.component';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
