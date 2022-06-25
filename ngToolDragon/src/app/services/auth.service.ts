@@ -54,6 +54,30 @@ export class AuthService {
     );
   }
 
+  authenticateUser(){
+    let existingCredentials = this.getCredentials();
+    // Send credentials as Authorization header specifying Basic HTTP authentication
+    let newHttpOptions = {
+      headers: new HttpHeaders({
+        Authorization: `Basic ${existingCredentials}`,
+        'X-Requested-With': 'XMLHttpRequest',
+      }),
+    };
+
+    // Create GET request to authenticate credentials
+    return this.http.get<User>(this.url + 'authenticate', newHttpOptions).pipe(
+      tap((newUser) => {
+        return newUser;
+      }),
+      catchError((err: any) => {
+        console.log(err);
+        return throwError(
+          () => new Error('AuthService.authenticate(): error authenticating user.')
+        );
+      })
+    );
+  }
+
   logout(): void {
     localStorage.removeItem('credentials');
   }

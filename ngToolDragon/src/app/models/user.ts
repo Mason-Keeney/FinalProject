@@ -19,7 +19,7 @@ export class User {
   lastLogin: Date | null;
   backgroundImageUrl: string | null;
   address: Address | null;
-  projects: Project[] | null;
+  ownedProjects: Project[] | null;
   tools: Tool[] | null;
   projectComments: ProjectComment[] | null;
   toolComments: ToolComment[] | null;
@@ -40,7 +40,7 @@ export class User {
     lastLogin: Date | null = null,
     backgroundImageUrl: string | null = '',
     address: Address | null = null,
-    projects: Project[] | null = null,
+    ownedProjects: Project[] | null = null,
     tools: Tool[] | null = null,
     projectComments: ProjectComment[] | null = null,
     toolComments: ToolComment[] | null = null,
@@ -60,7 +60,7 @@ export class User {
     this.lastLogin = lastLogin;
     this.backgroundImageUrl = backgroundImageUrl;
     this.address = address;
-    this.projects = projects;
+    this.ownedProjects = ownedProjects;
     this.tools = tools;
     this.projectComments = projectComments;
     this.toolComments = toolComments;

@@ -1,4 +1,4 @@
-export class Category {
+export class Status {
   id: number | null;
   name: string | null;
 
