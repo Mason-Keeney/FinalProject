@@ -61,6 +61,18 @@ export class UserService {
       })
     );
   }
+  deactivate(id: number | null, user: User): Observable<User> {
+    user.enabled = false;
+    return this.http.put<User>(this.url + '/' + id, user).pipe(
+      catchError((err: any) => {
+        console.log(err);
+        return throwError(
+          () =>
+            new Error('User.update(): error retrieving User:' + err)
+        );
+      })
+    );
+  }
 
   destroy(id: number | null): Observable<boolean> {
     return this.http.delete<boolean>(this.url + '/' + id).pipe(
