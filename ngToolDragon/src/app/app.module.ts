@@ -13,6 +13,7 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { RegisterComponent } from './components/register/register.component';
 import { UserHomeComponent } from './components/user-home/user-home.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { EdituserComponent } from './components/edituser/edituser.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     HomeComponent,
     NavigationComponent,
     RegisterComponent,
-    UserHomeComponent
+    UserHomeComponent,
+    EdituserComponent
   ],
   imports: [
     BrowserModule,

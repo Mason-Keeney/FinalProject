@@ -11,6 +11,7 @@ import { User } from 'src/app/models/user';
 export class UserHomeComponent implements OnInit {
 
   user: User = new User();
+  editUser: User = new User();
   faUser = faUser;
   constructor(
     private authService: AuthService
