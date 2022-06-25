@@ -7,5 +7,4 @@ import com.skilldistillery.tooldragon.entities.ParticipantId;
 
 public interface ParticapantRepository extends JpaRepository<Participant, ParticipantId> {
 
-
 }
