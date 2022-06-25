@@ -1,0 +1,13 @@
+
+<div class="row">
+  <div class="col-4">
+    <form class="form">
+      <input type="text" name="username" class="form-control" [(ngModel)]="loginUser.username" placeholder="Username">
+      <input type="password" name="username" class="form-control" [(ngModel)]="loginUser.password" placeholder="Password">
+      <button class="btn btn-primary" (click)="login(loginUser)">Login</button>
+      <button class="btn btn-primary" (click)="showRegisterForm()">Register</button>
+    </form>
+  </div>
+  <div class="col-4"></div>
+  <div class="col-4"></div>
+  </div>
