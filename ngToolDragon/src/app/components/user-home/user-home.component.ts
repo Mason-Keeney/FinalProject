@@ -15,7 +15,7 @@ import { EdituserComponent } from '../edituser/edituser.component';
 
 export class UserHomeComponent implements OnInit {
 
-  user: User = new User();
+  user: User | null = null;
   editingUser: Boolean = false;
   faUser = faUser;
   today = new Date();
@@ -37,7 +37,6 @@ export class UserHomeComponent implements OnInit {
         console.log(problem);
       }
     })
-    this.updateLastLogin();
   }
 
   toggleEdituser(){
@@ -50,22 +49,33 @@ export class UserHomeComponent implements OnInit {
   }
 
   updateLastLogin(){
-    this.user.lastLogin = this.today;
-    this.userService.update(this.user.id, this.user).subscribe({
-      next: (result) => {
-        this.user = result;
-      },
-      error: (problem) => {
-        console.log("UserHomeHttpComponent Error: unable to update lastLogin: ");
-        console.log(problem);
-      }
-    })
+    if(this.user){
+      this.user.lastLogin = this.today;
+      this.userService.update(this.user.id, this.user).subscribe({
+        next: (result) => {
+          this.user = result;
+        },
+        error: (problem) => {
+          console.log("UserHomeHttpComponent Error: unable to update lastLogin: ");
+          console.log(problem);
+        }
+      })
+    }
   }
 
+  // ngDoCheck(){
+  //   if(this.user?.lastLogin != this.today){
+  //     this.updateLastLogin();
+  //   }
+  // }
 
 
   ngOnInit(): void {
     this.authenticateUser();
+  }
+
+  ngAfterContentInit(): void {
+
   }
 
   ngViewAfterInit(): void{
