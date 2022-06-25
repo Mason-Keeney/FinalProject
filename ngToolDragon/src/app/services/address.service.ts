@@ -1,0 +1,80 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { catchError, Observable, throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { Address } from '../models/address';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AddressService {
+  private url = environment.baseUrl + 'api/adresses';
+
+  constructor(private http: HttpClient) {}
+
+  index(): Observable<Address[]> {
+    return this.http.get<Address[]>(this.url).pipe(
+      catchError((err: any) => {
+        console.log(err);
+        return throwError(
+          () => new Error('Address.index(): error retrieving Addresses:' + err)
+        );
+      })
+    );
+  }
+
+  show(id: number | null): Observable<Address> {
+    return this.http.get<Address>(this.url + '/' + id).pipe(
+      catchError((err: any) => {
+        console.log(err);
+        return throwError(
+          () => new Error('Address.show(): error retrieving Address:' + err)
+        );
+      })
+    );
+  }
+
+  create(address: Address): Observable<Address> {
+    return this.http.post<Address>(this.url, address).pipe(
+      catchError((err: any) => {
+        console.log(err);
+        return throwError(
+          () => new Error('Address.create(): error retrieving Address:' + err)
+        );
+      })
+    );
+  }
+
+  update(id: number | null, address: Address): Observable<Address> {
+    return this.http.put<Address>(this.url + '/' + id, address).pipe(
+      catchError((err: any) => {
+        console.log(err);
+        return throwError(
+          () => new Error('Address.update(): error retrieving Address:' + err)
+        );
+      })
+    );
+  }
+  deactivate(id: number | null, address: Address): Observable<Address> {
+    address.active = false;
+    return this.http.put<Address>(this.url + '/' + id, address).pipe(
+      catchError((err: any) => {
+        console.log(err);
+        return throwError(
+          () => new Error('Address.update(): error retrieving Address:' + err)
+        );
+      })
+    );
+  }
+
+  destroy(id: number | null): Observable<boolean> {
+    return this.http.delete<boolean>(this.url + '/' + id).pipe(
+      catchError((err: any) => {
+        console.log(err);
+        return throwError(
+          () => new Error('Address.destroy(): error retrieving Address:' + err)
+        );
+      })
+    );
+  }
+}
