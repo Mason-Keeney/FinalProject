@@ -1,4 +1,5 @@
-import { HttpClient } from '@angular/common/http';
+import { AuthService } from './auth.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { throwError } from 'rxjs/internal/observable/throwError';
@@ -12,10 +13,22 @@ import { User } from '../models/user';
 export class UserService {
   private url = environment.baseUrl + 'api/users';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService) {}
+
+    getHttpOptions() {
+      let options = {
+        headers: new HttpHeaders({
+          Authorization: 'Basic ' + this.authService.getCredentials(),
+          'X-Requested-With': 'XMLHttpRequest',
+        }),
+      };
+      return options;
+    }
 
   index(): Observable<User[]> {
-    return this.http.get<User[]>(this.url).pipe(
+    return this.http.get<User[]>(this.url, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(
@@ -27,7 +40,7 @@ export class UserService {
   }
 
   show(id: number | null): Observable<User> {
-    return this.http.get<User>(this.url + '/' + id).pipe(
+    return this.http.get<User>(this.url + '/' + id, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(
@@ -39,7 +52,7 @@ export class UserService {
   }
 
   create(user: User): Observable<User> {
-    return this.http.post<User>(this.url, user).pipe(
+    return this.http.post<User>(this.url, user, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(
@@ -51,7 +64,7 @@ export class UserService {
   }
 
   update(id: number | null, user: User): Observable<User> {
-    return this.http.put<User>(this.url + '/' + id, user).pipe(
+    return this.http.put<User>(this.url + '/' + id, user, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(
@@ -63,7 +76,7 @@ export class UserService {
   }
   deactivate(id: number | null, user: User): Observable<User> {
     user.enabled = false;
-    return this.http.put<User>(this.url + '/' + id, user).pipe(
+    return this.http.put<User>(this.url + '/' + id, user, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(
@@ -75,7 +88,7 @@ export class UserService {
   }
 
   destroy(id: number | null): Observable<boolean> {
-    return this.http.delete<boolean>(this.url + '/' + id).pipe(
+    return this.http.delete<boolean>(this.url + '/' + id, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(
