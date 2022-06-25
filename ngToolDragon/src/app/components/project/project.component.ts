@@ -11,11 +11,9 @@ import { Observable, catchError, throwError } from 'rxjs';
   styleUrls: ['./project.component.css']
 })
 export class ProjectComponent implements OnInit {
-  title = 'ngProject';
   newProject: Project = new Project();
   selected: null | Project = null;
   editProject: null | Project = null;
-  showComplete: boolean = false;
 
   projects: Project[] = [];
 
