@@ -1,3 +1,4 @@
+import { UserService } from './../../services/user.service';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
@@ -17,12 +18,14 @@ export class UserHomeComponent implements OnInit {
   user: User = new User();
   editingUser: Boolean = false;
   faUser = faUser;
+  today = new Date();
 
   @ViewChild(EdituserComponent, { static: false })
   editUserComponent!: EdituserComponent;
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private userService: UserService
   ) {}
 
   authenticateUser(){
@@ -34,6 +37,7 @@ export class UserHomeComponent implements OnInit {
         console.log(problem);
       }
     })
+    this.updateLastLogin();
   }
 
   toggleEdituser(){
@@ -43,6 +47,19 @@ export class UserHomeComponent implements OnInit {
     } else {
       this.editUserComponent.editUser = new User();
     }
+  }
+
+  updateLastLogin(){
+    this.user.lastLogin = this.today;
+    this.userService.update(this.user.id, this.user).subscribe({
+      next: (result) => {
+        this.user = result;
+      },
+      error: (problem) => {
+        console.log("UserHomeHttpComponent Error: unable to update lastLogin: ");
+        console.log(problem);
+      }
+    })
   }
 
 
