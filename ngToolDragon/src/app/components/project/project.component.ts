@@ -1,3 +1,5 @@
+import { UserService } from './../../services/user.service';
+import { Category } from './../../models/category';
 import { ProjectService } from './../../services/project.service';
 import { Component, OnInit } from '@angular/core';
 import { Project } from 'src/app/models/project';
@@ -8,23 +10,47 @@ import { Observable, catchError, throwError } from 'rxjs';
 @Component({
   selector: 'app-project',
   templateUrl: './project.component.html',
-  styleUrls: ['./project.component.css']
+  styleUrls: ['./project.component.css'],
 })
 export class ProjectComponent implements OnInit {
-  newProject: Project = new Project();
-  selected: null | Project = null;
-  editProject: null | Project = null;
-
   projects: Project[] = [];
+  selected: Project | null = null;
+  newProject: Project = new Project();
 
-  constructor(private projectServ: ProjectService, private route: ActivatedRoute, private router: Router, private datePipe: DatePipe) { }
+  constructor(
+    private projectServ: ProjectService,
+    private userServ: UserService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
+    this.loadProject();
   }
 
-  setEditProject() {
-    this.editProject = Object.assign({}, this.selected);
+  index() {
+    this.loadProject;
   }
+
+  selectedType: String = 'all';
+
+  loadProject(): void {
+    this.projectServ.index().subscribe({
+      next: (project) => {
+        this.projects = project;
+      },
+      error: (problem) => {
+        console.error(
+          'ProjectListHttpComponent.loadProject(): error loading projects:'
+        );
+        console.error(problem);
+      },
+    });
+  }
+
+  // setEditProject() {
+  //   this.editProject = Object.assign({}, this.selected);
+  // }
 
   displayProject(project: Project) {
     this.selected = project;
@@ -64,17 +90,22 @@ export class ProjectComponent implements OnInit {
   addProject(project: Project) {
     this.projectServ.create(project).subscribe({
       next: (result) => {
-        this.reload();
-        this.editProject = null;
+        this.newProject = new Project();
+        this.loadProject();
       },
       error: (fail) => {
-        console.error('ProjectComponent.adding: error adding project');
+        console.error('ProjectComponent.adding: error creating project');
         console.error(fail);
       },
     });
   }
 
-  updateProject(id: number | null, project: Project, setSelected: boolean = true) {
+
+  updateProject(
+    id: number | null,
+    project: Project,
+    setSelected: boolean = true
+  ) {
     this.projectServ.update(id, project).subscribe({
       next: (updated) => {
         this.reload();
@@ -82,10 +113,9 @@ export class ProjectComponent implements OnInit {
           this.selected = updated;
         }
         this.selected = updated;
-        this.editProject = null;
       },
       error: (nojoy) => {
-        console.error('ProjectComponent.adding: error');
+        console.error('ProjectComponent.adding: error updating project');
         console.error(nojoy);
       },
     });
@@ -97,10 +127,18 @@ export class ProjectComponent implements OnInit {
         this.reload();
       },
       error: (nojoy) => {
-        console.error('ProjectComponent.deleting: error');
+        console.error('ProjectComponent.deleting: error deleting project');
         console.error(nojoy);
       },
     });
   }
+
+  types = [
+    'all',
+     'Landscaping my yard',
+      'example'
+    ];
+
+
 
 }
