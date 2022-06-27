@@ -1,10 +1,29 @@
-<p>address works!</p>
+<div class="row">
 
 
-<div>
-<div>{{address.street1}}</div>
-<div>{{address.street2}}</div>
-<div>{{address.city}}</div>
-<div>{{address.state}}</div>
-<div>{{address.postalCode}}</div>
+  <div class="col-4" *ngIf="address.street1" name="editAddressDiv">
+    <form class="form">
+      <h3>Edit Current Address</h3>
+      <input type="text" class="form-control" placeholder="Street"  name="street1" [(ngModel)]="address.street1">
+      <input type="text" class="form-control" placeholder="Street 2" name="street2" [(ngModel)]="address.street2">
+      <input type="text" class="form-control" placeholder="City" name="city" [(ngModel)]="address.city">
+      <input type="text" class="form-control" placeholder="State" name="state" [(ngModel)]="address.state">
+      <input type="text" class="form-control" placeholder="Postal Code" name="postalCode" [(ngModel)]="address.postalCode">
+      <button class="btn btn-success" title="updateAddress"><fa-icon [icon]="faAddressCard" (click)="updateAddress(address.id, address)" ></fa-icon> </button>
+    </form>
+  </div>
+  <div class="col-4" *ngIf="!address.street1">
+    <form action="">
+      <h3>Add New Address</h3>
+      <input type="text" class="form-control" placeholder="Street"  name="street1" [(ngModel)]="newAddress.street1">
+      <input type="text" class="form-control" placeholder="Street 2" name="street2" [(ngModel)]="newAddress.street2">
+      <input type="text" class="form-control" placeholder="City" name="city" [(ngModel)]="newAddress.city">
+      <input type="text" class="form-control" placeholder="State" name="state" [(ngModel)]="newAddress.state">
+      <input type="text" class="form-control" placeholder="Postal Code" name="postalCode" [(ngModel)]="newAddress.postalCode">
+      <button class="btn btn-success"><fa-icon [icon]="faAddressCard" title="Add Address" (click)="addAddress(newAddress)" ></fa-icon> </button>
+    </form>
+  </div>
+  <div class="col-4" name="googleMapDiv"></div>
+  <div class="col-4" name="findProjectsByAddressDiv"></div>
+
 </div>
