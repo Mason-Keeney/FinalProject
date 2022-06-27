@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `project` (
   `cancelled` TINYINT NULL,
   `active` TINYINT(1) NULL,
   `image_url` VARCHAR(2000) NULL,
-  `address_id` INT NOT NULL,
+  `address_id` INT NULL,
   `owner_id` INT NOT NULL,
   `created_at` DATETIME NULL,
   PRIMARY KEY (`id`),

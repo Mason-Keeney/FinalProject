@@ -1,6 +1,8 @@
+import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { Project } from 'src/app/models/project';
+import { User } from 'src/app/models/user';
 import { ProjectService } from 'src/app/services/project.service';
 import { UserService } from 'src/app/services/user.service';
 import { environment } from 'src/environments/environment';
@@ -14,18 +16,32 @@ export class ProjectViewComponent implements OnInit {
   private url = environment.baseUrl + 'api/projectView';
   projects: Project[] = [];
   project: Project = new Project;
-  search: string = '';
-  faMagnifyingGlass = faMagnifyingGlass;
+  user: User = new User;
+  newProject: Project = new Project();
+  startDateString: string = '';
+  estimatedEndDateString: string = '';
 
   constructor(
     private projectServ: ProjectService,
     private userServ: UserService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
+    this.authenticateUser();
   }
 
-  newProject: Project = new Project();
+
+  authenticateUser(){
+    this.authService.authenticateUser().subscribe({
+      next: (result) =>{
+        this.user = result;
+      },
+      error: (problem) => {
+        console.log(problem);
+      }
+    })
+  }
 
   reload() {
     this.project.id = 1;
@@ -45,6 +61,9 @@ export class ProjectViewComponent implements OnInit {
   }
 
   addProject(project: Project): void {
+    project.startDate = new Date(this.startDateString);
+    project.estimatedEndDate = new Date(this.estimatedEndDateString);
+    project.owner = this.user;
     this.projectServ.create(project).subscribe({
       next: (result) => {
         this.project = result;

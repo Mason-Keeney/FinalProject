@@ -27,6 +27,7 @@ export class ProjectComponent implements OnInit {
   constructor(
     private projectServ: ProjectService,
     private userServ: UserService,
+    private router: Router
     ) {}
 
     ngOnInit(): void {

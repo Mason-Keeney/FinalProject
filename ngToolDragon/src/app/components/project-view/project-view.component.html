@@ -1,29 +1,23 @@
 <h1>Add a new Project</h1>
 
+<div>
+
 <div class="input-group mb-3">
   <span class="input-group-text" id="basic-addon1">Description</span>
-  <input class="form-control" text="textarea" name="name">
+  <textarea class="form-control" text="text" name="description" [(ngModel)]="newProject.description"></textarea>
 </div>
 
 <div class="input-group mb-3">
   <span class="input-group-text" id="basic-addon1">Start Date</span>
-  <input class="form-control" type="text" name="name">
+  <input class="form-control" type="date" name="startDate"  [(ngModel)]="startDateString">
 </div>
 
 <div class="input-group mb-3">
   <span class="input-group-text" id="basic-addon1">End Date</span>
-  <input class="form-control" type="text" name="name">
+  <input class="form-control" type="date" name="estimatedEndDate"  [(ngModel)]="estimatedEndDateString">
 </div>
 
-<div class="input-group mb-3">
-  <span class="input-group-text" id="basic-addon1">Completed</span>
-  <input class="form-control" type="text" name="name">
-</div>
-
-<div class="input-group mb-3">
-  <span class="input-group-text" id="basic-addon1">Owner</span>
-  <input class="form-control" type="text" name="name">
-</div>
-
-<button class="btn btn-primary" (click)="addProject(newProject)">Add Project</button>
+<button class="btn btn-success" (click)="addProject(newProject)">Add Project</button>
 <br><hr>
+
+</div>
