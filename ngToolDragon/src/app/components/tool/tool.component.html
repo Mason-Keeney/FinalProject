@@ -18,6 +18,19 @@
     </thead>
 
     <tbody>
+      <tr *ngFor="let tool of toolListFull">
+        <th scope="row">{{tool.id}}</th><td>{{tool.name}}</td>
+        <td>{{tool.description}}</td>
+        <td>{{tool.availability}}</td>
+        <td>{{tool.trainingRequired}}</td>
+        <td>{{tool.operators}}</td>
+        <td>{{tool.status?.name}}</td>
+        <td>{{tool.condition?.name}}</td>
+      </tr>
+    </tbody>
+
+    <tbody>
+      <div>My tools:</div>
       <tr *ngFor="let tool of toolList">
         <th scope="row">{{tool.id}}</th><td>{{tool.name}}</td>
         <td>{{tool.description}}</td>
@@ -30,4 +43,18 @@
     </tbody>
 
 </table>
+</div>
+
+<div>
+<form class="form" action="">
+  <h3>Add New Tool</h3>
+<input type="text"  class="form-control" placeholder="Tool Name" name="name" [(ngModel)]="newTool.name">
+<textarea class="form-control" placeholder="Tool Description" name="description" [(ngModel)]="newTool.description"></textarea>
+<input type="text"  class="form-control" placeholder="Tool Availability" name="availability" [(ngModel)]="newTool.availability">
+<input type="text"  class="form-control" placeholder="Image URL" name="imageUrl" [(ngModel)]="newTool.imageUrl">
+<input type="number"  class="form-control" placeholder="Number of Operators" name="operators" [(ngModel)]="newTool.operators">
+<label for="available">Available</label>: <input type="checkbox" class="form-check-input" name="avalible" [(ngModel)]="newTool.available"> <br>
+<label for="trainingRequired">Training Required</label>: <input type="checkbox" class="form-check-input" name="trainingRequired" [(ngModel)]="newTool.trainingRequired"> <br>
+<button class="btn btn-success" title="Add Tool" (click)="createTool(newTool)">Submit</button>
+</form>
 </div>

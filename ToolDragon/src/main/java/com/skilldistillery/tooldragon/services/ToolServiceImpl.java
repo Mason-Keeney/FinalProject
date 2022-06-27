@@ -70,7 +70,7 @@ public class ToolServiceImpl implements ToolService {
 		if (tool != null) {
 			tool.setOwner(owner);
 			tool.setActive(true);
-			toolRepo.saveAndFlush(tool);
+			tool = toolRepo.saveAndFlush(tool);
 			return tool;
 		}
 		return null;

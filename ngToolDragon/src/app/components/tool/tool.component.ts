@@ -1,9 +1,13 @@
+import { User } from 'src/app/models/user';
 import { ToolService } from './../../services/tool.service';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Tool } from 'src/app/models/tool';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-tool',
@@ -13,26 +17,48 @@ import { environment } from 'src/environments/environment';
 export class ToolComponent implements OnInit {
   private url = environment.baseUrl + 'api/tool';
   toolList: Tool[] = [];
+  toolListFull: Tool[] = [];
   tool: Tool = new Tool;
+  newTool: Tool = new Tool;
+  user: User = new User;
 
   constructor(
     private http: HttpClient,
-    private toolService: ToolService
+    private toolService: ToolService,
+    private router: Router,
+    private authService: AuthService,
+    private userService: UserService
     ) { }
 
   ngOnInit(): void {
     this.index();
+    this.authenticateUser();
   }
 
   reload() {
-    this.tool.id = 1;
-    this.show(this.tool);
+
+
+  }
+
+
+  authenticateUser(){
+    this.authService.authenticateUser().subscribe({
+      next: (result) =>{
+        this.user = result;
+        if(result.tools) {
+        this.toolList = result.tools;
+        }
+      },
+      error: (problem) => {
+        console.log(problem);
+      }
+    })
   }
 
   index() {
     this.toolService.index().subscribe({
       next: (result) => {
-        this.toolList = result;
+        this.toolListFull = result;
       },
       error: (nojoy) => {
        console.log('Tool.index(): error retrieving Tools:');
@@ -53,11 +79,14 @@ export class ToolComponent implements OnInit {
     });
   }
 
-  create(tool: Tool): void {
+  createTool(tool: Tool): void {
+    tool.active = true;
+    tool.owner = this.user;
+    console.log(this.user);
     this.toolService.create(tool).subscribe({
       next: (result) => {
         this.tool = result;
-        window.alert('An address was created!');
+        window.alert('A tool was created!');
       },
       error: (nojoy) => {
         console.error(
