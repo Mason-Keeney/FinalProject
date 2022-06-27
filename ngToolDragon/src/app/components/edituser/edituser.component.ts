@@ -30,6 +30,7 @@ export class EdituserComponent implements OnInit {
   faLock = faLock;
   faLockOpen = faLockOpen;
   faShieldAlt = faShieldAlt;
+  editAddress: boolean = false;
 
   saveEdit(user: User) {
     if(user){
@@ -69,7 +70,12 @@ export class EdituserComponent implements OnInit {
     }
   }
 
+  setEditAddress(){
+    this.editAddress = this.editUser.address ? true : false;
+  }
+
   ngOnInit(): void {
+    this.setEditAddress();
   }
 
 }
