@@ -1,4 +1,5 @@
 export class Address {
+  [x: string]: any;
   id: number | null;
   street1: string | null;
   street2: string | null;
