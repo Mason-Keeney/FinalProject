@@ -19,8 +19,9 @@
           <a class="nav-link" [routerLink]="['/project']"><fa-icon [icon]="faListCheck" title="Projects"></fa-icon></a>
         </li>
       </ul>
+      <app-logout *ngIf="checkLogin()"></app-logout>
     </div>
   </div>
-  <app-logout *ngIf="checkLogin()"></app-logout>
+
 </nav>
 
