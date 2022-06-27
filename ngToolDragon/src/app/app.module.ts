@@ -20,6 +20,7 @@ import { EdituserComponent } from './components/edituser/edituser.component';
 import { AddressComponent } from './components/address/address.component';
 import { DatePipe } from '@angular/common';
 import { ProjectSearchPipe } from './pipes/project-search.pipe';
+import { ProjectViewComponent } from './components/project-view/project-view.component';
 import { ToolSearchPipe } from './pipes/tool-search.pipe';
 
 @NgModule({
@@ -36,6 +37,7 @@ import { ToolSearchPipe } from './pipes/tool-search.pipe';
     ToolComponent,
     ProjectComponent,
     ProjectSearchPipe,
+    ProjectViewComponent,
     ToolSearchPipe
   ],
   imports: [
