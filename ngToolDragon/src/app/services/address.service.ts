@@ -1,19 +1,31 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Address } from '../models/address';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AddressService {
-  private url = environment.baseUrl + 'api/adresses';
+  private url = environment.baseUrl + 'api/addresses';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+    private authService: AuthService) {}
+
+  getHttpOptions() {
+    let options = {
+      headers: new HttpHeaders({
+        Authorization: 'Basic ' + this.authService.getCredentials(),
+        'X-Requested-With': 'XMLHttpRequest',
+      }),
+    };
+    return options;
+  }
 
   index(): Observable<Address[]> {
-    return this.http.get<Address[]>(this.url).pipe(
+    return this.http.get<Address[]>(this.url, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(
@@ -24,7 +36,7 @@ export class AddressService {
   }
 
   show(id: number | null): Observable<Address> {
-    return this.http.get<Address>(this.url + '/' + id).pipe(
+    return this.http.get<Address>(this.url + '/' + id, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(
@@ -35,7 +47,7 @@ export class AddressService {
   }
 
   create(address: Address): Observable<Address> {
-    return this.http.post<Address>(this.url, address).pipe(
+    return this.http.post<Address>(this.url, address, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(
@@ -46,7 +58,7 @@ export class AddressService {
   }
 
   update(id: number | null, address: Address): Observable<Address> {
-    return this.http.put<Address>(this.url + '/' + id, address).pipe(
+    return this.http.put<Address>(this.url + '/' + id, address, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(
@@ -57,7 +69,7 @@ export class AddressService {
   }
   deactivate(id: number | null, address: Address): Observable<Address> {
     address.active = false;
-    return this.http.put<Address>(this.url + '/' + id, address).pipe(
+    return this.http.put<Address>(this.url + '/' + id, address, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(
@@ -68,7 +80,7 @@ export class AddressService {
   }
 
   destroy(id: number | null): Observable<boolean> {
-    return this.http.delete<boolean>(this.url + '/' + id).pipe(
+    return this.http.delete<boolean>(this.url + '/' + id, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(

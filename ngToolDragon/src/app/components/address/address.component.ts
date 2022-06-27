@@ -12,6 +12,7 @@ import { AddressService } from 'src/app/services/address.service';
 })
 export class AddressComponent implements OnInit {
 address: Address = new Address;
+addresses: Address[] = [];
 
 
   constructor(
@@ -21,20 +22,37 @@ address: Address = new Address;
   ) { }
 
   ngOnInit(): void {
+    this.reload();
   }
 
-  hardReload() {
+  reload() {
+    this.address.id = 1;
+    this.showAddress(this.address);
+  }
+
+  searchAddress(search: String): void {
+    this.addressSvc.index().subscribe({
+      next: (result) => {
+        // this.addresses.push(result);
+      },
+      error: (nojoy) => {
+        console.error(
+          'AddressListHttpComponent.searchAddress(): error getting addresses'
+        );
+        console.error(nojoy);
+      },
+    })
+
   }
 
   showAddress(address: Address): void {
     this.addressSvc.show(address.id).subscribe({
       next: (result) => {
-        this.address = new Address();
-        // this.address.push(address);
+        this.address = result;
       },
       error: (nojoy) => {
         console.error(
-          'HomeListHttpComponent.addAddress(): error creating address:'
+          'AddressListHttpComponent.addAddress(): error creating address:'
         );
         console.error(nojoy);
       },
@@ -44,16 +62,14 @@ address: Address = new Address;
     if (address.id) {
       this.addressSvc.destroy(address.id).subscribe({
         next: (result) => {
-
           window.alert(name + "'s address was deleted");
-
         },
         error: (nojoy) => {
           console.error(
             'HomeListHttpComponent.deleteAddress(): error deleteing address:'
           );
           console.error(nojoy);
-          this.hardReload();
+          this.reload();
         },
       });
     }
@@ -76,9 +92,8 @@ address: Address = new Address;
   addAddress(address: Address): void {
     this.addressSvc.create(address).subscribe({
       next: (result) => {
-        this.hardReload;
-        window.alert(' had a address created!');
-        // this.address.push(address);
+        this.address = result;
+        window.alert('An address was created!');
       },
       error: (nojoy) => {
         console.error(
