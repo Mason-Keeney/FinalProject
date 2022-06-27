@@ -1,5 +1,27 @@
+
+<hr>
+<h3>User Info</h3>
 <form class="form">
   <input type="text" class="form-control" placeholder="First Name" name="firstName" [(ngModel)]="editUser.firstName">
   <input type="text" class="form-control" placeholder="Last Name" name="lastName" [(ngModel)]="editUser.lastName">
   <textarea class="form-control" placeholder="Bio" name="description" [(ngModel)]="editUser.description"></textarea>
+  <button class="btn btn-success" title="Save Changes" (click)="saveEdit(editUser)"><fa-icon [icon]="faUserPen"></fa-icon></button>
+</form>
+<hr>
+<div *ngIf="editUser.address">
+  <h3>Address</h3>
+  <p>{{editUser.address.street1}}</p>
+  <p>{{editUser.address.street2}}</p>
+  <p>{{editUser.address.city}}, {{editUser.address.state}}</p>
+  <p>{{editUser.address.postalCode}}</p>
+</div>
+<div>
+  <button class="btn btn-success" title="Add Address"><fa-icon [icon]="faAddressCard"></fa-icon></button>
+</div>
+<hr>
+<button (click)="editPassword = !editPassword" [ngClass]="checkEditPassword()" title="Edit Security Details"><fa-icon *ngIf="!editPassword" [icon]="faLock"></fa-icon> <fa-icon *ngIf="editPassword" [icon]="faLockOpen"></fa-icon> </button>
+<form *ngIf="editPassword">
+<label for="username">Username: </label><input type="text" class="form-control" placeholder="Username" name="username" [(ngModel)]="editUser.username">
+<label for="password">Password: </label><input type="password" class="form-control" placeholder="Password" name="password" [(ngModel)]="editUser.password">
+<button class="btn btn-warning" (click)="editSecurityDetails(editUser)"> <fa-icon [icon]="faShieldAlt"></fa-icon> </button>
 </form>
