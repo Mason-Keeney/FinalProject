@@ -30,7 +30,8 @@ import { DatePipe } from '@angular/common';
     UserHomeComponent,
     EdituserComponent,
     AddressComponent,
-    ToolComponent
+    ToolComponent,
+    ProjectComponent
   ],
   imports: [
     BrowserModule,

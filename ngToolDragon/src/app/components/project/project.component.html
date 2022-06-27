@@ -1,56 +1,29 @@
 <h1>Projects</h1>
 
-
-<div class="row">
-  <div class="col-3">
-    <h1>{{projects}}</h1>
-  </div>
-
-<div class="col-6" *ngIf="user.ownedProjects">
-  <h2>{{projects}}'s Projects</h2>
+<div class="col-6">
   <table class="table">
     <thead>
       <tr>
         <th scope="col">ID</th>
         <th scope="col">Project</th>
+        <th scope="col">Description</th>
         <th scope="col">Start Date</th>
         <th scope="col">End Date</th>
         <th scope="col">Completed</th>
       </tr>
     </thead>
 
-    <span *ngFor="let type of types" (click)= "selectedType = type">{{type}} | </span><br><hr>
 
     <tbody>
-      <tr *ngFor="let project of projects | projectType:selectedType" (click)="selected = project">
-        <td>{{project.projectId}}</td>
-        <td>{{project.name}}</td>
-        <td>{{project.description}}</td>
+      <tr *ngFor="let project of projects">
+        <th scope="row">{{project.id}}</th><td>{{project.description}}</td>
         <td>{{project.startDate}}</td>
-        <td>{{project.endDate}}</td>
+        <td>{{project.estimatedEndDate}}</td>
         <td>{{project.completed}}</td>
-        <td>
-          <img [src]="project.img"/>
-        </td>
       </tr>
     </tbody>
+
 </table>
-
-<div *ngIf="selected">
-
-  <h3>{{ selected?.description}}</h3>
-
-
-  <img [src]="selected?.imageUrl" alt="">
-  <p>{{selected?.description}}</p>
-  <p>Description: <br>{{selected?.description}}</p>
-  <p *ngFor="let type of selected.types">{{type.name}}</p>
-
-  <button class="btn btn-primary" (click)="selected = null">Back</button>
-
-</div>
-
-<button class="btn btn-primary" (click)="addProject(newProject)">Add a Project</button>
 
 
 

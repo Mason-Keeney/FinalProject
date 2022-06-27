@@ -24,6 +24,10 @@ export class ToolComponent implements OnInit {
     this.index();
   }
 
+  reload() {
+    this.tool.id = 1;
+    this.show(this.tool);
+  }
 
   index() {
     this.toolService.index().subscribe({
@@ -49,26 +53,30 @@ export class ToolComponent implements OnInit {
     });
   }
 
-  create(tool: Tool): Observable<Tool> {
-    return this.http.post<Tool>(this.url, tool).pipe(
-      catchError((err: any) => {
-        console.log(err);
-        return throwError(
-          () => new Error('Tool.create(): error retrieving Tool:' + err)
+  create(tool: Tool): void {
+    this.toolService.create(tool).subscribe({
+      next: (result) => {
+        this.tool = result;
+        window.alert('An address was created!');
+      },
+      error: (nojoy) => {
+        console.error(
+          'Tool.create(): error creating tool:'
         );
-      })
-    );
+        console.error(nojoy);
+      },
+    })
   }
 
-  update(id: number | null, tool: Tool): Observable<Tool> {
-    return this.http.put<Tool>(this.url + '/' + id, tool).pipe(
-      catchError((err: any) => {
-        console.log(err);
-        return throwError(
-          () => new Error('Tool.update(): error retrieving Tool:' + err)
-        );
-      })
-    );
+  update(id: number | null, tool: Tool): void {
+    this.toolService.update(id, tool).subscribe({
+      next: (result) => {
+      },
+      error: (nojoy) => {
+        console.log('Tool.update(): error updating Tool:');
+        console.log(nojoy);
+       },
+    })
   }
 
   deactivate(id: number | null, tool: Tool): Observable<Tool> {
@@ -83,16 +91,17 @@ export class ToolComponent implements OnInit {
     );
   }
 
-  destroy(id: number | null): Observable<boolean> {
-    return this.http.delete<boolean>(this.url + '/' + id).pipe(
-      catchError((err: any) => {
-        console.log(err);
-        return throwError(
-          () => new Error('Tool.destroy(): error retrieving Tool:' + err)
-        );
-      })
-    );
+  destroy(tool: Tool): void {
+      this.toolService.destroy(tool.id).subscribe({
+        next: (result) => {
+          window.alert(name + "'s tool was deleted");
+        },
+        error: (nojoy) => {
+          console.error('Tool.delete(): error deleting tool:');
+          console.error(nojoy);
+          this.reload();
+        },
+      });
   }
-
 
 }
