@@ -19,7 +19,8 @@ export class UserHomeComponent implements OnInit {
   user: User | null = null;
   editingUser: Boolean = false;
   faUser = faUser;
-  today = this.datePipe.transform(new Date());
+  today = new Date();
+  todayString = this.datePipe.transform(this.today);
 
   @ViewChild(EdituserComponent, { static: false })
   editUserComponent!: EdituserComponent;
@@ -33,6 +34,7 @@ export class UserHomeComponent implements OnInit {
   authenticateUser(){
     this.authService.authenticateUser().subscribe({
       next: (result) =>{
+        console.log(this.todayString)
         this.user = result;
       },
       error: (problem) => {
@@ -51,6 +53,7 @@ export class UserHomeComponent implements OnInit {
   }
 
   updateLastLogin(){
+    console.log(this.user)
     if(this.user){
       this.user.lastLogin = this.today;
       this.userService.update(this.user.id, this.user).subscribe({
@@ -66,7 +69,7 @@ export class UserHomeComponent implements OnInit {
   }
 
   // ngDoCheck(){
-  //   if(this.user?.lastLogin != this.today){
+  //   if(this.datePipe.transform(this.user?.lastLogin) != this.todayString){
   //     this.updateLastLogin();
   //   }
   // }
