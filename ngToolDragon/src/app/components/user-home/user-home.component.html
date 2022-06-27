@@ -1,7 +1,7 @@
 <div class="row">
 <div class="col-3">
   <h1><fa-icon [icon]="faUser" class="textLink" style="cursor: pointer;" (click)="toggleEdituser()"></fa-icon> {{user?.firstName}} {{user?.lastName}}</h1>
-  <p>{{user?.lastLogin}}</p>
+
   <app-edituser *ngIf="editingUser" [editUser]="user"></app-edituser>
 </div>
 <div class="col-6" *ngIf="user?.ownedProjects">
