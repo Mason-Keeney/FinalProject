@@ -106,11 +106,8 @@ public class UserServiceImpl implements UserService {
 		Optional<User> op = userRepo.findById(accountId);
 		if (op.isPresent()) {
 			toDelete = op.get();
-			if (!toDelete.getUsername().equals(username) || !sessionUser.getRole().equals("role_admin")) {
-				toDelete = null;
-			}
 		}
-		if (toDelete != null) {
+		if (toDelete != null && (toDelete.getUsername().equals(username) || sessionUser.getRole().equals("role_admin"))) {
 			toDelete.setEnabled(false);
 			userRepo.saveAndFlush(toDelete);
 			deleted = true;

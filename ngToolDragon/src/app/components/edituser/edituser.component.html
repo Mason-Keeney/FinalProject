@@ -24,4 +24,6 @@
 <label for="username">Username: </label><input type="text" class="form-control" placeholder="Username" name="username" [(ngModel)]="editUser.username">
 <label for="password">Password: </label><input type="password" class="form-control" placeholder="Password" name="password" [(ngModel)]="editUser.password">
 <button class="btn btn-warning" (click)="editSecurityDetails(editUser)"> <fa-icon [icon]="faShieldAlt"></fa-icon> </button>
+<hr>
+<button class="btn btn-danger" title="Delete User" (click)="deleteUser(editUser.id)"><fa-icon [icon]="faUserSlash" ></fa-icon></button>
 </form>
