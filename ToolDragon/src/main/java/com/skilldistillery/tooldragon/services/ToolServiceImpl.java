@@ -127,7 +127,16 @@ public class ToolServiceImpl implements ToolService {
 
 	@Override
 	public List<Tool> indexAll() {
-		return toolRepo.findAll();
+		List<Tool> tools = toolRepo.findAll();
+		List<Tool> filteredTools = new ArrayList<>();
+		if (tools != null && !tools.isEmpty()) {
+			for (Tool tool : tools) {
+				if (tool.getActive()) {
+					filteredTools.add(tool);
+				}
+			}
+		}
+		return filteredTools;
 	}
 
 }
