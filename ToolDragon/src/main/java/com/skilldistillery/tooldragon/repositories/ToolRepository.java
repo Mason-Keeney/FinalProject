@@ -13,6 +13,4 @@ public interface ToolRepository extends JpaRepository<Tool, Integer> {
 
 	public Tool findByName(String username);
 
-	public List<Tool> findAll();
-
 }

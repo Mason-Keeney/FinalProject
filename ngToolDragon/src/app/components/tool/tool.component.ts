@@ -1,3 +1,4 @@
+import { faToolbox } from '@fortawesome/free-solid-svg-icons';
 import { User } from 'src/app/models/user';
 import { ToolService } from './../../services/tool.service';
 import { HttpClient } from '@angular/common/http';
@@ -21,6 +22,8 @@ export class ToolComponent implements OnInit {
   tool: Tool = new Tool;
   newTool: Tool = new Tool;
   user: User = new User;
+  faToolbox = faToolbox;
+  search: string = "";
 
   constructor(
     private http: HttpClient,
@@ -31,13 +34,17 @@ export class ToolComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this.index();
+    this.indexAll();
     this.authenticateUser();
   }
 
   reload() {
 
 
+  }
+
+  checkLogin(): boolean{
+    return this.authService.checkLogin();
   }
 
 
@@ -55,8 +62,8 @@ export class ToolComponent implements OnInit {
     })
   }
 
-  index() {
-    this.toolService.index().subscribe({
+  indexAll() {
+    this.toolService.indexAll().subscribe({
       next: (result) => {
         this.toolListFull = result;
       },
