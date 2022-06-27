@@ -7,16 +7,16 @@
     </button>
     <div [ngbCollapse]="isCollapsed" class="collapse navbar-collapse" id="navbarTogglerDemo01" >
       <a class="navbar-brand" [routerLink]="['/home']"><fa-icon [icon]="faDragon" title="Tool Dragon Home"></fa-icon></a>
-      <a class="navbar-brand" [routerLink]="['/userhome']"><fa-icon [icon]="faUser" title="Tool Dragon Home"></fa-icon></a>
+      <a *ngIf="checkLogin()" class="navbar-brand" [routerLink]="['/userhome']"><fa-icon [icon]="faUser" title="User Home"></fa-icon></a>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" aria-current="page"[routerLink]="['/*']"><fa-icon [icon]="faGear" title="User Settings"></fa-icon></a>
+          <a *ngIf="checkLogin()" class="nav-link" aria-current="page"[routerLink]="['/*']"><fa-icon [icon]="faGear" title="User Settings"></fa-icon></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/*']"><fa-icon [icon]="faToolbox" title="Tools"></fa-icon></a>
+          <a class="nav-link" [routerLink]="['/tool']"><fa-icon [icon]="faToolbox" title="Tools"></fa-icon></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/*']"><fa-icon [icon]="faListCheck" title="Projects"></fa-icon></a>
+          <a class="nav-link" [routerLink]="['/project']"><fa-icon [icon]="faListCheck" title="Projects"></fa-icon></a>
         </li>
       </ul>
     </div>

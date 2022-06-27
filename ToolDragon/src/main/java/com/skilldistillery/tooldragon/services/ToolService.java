@@ -17,5 +17,7 @@ public interface ToolService {
 	public Tool update(String username, int toolId, Tool tool);
 
 	public boolean destroy(String username, int toolId);
+	
+	public List<Tool> indexAll();
 
 }

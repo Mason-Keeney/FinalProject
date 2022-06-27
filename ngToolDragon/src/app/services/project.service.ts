@@ -34,6 +34,17 @@ export class ProjectService {
     );
   }
 
+  indexAll(): Observable<Project[]> {
+    return this.http.get<Project[]>(this.url + "/all", this.getHttpOptions()).pipe(
+    catchError((err: any) => {
+      console.log(err);
+      return throwError(
+        () => new Error('Project.index(): error retrieving Projects:' + err)
+      );
+    })
+  );
+}
+
   show(id: number | null): Observable<Project> {
     return this.http.get<Project>(this.url + '/' + id, this.getHttpOptions()).pipe(
       catchError((err: any) => {

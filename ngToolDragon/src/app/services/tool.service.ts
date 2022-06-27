@@ -36,6 +36,17 @@ export class ToolService {
     );
   }
 
+  indexAll(): Observable<Tool[]> {
+    return this.http.get<Tool[]>(this.url + "/all", this.getHttpOptions()).pipe(
+      catchError((err: any) => {
+        console.log(err);
+        return throwError(
+          () => new Error('Tool.index(): error retrieving Tools:' + err)
+        );
+      })
+    );
+  }
+
   show(id: number | null): Observable<Tool> {
     return this.http.get<Tool>(this.url + '/' + id, this.getHttpOptions()).pipe(
       catchError((err: any) => {

@@ -30,7 +30,7 @@ public class ProjectController {
 	private ProjectService projServ;
 
 	@GetMapping("projects/all")
-	private List<Project> indexAll(HttpServletRequest req, HttpServletResponse res, Principal principal) {
+	private List<Project> indexAll(HttpServletRequest req, HttpServletResponse res) {
 		List<Project> projects = projServ.indexAll();
 		if (projects == null) {
 			res.setStatus(404);

@@ -125,4 +125,9 @@ public class ToolServiceImpl implements ToolService {
 		return deleted;
 	}
 
+	@Override
+	public List<Tool> indexAll() {
+		return toolRepo.findAll();
+	}
+
 }

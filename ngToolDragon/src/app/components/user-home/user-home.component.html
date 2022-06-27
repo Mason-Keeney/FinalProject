@@ -1,10 +1,10 @@
-<div class="row">
-<div class="col-3">
+<div class="row" *ngIf="user">
+<div class="col-2">
   <h1><fa-icon [icon]="faUser" class="textLink" style="cursor: pointer;" (click)="toggleEdituser()"></fa-icon> {{user?.firstName}} {{user?.lastName}}</h1>
 
   <app-edituser *ngIf="editingUser" [editUser]="user"></app-edituser>
 </div>
-<div class="col-6" *ngIf="user?.ownedProjects">
+<div class="col-5" *ngIf="user?.ownedProjects">
   <h2>{{user?.firstName}}'s Projects</h2>
   <table class="table">
     <thead>
@@ -18,7 +18,8 @@
     </thead>
     <tbody>
       <tr *ngFor="let project of user?.ownedProjects">
-        <th scope="row">{{project.id}}</th><td>{{project.description}}</td>
+        <th scope="row">{{project.id}}</th>
+        <td (click)="startProjectView(project)" style="cursor: pointer;">{{project.description}}</td>
         <td>{{project.startDate}}</td>
         <td>{{project.estimatedEndDate}}</td>
         <td>{{project.completed}}</td>
@@ -26,7 +27,27 @@
     </tbody>
 </table>
 </div>
-<div class="col-3" *ngIf="user?.participations">
+<div class="col-5">
+  <h2>{{user?.firstName}}'s Tools</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Availability</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tool of user.tools">
+        <th scope="row">{{tool.id}}</th>
+        <td (click)="startToolView(tool)" style="cursor: pointer;">{{tool.name}}</td>
+        <td>{{tool.description}}</td>
+        <td>{{tool.availability}}</td>
+      </tr>
+    </tbody>
+
+  </table>
 
 </div>
 
