@@ -37,7 +37,7 @@ export class ToolService {
   }
 
   indexAll(): Observable<Tool[]> {
-    return this.http.get<Tool[]>(this.url + "/all", this.getHttpOptions()).pipe(
+    return this.http.get<Tool[]>(this.url + "/all").pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(

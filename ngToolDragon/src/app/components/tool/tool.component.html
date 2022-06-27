@@ -1,9 +1,43 @@
-<h1>Tool's Available</h1>
 
+<h1><fa-icon [icon]="faToolbox"></fa-icon>  ToolBox </h1>
+<div class="row">
 
-<div class="col-6">
+<div class="col-5">
+  <input type="text" placeholder="Search..." [(ngModel)]="search">
+
+  <div *ngIf="checkLogin()">
+    <h3>My Tools</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Availability</th>
+            <th scope="col">Training Required</th>
+            <th scope="col">Operators</th>
+            <th scope="col">Status</th>
+            <th scope="col">Condition</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let tool of toolList | toolSearch:search">
+            <th scope="row">{{tool.id}}</th><td>{{tool.name}}</td>
+            <td>{{tool.description}}</td>
+            <td>{{tool.availability}}</td>
+            <td>{{tool.trainingRequired}}</td>
+            <td>{{tool.operators}}</td>
+            <td>{{tool.status?.name}}</td>
+            <td>{{tool.condition?.name}}</td>
+          </tr>
+        </tbody>
+      </table>
+    <br><hr><br>
+    </div>
+
+  <h3>All Tools</h3>
   <table class="table">
-
     <thead>
       <tr>
         <th scope="col">ID</th>
@@ -18,20 +52,7 @@
     </thead>
 
     <tbody>
-      <tr *ngFor="let tool of toolListFull">
-        <th scope="row">{{tool.id}}</th><td>{{tool.name}}</td>
-        <td>{{tool.description}}</td>
-        <td>{{tool.availability}}</td>
-        <td>{{tool.trainingRequired}}</td>
-        <td>{{tool.operators}}</td>
-        <td>{{tool.status?.name}}</td>
-        <td>{{tool.condition?.name}}</td>
-      </tr>
-    </tbody>
-
-    <tbody>
-      <div>My tools:</div>
-      <tr *ngFor="let tool of toolList">
+      <tr *ngFor="let tool of toolListFull | toolSearch:search">
         <th scope="row">{{tool.id}}</th><td>{{tool.name}}</td>
         <td>{{tool.description}}</td>
         <td>{{tool.availability}}</td>
@@ -45,7 +66,9 @@
 </table>
 </div>
 
-<div>
+<div class="col-2"></div>
+
+<div *ngIf="checkLogin()" class="col-5">
 <form class="form" action="">
   <h3>Add New Tool</h3>
 <input type="text"  class="form-control" placeholder="Tool Name" name="name" [(ngModel)]="newTool.name">
@@ -57,4 +80,5 @@
 <label for="trainingRequired">Training Required</label>: <input type="checkbox" class="form-check-input" name="trainingRequired" [(ngModel)]="newTool.trainingRequired"> <br>
 <button class="btn btn-success" title="Add Tool" (click)="createTool(newTool)">Submit</button>
 </form>
+</div>
 </div>
