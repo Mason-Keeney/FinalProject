@@ -14,6 +14,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { UserHomeComponent } from './components/user-home/user-home.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EdituserComponent } from './components/edituser/edituser.component';
+import { ToolComponent } from './components/tool/tool.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { EdituserComponent } from './components/edituser/edituser.component';
     NavigationComponent,
     RegisterComponent,
     UserHomeComponent,
-    EdituserComponent
+    EdituserComponent,
+    ToolComponent
   ],
   imports: [
     BrowserModule,

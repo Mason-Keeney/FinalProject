@@ -1,8 +1,8 @@
+import { Project } from 'src/app/models/project';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Project } from '../models/project';
 
 @Injectable({
   providedIn: 'root',
@@ -55,6 +55,7 @@ export class ProjectService {
       })
     );
   }
+
   deactivate(id: number | null, project: Project): Observable<Project> {
     project.active = false;
     return this.http.put<Project>(this.url + '/' + id, project).pipe(
@@ -77,4 +78,16 @@ export class ProjectService {
       })
     );
   }
+
+  // searchProjectByKeyowrd(keyowrd: string) Observable<Project> {
+  //   return this.http.delete<Project[]>(this.url + '/search/' + keyword).pipe(
+  //     catchError((err: any) => {
+  //       console.log(err);
+  //       return throwError(
+  //         () => new Error('Project.searchProjectByKeyword(): error retrieving Project:' + err)
+  //       );
+  //     })
+  //   );
+  // }
+
 }
