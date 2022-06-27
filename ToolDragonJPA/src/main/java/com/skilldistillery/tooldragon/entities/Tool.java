@@ -60,7 +60,7 @@ public class Tool {
 	private User owner;
 	
 	@OneToMany(mappedBy = "tool")
-	@JsonIgnoreProperties({"tool", "user"})
+	@JsonIgnoreProperties(value = {"tool", "user"}, allowSetters = true)
 	private List<ToolComment> comments;
 	
 	@ManyToOne

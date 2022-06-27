@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { UserService } from './../../services/user.service';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from './../../services/auth.service';
@@ -15,17 +16,18 @@ import { EdituserComponent } from '../edituser/edituser.component';
 
 export class UserHomeComponent implements OnInit {
 
-  user: User = new User();
+  user: User | null = null;
   editingUser: Boolean = false;
   faUser = faUser;
-  today = new Date();
+  today = this.datePipe.transform(new Date());
 
   @ViewChild(EdituserComponent, { static: false })
   editUserComponent!: EdituserComponent;
 
   constructor(
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private datePipe: DatePipe
   ) {}
 
   authenticateUser(){
@@ -37,7 +39,6 @@ export class UserHomeComponent implements OnInit {
         console.log(problem);
       }
     })
-    this.updateLastLogin();
   }
 
   toggleEdituser(){
@@ -50,22 +51,33 @@ export class UserHomeComponent implements OnInit {
   }
 
   updateLastLogin(){
-    this.user.lastLogin = this.today;
-    this.userService.update(this.user.id, this.user).subscribe({
-      next: (result) => {
-        this.user = result;
-      },
-      error: (problem) => {
-        console.log("UserHomeHttpComponent Error: unable to update lastLogin: ");
-        console.log(problem);
-      }
-    })
+    if(this.user){
+      this.user.lastLogin = this.today;
+      this.userService.update(this.user.id, this.user).subscribe({
+        next: (result) => {
+          this.user = result;
+        },
+        error: (problem) => {
+          console.log("UserHomeHttpComponent Error: unable to update lastLogin: ");
+          console.log(problem);
+        }
+      })
+    }
   }
 
+  // ngDoCheck(){
+  //   if(this.user?.lastLogin != this.today){
+  //     this.updateLastLogin();
+  //   }
+  // }
 
 
   ngOnInit(): void {
     this.authenticateUser();
+  }
+
+  ngAfterContentInit(): void {
+
   }
 
   ngViewAfterInit(): void{
