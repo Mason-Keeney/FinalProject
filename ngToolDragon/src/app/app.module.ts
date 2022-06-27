@@ -21,6 +21,7 @@ import { AddressComponent } from './components/address/address.component';
 import { DatePipe } from '@angular/common';
 import { ProjectSearchPipe } from './pipes/project-search.pipe';
 import { ToolSearchPipe } from './pipes/tool-search.pipe';
+import { ActivePipe } from './pipes/active.pipe';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { ToolSearchPipe } from './pipes/tool-search.pipe';
     ToolComponent,
     ProjectComponent,
     ProjectSearchPipe,
-    ToolSearchPipe
+    ToolSearchPipe,
+    ActivePipe
   ],
   imports: [
     BrowserModule,
@@ -48,7 +50,8 @@ import { ToolSearchPipe } from './pipes/tool-search.pipe';
   ],
   providers: [
     DatePipe,
-    ProjectSearchPipe
+    ProjectSearchPipe,
+    ActivePipe
   ],
   bootstrap: [AppComponent]
 })

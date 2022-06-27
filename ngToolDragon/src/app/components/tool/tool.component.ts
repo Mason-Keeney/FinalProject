@@ -1,3 +1,4 @@
+import { ActivePipe } from './../../pipes/active.pipe';
 import { faToolbox } from '@fortawesome/free-solid-svg-icons';
 import { User } from 'src/app/models/user';
 import { ToolService } from './../../services/tool.service';
@@ -15,6 +16,8 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './tool.component.html',
   styleUrls: ['./tool.component.css']
 })
+
+
 export class ToolComponent implements OnInit {
   private url = environment.baseUrl + 'api/tool';
   toolList: Tool[] = [];
@@ -30,7 +33,8 @@ export class ToolComponent implements OnInit {
     private toolService: ToolService,
     private router: Router,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private activePipe: ActivePipe
     ) { }
 
   ngOnInit(): void {
@@ -53,7 +57,7 @@ export class ToolComponent implements OnInit {
       next: (result) =>{
         this.user = result;
         if(result.tools) {
-        this.toolList = result.tools;
+        this.toolList = this.activePipe.transform(result.tools);
         }
       },
       error: (problem) => {
@@ -115,22 +119,10 @@ export class ToolComponent implements OnInit {
     })
   }
 
-  deactivate(id: number | null, tool: Tool): Observable<Tool> {
-    tool.active = false;
-    return this.http.put<Tool>(this.url + '/' + id, tool).pipe(
-      catchError((err: any) => {
-        console.log(err);
-        return throwError(
-          () => new Error('Tool.update(): error retrieving Tool:' + err)
-        );
-      })
-    );
-  }
-
   destroy(tool: Tool): void {
       this.toolService.destroy(tool.id).subscribe({
         next: (result) => {
-          window.alert(name + "'s tool was deleted");
+          window.alert(this.user.username + "'s tool was deleted");
         },
         error: (nojoy) => {
           console.error('Tool.delete(): error deleting tool:');
