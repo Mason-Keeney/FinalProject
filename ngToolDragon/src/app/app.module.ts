@@ -1,3 +1,4 @@
+import { ProjectService } from './services/project.service';
 import { ProjectComponent } from './components/project/project.component';
 import { ToolComponent } from './components/tool/tool.component';
 import { NgModule } from '@angular/core';
@@ -18,6 +19,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EdituserComponent } from './components/edituser/edituser.component';
 import { AddressComponent } from './components/address/address.component';
 import { DatePipe } from '@angular/common';
+import { ProjectSearchPipe } from './pipes/project-search.pipe';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,8 @@ import { DatePipe } from '@angular/common';
     EdituserComponent,
     AddressComponent,
     ToolComponent,
-    ProjectComponent
+    ProjectComponent,
+    ProjectSearchPipe
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,8 @@ import { DatePipe } from '@angular/common';
     FontAwesomeModule
   ],
   providers: [
-    DatePipe
+    DatePipe,
+    ProjectSearchPipe
   ],
   bootstrap: [AppComponent]
 })
