@@ -20,4 +20,7 @@ public interface ProjectService {
 	public boolean destroy(String username, int projectId);
 	
 	public List<Project> indexAll();
+	
+	public List<Project> findByKeyword(String keyword);
+	
 }

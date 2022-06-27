@@ -142,4 +142,9 @@ public class ProjectServiceImpl implements ProjectService {
 		return project;
 	}
 
+	@Override
+	public List<Project> findByKeyword(String keyword) {
+		return projectRepo.findByDescriptionContains(keyword);
+	}
+
 }

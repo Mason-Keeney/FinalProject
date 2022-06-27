@@ -1,5 +1,6 @@
 package com.skilldistillery.tooldragon.repositories;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -15,4 +16,5 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 	
 	Set<Project> findByOwner_Username(String username);
 
+	List<Project> findByDescriptionContains(String description);
 }
