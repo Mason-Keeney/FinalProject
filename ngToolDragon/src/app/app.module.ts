@@ -1,3 +1,5 @@
+import { ProjectComponent } from './components/project/project.component';
+import { ToolComponent } from './components/tool/tool.component';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -27,7 +29,8 @@ import { DatePipe } from '@angular/common';
     RegisterComponent,
     UserHomeComponent,
     EdituserComponent,
-    AddressComponent
+    AddressComponent,
+    ToolComponent
   ],
   imports: [
     BrowserModule,

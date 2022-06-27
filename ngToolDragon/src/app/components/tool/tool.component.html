@@ -1,1 +1,33 @@
-<p>tool works!</p>
+<h1>Tool's Available</h1>
+
+
+<div class="col-6">
+  <table class="table">
+
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Availability</th>
+        <th scope="col">Training Required</th>
+        <th scope="col">Operators</th>
+        <th scope="col">Status</th>
+        <th scope="col">Condition</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let tool of toolList">
+        <th scope="row">{{tool.id}}</th><td>{{tool.name}}</td>
+        <td>{{tool.description}}</td>
+        <td>{{tool.availability}}</td>
+        <td>{{tool.trainingRequired}}</td>
+        <td>{{tool.operators}}</td>
+        <td>{{tool.status?.name}}</td>
+        <td>{{tool.condition?.name}}</td>
+      </tr>
+    </tbody>
+
+</table>
+</div>

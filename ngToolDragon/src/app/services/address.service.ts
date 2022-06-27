@@ -1,4 +1,5 @@
-import { HttpClient } from '@angular/common/http';
+import { AuthService } from './auth.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -10,10 +11,20 @@ import { Address } from '../models/address';
 export class AddressService {
   private url = environment.baseUrl + 'api/adresses';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
+
+  getHttpOptions() {
+    let options = {
+      headers: new HttpHeaders({
+        Authorization: 'Basic ' + this.authService.getCredentials(),
+        'X-Requested-With': 'XMLHttpRequest',
+      }),
+    };
+    return options;
+  }
 
   index(): Observable<Address[]> {
-    return this.http.get<Address[]>(this.url).pipe(
+    return this.http.get<Address[]>(this.url, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(
