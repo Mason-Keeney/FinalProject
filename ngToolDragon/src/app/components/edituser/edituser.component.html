@@ -16,7 +16,7 @@
   <p>{{editUser.address.postalCode}}</p>
 </div>
 <div>
-  <button class="btn btn-success" title="Add Address"><fa-icon [icon]="faAddressCard"></fa-icon></button>
+  <button class="btn btn-success" (click)="startAddressEdit()" title="Add Address"><fa-icon [icon]="faAddressCard"></fa-icon></button>
 </div>
 <hr>
 <button (click)="editPassword = !editPassword" [ngClass]="checkEditPassword()" title="Edit Security Details"><fa-icon *ngIf="!editPassword" [icon]="faLock"></fa-icon> <fa-icon *ngIf="editPassword" [icon]="faLockOpen"></fa-icon> </button>
