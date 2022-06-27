@@ -1,19 +1,30 @@
 import { Project } from 'src/app/models/project';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProjectService {
-  private url = environment.baseUrl + 'api/project';
+  private url = environment.baseUrl + 'api/projects';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
+
+  getHttpOptions() {
+    let options = {
+      headers: new HttpHeaders({
+        Authorization: 'Basic ' + this.authService.getCredentials(),
+        'X-Requested-With': 'XMLHttpRequest',
+      }),
+    };
+    return options;
+  }
 
   index(): Observable<Project[]> {
-    return this.http.get<Project[]>(this.url).pipe(
+    return this.http.get<Project[]>(this.url, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(
@@ -24,7 +35,7 @@ export class ProjectService {
   }
 
   show(id: number | null): Observable<Project> {
-    return this.http.get<Project>(this.url + '/' + id).pipe(
+    return this.http.get<Project>(this.url + '/' + id, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(
@@ -35,7 +46,7 @@ export class ProjectService {
   }
 
   create(project: Project): Observable<Project> {
-    return this.http.post<Project>(this.url, project).pipe(
+    return this.http.post<Project>(this.url, project, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(
@@ -46,7 +57,7 @@ export class ProjectService {
   }
 
   update(id: number | null, project: Project): Observable<Project> {
-    return this.http.put<Project>(this.url + '/' + id, project).pipe(
+    return this.http.put<Project>(this.url + '/' + id, project, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(
@@ -58,7 +69,7 @@ export class ProjectService {
 
   deactivate(id: number | null, project: Project): Observable<Project> {
     project.active = false;
-    return this.http.put<Project>(this.url + '/' + id, project).pipe(
+    return this.http.put<Project>(this.url + '/' + id, project, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(
@@ -69,7 +80,7 @@ export class ProjectService {
   }
 
   destroy(id: number | null): Observable<boolean> {
-    return this.http.delete<boolean>(this.url + '/' + id).pipe(
+    return this.http.delete<boolean>(this.url + '/' + id, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(

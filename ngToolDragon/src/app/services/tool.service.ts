@@ -37,7 +37,7 @@ export class ToolService {
   }
 
   show(id: number | null): Observable<Tool> {
-    return this.http.get<Tool>(this.url + '/' + id).pipe(
+    return this.http.get<Tool>(this.url + '/' + id, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(
@@ -48,7 +48,7 @@ export class ToolService {
   }
 
   create(tool: Tool): Observable<Tool> {
-    return this.http.post<Tool>(this.url, tool).pipe(
+    return this.http.post<Tool>(this.url, tool, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(
@@ -59,7 +59,7 @@ export class ToolService {
   }
 
   update(id: number | null, tool: Tool): Observable<Tool> {
-    return this.http.put<Tool>(this.url + '/' + id, tool).pipe(
+    return this.http.put<Tool>(this.url + '/' + id, tool, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(
@@ -70,7 +70,7 @@ export class ToolService {
   }
   deactivate(id: number | null, tool: Tool): Observable<Tool> {
     tool.active = false;
-    return this.http.put<Tool>(this.url + '/' + id, tool).pipe(
+    return this.http.put<Tool>(this.url + '/' + id, tool, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(
@@ -81,7 +81,7 @@ export class ToolService {
   }
 
   destroy(id: number | null): Observable<boolean> {
-    return this.http.delete<boolean>(this.url + '/' + id).pipe(
+    return this.http.delete<boolean>(this.url + '/' + id, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(
