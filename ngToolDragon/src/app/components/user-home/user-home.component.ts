@@ -52,7 +52,7 @@ export class UserHomeComponent implements OnInit {
 
   updateLastLogin(){
     if(this.user){
-      this.user.lastLogin = this.today;
+      // this.user.lastLogin = this.today;
       this.userService.update(this.user.id, this.user).subscribe({
         next: (result) => {
           this.user = result;
