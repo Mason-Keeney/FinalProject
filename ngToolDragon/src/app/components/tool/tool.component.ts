@@ -1,3 +1,4 @@
+import { ToolService } from './../../services/tool.service';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
@@ -10,55 +11,72 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./tool.component.css']
 })
 export class ToolComponent implements OnInit {
-  private url = environment.baseUrl + 'api/adresses';
+  private url = environment.baseUrl + 'api/tool';
+  toolList: Tool[] = [];
+  tool: Tool = new Tool;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private toolService: ToolService
+    ) { }
 
   ngOnInit(): void {
+    this.index();
   }
 
-  index(): Observable<Tool[]> {
-    return this.http.get<Tool[]>(this.url).pipe(
-      catchError((err: any) => {
-        console.log(err);
-        return throwError(
-          () => new Error('Tool.index(): error retrieving Tools:' + err)
-        );
-      })
-    );
+  reload() {
+    this.tool.id = 1;
+    this.show(this.tool);
   }
 
-  show(id: number | null): Observable<Tool> {
-    return this.http.get<Tool>(this.url + '/' + id).pipe(
-      catchError((err: any) => {
-        console.log(err);
-        return throwError(
-          () => new Error('Tool.show(): error retrieving Tool:' + err)
-        );
-      })
-    );
+  index() {
+    this.toolService.index().subscribe({
+      next: (result) => {
+        this.toolList = result;
+      },
+      error: (nojoy) => {
+       console.log('Tool.index(): error retrieving Tools:');
+       console.log(nojoy);
+      },
+    });
   }
 
-  create(tool: Tool): Observable<Tool> {
-    return this.http.post<Tool>(this.url, tool).pipe(
-      catchError((err: any) => {
-        console.log(err);
-        return throwError(
-          () => new Error('Tool.create(): error retrieving Tool:' + err)
-        );
-      })
-    );
+  show(tool: Tool): void {
+    this.toolService.show(tool.id).subscribe({
+      next: (result) => {
+        this.tool = result;
+      },
+      error: (nojoy) => {
+       console.log('Tool.show(): error retrieving Tool:');
+       console.log(nojoy);
+      },
+    });
   }
 
-  update(id: number | null, tool: Tool): Observable<Tool> {
-    return this.http.put<Tool>(this.url + '/' + id, tool).pipe(
-      catchError((err: any) => {
-        console.log(err);
-        return throwError(
-          () => new Error('Tool.update(): error retrieving Tool:' + err)
+  create(tool: Tool): void {
+    this.toolService.create(tool).subscribe({
+      next: (result) => {
+        this.tool = result;
+        window.alert('An address was created!');
+      },
+      error: (nojoy) => {
+        console.error(
+          'Tool.create(): error creating tool:'
         );
-      })
-    );
+        console.error(nojoy);
+      },
+    })
+  }
+
+  update(id: number | null, tool: Tool): void {
+    this.toolService.update(id, tool).subscribe({
+      next: (result) => {
+      },
+      error: (nojoy) => {
+        console.log('Tool.update(): error updating Tool:');
+        console.log(nojoy);
+       },
+    })
   }
 
   deactivate(id: number | null, tool: Tool): Observable<Tool> {
@@ -73,16 +91,17 @@ export class ToolComponent implements OnInit {
     );
   }
 
-  destroy(id: number | null): Observable<boolean> {
-    return this.http.delete<boolean>(this.url + '/' + id).pipe(
-      catchError((err: any) => {
-        console.log(err);
-        return throwError(
-          () => new Error('Tool.destroy(): error retrieving Tool:' + err)
-        );
-      })
-    );
+  destroy(tool: Tool): void {
+      this.toolService.destroy(tool.id).subscribe({
+        next: (result) => {
+          window.alert(name + "'s tool was deleted");
+        },
+        error: (nojoy) => {
+          console.error('Tool.delete(): error deleting tool:');
+          console.error(nojoy);
+          this.reload();
+        },
+      });
   }
-
 
 }
