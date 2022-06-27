@@ -71,9 +71,15 @@ public class UserController {
 	@PutMapping("users/{aid}")
 	public User update(HttpServletRequest req, HttpServletResponse res, @PathVariable int aid, @RequestBody User user,
 			Principal principal) {
-		user = userService.update(principal.getName(), aid, user);
-		if (user == null) {
-			res.setStatus(404);
+		
+		try {
+			user = userService.update(principal.getName(), aid, user);
+			if (user == null) {
+				res.setStatus(404);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			res.setStatus(400);
 		}
 		return user;
 	}

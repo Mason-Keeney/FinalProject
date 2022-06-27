@@ -1,3 +1,5 @@
+import { UserService } from './../../services/user.service';
+import { faAddressCard } from '@fortawesome/free-solid-svg-icons';
 import { Address } from './../../models/address';
 
 import { Component, Input, OnInit } from '@angular/core';
@@ -15,6 +17,8 @@ export class AddressComponent implements OnInit {
 address: Address = new Address;
 addresses: Address[] = [];
 user: User = new User;
+faAddressCard = faAddressCard;
+newAddress = new Address();
 
 
 
@@ -23,7 +27,8 @@ user: User = new User;
   constructor(
     private router: Router,
     private authService: AuthService,
-    private addressSvc: AddressService
+    private addressSvc: AddressService,
+    private userService: UserService
 
   ) { }
 
@@ -78,6 +83,7 @@ user: User = new User;
       },
     });
   }
+
   deleteAddress(address: Address): void {
     if (address.id) {
       this.addressSvc.destroy(address.id).subscribe({
@@ -96,10 +102,12 @@ user: User = new User;
   }
 
   updateAddress(id: number | null, address: Address): void {
-
-
-    this.addressSvc.update(id, address).subscribe({
+      this.addressSvc.update(id, address).subscribe({
       next: (result) => {
+        address = result;
+        if(address){
+          window.alert("Address has been updated")
+        }
       },
       error: (nojoy) => {
         console.error(
@@ -109,11 +117,20 @@ user: User = new User;
       },
     });
   }
+
   addAddress(address: Address): void {
     this.addressSvc.create(address).subscribe({
       next: (result) => {
         this.address = result;
         window.alert('An address was created!');
+        console.log(this.address);
+
+        this.user.address = this.address;
+        console.log(this.user.address);
+
+        this.updateUser(this.user);
+        console.log(this.user.address);
+
       },
       error: (nojoy) => {
         console.error(
@@ -122,4 +139,27 @@ user: User = new User;
         console.error(nojoy);
       },
     });
-}}
+}
+
+updateUser(user: User){
+  if (user) {
+    this.userService.update(user.id, user).subscribe({
+      next: (result) => {
+        user = result;
+      },
+      error: (problem) => {
+        console.log(
+          'EditUserHttpComponent Error: unable to update lastLogin: '
+        );
+        console.log(problem);
+      },
+    });
+  }
+
+}
+
+
+
+}
+
+

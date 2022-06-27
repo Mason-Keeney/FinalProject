@@ -61,7 +61,6 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User create(String username, User user) {
-		User name = userRepo.findByUsername(username);
 		if (user != null) {
 			user.setUsername(username);
 			userRepo.saveAndFlush(user);
@@ -77,11 +76,8 @@ public class UserServiceImpl implements UserService {
 		Optional<User> op = userRepo.findById(accountId);
 		if (op.isPresent()) {
 			existing = op.get();
-			if (!existing.getUsername().equals(username)|| !sessionUser.getRole().equals("role_admin")) {
-				existing = null;
-			}
 		}
-		if (existing != null && existing.getUsername().equals(username)) {
+		if (existing != null && (existing.getUsername().equals(username) || sessionUser.getRole().equals("role_admin"))) {
 			existing.setFirstName(user.getFirstName());
 			existing.setLastName(user.getLastName());
 			existing.setImageUrl(user.getImageUrl());
@@ -91,7 +87,12 @@ public class UserServiceImpl implements UserService {
 			existing.setLastLogin(user.getLastLogin());
 			existing.setBackgroundImageUrl(user.getBackgroundImageUrl());
 			existing.setRole(user.getRole());
-			userRepo.saveAndFlush(existing);
+			if(user.getAddress() != null) {
+				existing.setAddress(user.getAddress());
+			}
+			existing = userRepo.saveAndFlush(existing);
+		} else {
+			existing = null;
 		}
 
 		return existing;
