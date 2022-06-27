@@ -14,7 +14,12 @@ export class ProjectSearchPipe implements PipeTransform {
     } else {
       for (let i = 0; i < projectList.length; i++) {
         let project = projectList[i];
-        if (project.description?.includes(search) || project.owner?.firstName?.includes(search) || project.owner?.lastName?.includes(search)) {
+        let id = project.id + "";
+        if (
+          project.description?.includes(search) ||
+          project.owner?.firstName?.includes(search) ||
+          project.owner?.lastName?.includes(search) ||
+          id.includes(search)) {
           sorted.push(project);
         }
       }
