@@ -91,5 +91,14 @@ public class ToolController {
 			res.setStatus(400);
 		}
 	}
+	
+	@GetMapping("tools/all")
+	public List<Tool> indexAll(HttpServletResponse res){
+		List<Tool> tools = toolService.indexAll();
+		if (tools == null) {
+			res.setStatus(404);
+		}
+		return tools;
+	}
 
 }

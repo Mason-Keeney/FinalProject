@@ -1,3 +1,4 @@
+import { Project } from './../../models/project';
 import { DatePipe } from '@angular/common';
 import { UserService } from './../../services/user.service';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user';
 import { ViewChild, AfterViewInit } from '@angular/core';
 import { EdituserComponent } from '../edituser/edituser.component';
+import { Tool } from 'src/app/models/tool';
 
 @Component({
   selector: 'app-user-home',
@@ -76,6 +78,15 @@ export class UserHomeComponent implements OnInit{
   //   }
   // }
 
+  startProjectView(project: Project){
+    console.log(project);
+
+  }
+
+  startToolView(tool: Tool){
+    console.log(tool);
+
+  }
 
   ngOnInit(): void {
     this.authenticateUser();
