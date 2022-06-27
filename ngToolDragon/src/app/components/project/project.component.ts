@@ -17,6 +17,7 @@ export class ProjectComponent implements OnInit {
   private url = environment.baseUrl + 'api/project';
   projects: Project[] = [];
   project: Project = new Project;
+  search: string = '';
 
   constructor(
     private projectServ: ProjectService,
@@ -31,6 +32,7 @@ export class ProjectComponent implements OnInit {
       this.project.id = 1;
       this.show(this.project);
     }
+
 
   index() {
     this.projectServ.index().subscribe({
