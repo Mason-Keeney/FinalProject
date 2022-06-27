@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { UserService } from './../../services/user.service';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from './../../services/auth.service';
@@ -18,14 +19,15 @@ export class UserHomeComponent implements OnInit {
   user: User | null = null;
   editingUser: Boolean = false;
   faUser = faUser;
-  today = new Date();
+  today = this.datePipe.transform(new Date());
 
   @ViewChild(EdituserComponent, { static: false })
   editUserComponent!: EdituserComponent;
 
   constructor(
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private datePipe: DatePipe
   ) {}
 
   authenticateUser(){
