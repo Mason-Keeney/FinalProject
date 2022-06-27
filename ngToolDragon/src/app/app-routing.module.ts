@@ -1,3 +1,4 @@
+import { ProjectViewComponent } from './components/project-view/project-view.component';
 import { AddressComponent } from './components/address/address.component';
 import { RegisterComponent } from './components/register/register.component';
 import { NgModule } from '@angular/core';
@@ -14,7 +15,8 @@ const routes: Routes = [
   { path: 'userhome', component: UserHomeComponent},
   { path: 'address', component: AddressComponent},
   { path: 'tool', component: ToolComponent},
-  { path: 'project', component: ProjectComponent}
+  { path: 'project', component: ProjectComponent},
+  { path: 'projectView', component: ProjectViewComponent}
 ];
 
 @NgModule({
