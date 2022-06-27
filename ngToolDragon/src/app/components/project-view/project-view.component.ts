@@ -1,53 +1,35 @@
-import { UserService } from './../../services/user.service';
-import { Category } from './../../models/category';
-import { ProjectService } from './../../services/project.service';
 import { Component, OnInit } from '@angular/core';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { Project } from 'src/app/models/project';
-import { DatePipe } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, catchError, throwError } from 'rxjs';
+import { ProjectService } from 'src/app/services/project.service';
+import { UserService } from 'src/app/services/user.service';
 import { environment } from 'src/environments/environment';
-import { faMagnifyingGlass, faToolbox } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  selector: 'app-project',
-  templateUrl: './project.component.html',
-  styleUrls: ['./project.component.css'],
+  selector: 'app-project-view',
+  templateUrl: './project-view.component.html',
+  styleUrls: ['./project-view.component.css']
 })
-export class ProjectComponent implements OnInit {
-  private url = environment.baseUrl + 'api/project';
+export class ProjectViewComponent implements OnInit {
+  private url = environment.baseUrl + 'api/projectView';
   projects: Project[] = [];
   project: Project = new Project;
   search: string = '';
   faMagnifyingGlass = faMagnifyingGlass;
-  faToolbox = faToolbox;
-  selected: Project | null = null;
-  newProject: Project = new Project();
 
   constructor(
     private projectServ: ProjectService,
     private userServ: UserService,
-    ) {}
+  ) { }
 
-    ngOnInit(): void {
-      this.index();
-    }
+  ngOnInit(): void {
+  }
 
-    reload() {
-      this.project.id = 1;
-      this.show(this.project);
-    }
+  newProject: Project = new Project();
 
-  index() {
-    this.projectServ.index().subscribe({
-      next: (result) => {
-        this.projects = result;
-      },
-      error: (nojoy) => {
-        console.log('Project.index(): error retrieving Projects:');
-        console.log(nojoy);
-      },
-    });
+  reload() {
+    this.project.id = 1;
+    this.show(this.project);
   }
 
   show(project: Project): void {
@@ -61,7 +43,6 @@ export class ProjectComponent implements OnInit {
       },
     });
   }
-
 
   addProject(project: Project): void {
     this.projectServ.create(project).subscribe({
@@ -99,21 +80,5 @@ export class ProjectComponent implements OnInit {
       },
     });
   }
-
-
-
-  // loadProject(): void {
-  //   this.projectServ.index().subscribe({
-  //     next: (project) => {
-  //       this.projects = project;
-  //     },
-  //     error: (problem) => {
-  //       console.error(
-  //         'ProjectListHttpComponent.loadProject(): error loading projects:'
-  //       );
-  //       console.error(problem);
-  //     },
-  //   });
-  // }
 
 }
