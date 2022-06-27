@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class ProjectService {
-  private url = environment.baseUrl + 'api/adresses';
+  private url = environment.baseUrl + 'api/project';
 
   constructor(private http: HttpClient) {}
 

@@ -6,6 +6,7 @@ import { Project } from 'src/app/models/project';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, catchError, throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-project',
@@ -13,85 +14,54 @@ import { Observable, catchError, throwError } from 'rxjs';
   styleUrls: ['./project.component.css'],
 })
 export class ProjectComponent implements OnInit {
+  private url = environment.baseUrl + 'api/project';
   projects: Project[] = [];
-  selected: Project | null = null;
-  newProject: Project = new Project();
+  project: Project = new Project;
 
   constructor(
     private projectServ: ProjectService,
     private userServ: UserService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {}
+    ) {}
 
-  ngOnInit(): void {
-    this.loadProject();
-  }
+    ngOnInit(): void {
+      this.index();
+    }
+
+    reload() {
+      this.project.id = 1;
+      this.show(this.project);
+    }
 
   index() {
-    this.loadProject;
-  }
-
-  selectedType: String = 'all';
-
-  loadProject(): void {
     this.projectServ.index().subscribe({
-      next: (project) => {
-        this.projects = project;
+      next: (result) => {
+        this.projects = result;
       },
-      error: (problem) => {
-        console.error(
-          'ProjectListHttpComponent.loadProject(): error loading projects:'
-        );
-        console.error(problem);
+      error: (nojoy) => {
+        console.log('Project.index(): error retrieving Projects:');
+        console.log(nojoy);
       },
     });
   }
 
-  // setEditProject() {
-  //   this.editProject = Object.assign({}, this.selected);
-  // }
-
-  displayProject(project: Project) {
-    this.selected = project;
-  }
-
-  displayTable() {
-    this.selected = null;
-  }
-
-  getNumProjects() {
-    return this.projects.length;
-  }
-
-  checkProjectLevel() {
-    let numOfProjects = this.getNumProjects();
-    if (numOfProjects >= 10) {
-      return 'badge bg-danger';
-    } else if (numOfProjects >= 5) {
-      return 'badge bg-warning';
-    } else {
-      return 'badge bg-success';
-    }
-  }
-
-  reload(): void {
-    this.projectServ.index().subscribe({
-      next: (projects) => {
-        this.projects = projects;
+  show(project: Project): void {
+    this.projectServ.show(project.id).subscribe({
+      next: (result) => {
+        this.project = result;
       },
-      error: (fail) => {
-        console.error('TodoListComponent.reload: error');
-        console.error(fail);
+      error: (nojoy) => {
+        console.log('Project.show(): error retrieving Project:');
+        console.log(nojoy);
       },
     });
   }
 
-  addProject(project: Project) {
+
+  addProject(project: Project): void {
     this.projectServ.create(project).subscribe({
       next: (result) => {
-        this.newProject = new Project();
-        this.loadProject();
+        this.project = result;
+        window.alert('A project was created!');
       },
       error: (fail) => {
         console.error('ProjectComponent.adding: error creating project');
@@ -100,19 +70,9 @@ export class ProjectComponent implements OnInit {
     });
   }
 
-
-  updateProject(
-    id: number | null,
-    project: Project,
-    setSelected: boolean = true
-  ) {
+  updateProject(id: number | null, project: Project): void {
     this.projectServ.update(id, project).subscribe({
-      next: (updated) => {
-        this.reload();
-        if (setSelected) {
-          this.selected = updated;
-        }
-        this.selected = updated;
+      next: (result) => {
       },
       error: (nojoy) => {
         console.error('ProjectComponent.adding: error updating project');
@@ -121,26 +81,31 @@ export class ProjectComponent implements OnInit {
     });
   }
 
-  deleteProject(id: number): void {
-    this.projectServ.destroy(id).subscribe({
+  deleteProject(project: Project): void {
+    this.projectServ.destroy(project.id).subscribe({
       next: () => {
-        this.reload();
+        window.alert(name + "'s project was deleted");
       },
       error: (nojoy) => {
         console.error('ProjectComponent.deleting: error deleting project');
         console.error(nojoy);
+        this.reload();
       },
     });
   }
 
-  types = [
-    'all',
-     'Landscaping my yard',
-      'example'
-    ];
-
-
-
-
+  // loadProject(): void {
+  //   this.projectServ.index().subscribe({
+  //     next: (project) => {
+  //       this.projects = project;
+  //     },
+  //     error: (problem) => {
+  //       console.error(
+  //         'ProjectListHttpComponent.loadProject(): error loading projects:'
+  //       );
+  //       console.error(problem);
+  //     },
+  //   });
+  // }
 
 }
