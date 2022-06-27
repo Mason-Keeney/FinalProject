@@ -17,7 +17,6 @@ import { EdituserComponent } from './components/edituser/edituser.component';
 import { AddressComponent } from './components/address/address.component';
 import { DatePipe } from '@angular/common';
 
-
 @NgModule({
   declarations: [
     AppComponent,
