@@ -14,7 +14,9 @@ import { RegisterComponent } from './components/register/register.component';
 import { UserHomeComponent } from './components/user-home/user-home.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EdituserComponent } from './components/edituser/edituser.component';
+import { AddressComponent } from './components/address/address.component';
 import { DatePipe } from '@angular/common';
+
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { DatePipe } from '@angular/common';
     NavigationComponent,
     RegisterComponent,
     UserHomeComponent,
-    EdituserComponent
+    EdituserComponent,
+    AddressComponent
   ],
   imports: [
     BrowserModule,
