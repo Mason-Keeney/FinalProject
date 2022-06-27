@@ -40,11 +40,11 @@ export class User {
     lastLogin: Date | null = null,
     backgroundImageUrl: string | null = '',
     address: Address | null = null,
-    ownedProjects: Project[] | null = null,
-    tools: Tool[] | null = null,
-    projectComments: ProjectComment[] | null = null,
-    toolComments: ToolComment[] | null = null,
-    participations: Participant[] | null = null
+    ownedProjects: Project[] | null = [],
+    tools: Tool[] | null = [],
+    projectComments: ProjectComment[] | null = [],
+    toolComments: ToolComment[] | null = [],
+    participations: Participant[] | null = []
   ) {
     this.id = id;
     this.username = username;

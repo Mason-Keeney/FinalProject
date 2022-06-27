@@ -7,6 +7,7 @@ import {
   faLockOpen,
   faShieldAlt,
   faUserPen,
+  faUserSlash,
 } from '@fortawesome/free-solid-svg-icons';
 import { User } from 'src/app/models/user';
 import { AddressComponent } from '../address/address.component';
@@ -39,6 +40,7 @@ export class EdituserComponent implements OnInit {
   faLockOpen = faLockOpen;
   faShieldAlt = faShieldAlt;
   editAddress: boolean = false;
+  faUserSlash = faUserSlash;
 
   saveEdit(user: User) {
     if (user) {
@@ -79,6 +81,21 @@ export class EdituserComponent implements OnInit {
       });
     }
   }
+
+  deleteUser(id: number){
+    this.userService.destroy(id).subscribe({
+      next: () => {
+        this.authService.logout;
+        this.router.navigateByUrl("/home");
+      },
+      error: (problem) =>{
+        console.log("EditUserHttpComponent Error: unable to delete user");
+        console.log(problem);
+
+      }
+    })
+  }
+
 
   setEditAddress() {
     this.editAddress = this.editUser.address ? true : false;

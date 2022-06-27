@@ -2,4 +2,6 @@
 <div class="row"  *ngIf="!checkLogin()">
     <app-login>Login Failed to load</app-login>
 </div>
-
+<div *ngIf="checkLogin()">
+  <h1>You're on the Home page!</h1>
+</div>
