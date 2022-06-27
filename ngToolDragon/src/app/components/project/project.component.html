@@ -1,7 +1,11 @@
+<div class="input-group mb-3">
+  <span class="input-group-text" id="basic-addon1"><fa-icon [icon]="faMagnifyingGlass"></fa-icon> </span>
 <input class="form-control" type="text" placeholder="Search..." [(ngModel)]="search">
+</div>
 
 <h1>Projects</h1>
 
+<h6><a [routerLink]="['/projectView']">Add a new Project</a></h6>
 
 <div class="col-6">
   <table class="table">
@@ -26,7 +30,5 @@
         <td>{{project.owner?.firstName}} {{project.owner?.lastName}}</td>
       </tr>
     </tbody>
-
 </table>
-
 </div>

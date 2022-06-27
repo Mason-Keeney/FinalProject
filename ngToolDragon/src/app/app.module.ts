@@ -20,6 +20,7 @@ import { EdituserComponent } from './components/edituser/edituser.component';
 import { AddressComponent } from './components/address/address.component';
 import { DatePipe } from '@angular/common';
 import { ProjectSearchPipe } from './pipes/project-search.pipe';
+import { ProjectViewComponent } from './components/project-view/project-view.component';
 import { ToolSearchPipe } from './pipes/tool-search.pipe';
 import { ActivePipe } from './pipes/active.pipe';
 
@@ -38,7 +39,9 @@ import { ActivePipe } from './pipes/active.pipe';
     ProjectComponent,
     ProjectSearchPipe,
     ToolSearchPipe,
-    ActivePipe
+    ActivePipe,
+    ProjectViewComponent,
+    ToolSearchPipe
   ],
   imports: [
     BrowserModule,
