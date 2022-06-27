@@ -14,13 +14,14 @@ import { EdituserComponent } from '../edituser/edituser.component';
 })
 
 
-export class UserHomeComponent implements OnInit {
+export class UserHomeComponent implements OnInit{
 
   user: User | null = null;
   editingUser: Boolean = false;
   faUser = faUser;
   today = new Date();
   todayString = this.datePipe.transform(this.today);
+
 
   @ViewChild(EdituserComponent, { static: false })
   editUserComponent!: EdituserComponent;
@@ -30,6 +31,7 @@ export class UserHomeComponent implements OnInit {
     private userService: UserService,
     private datePipe: DatePipe
   ) {}
+
 
   authenticateUser(){
     this.authService.authenticateUser().subscribe({
@@ -81,10 +83,6 @@ export class UserHomeComponent implements OnInit {
 
   ngAfterContentInit(): void {
 
-  }
-
-  ngViewAfterInit(): void{
-    this.editUserComponent.editUser = this.user;
   }
 
 }
