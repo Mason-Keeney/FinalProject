@@ -1,9 +1,10 @@
 import { Address } from './../../models/address';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { AddressService } from 'src/app/services/address.service';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-address',
@@ -13,22 +14,41 @@ import { AddressService } from 'src/app/services/address.service';
 export class AddressComponent implements OnInit {
 address: Address = new Address;
 addresses: Address[] = [];
+user: User = new User;
+
+
+
 
 
   constructor(
     private router: Router,
+    private authService: AuthService,
     private addressSvc: AddressService
 
   ) { }
 
   ngOnInit(): void {
-    this.reload();
+    this.authenticateUser();
   }
 
   reload() {
-    this.address.id = 1;
     this.showAddress(this.address);
   }
+
+  authenticateUser(){
+    this.authService.authenticateUser().subscribe({
+      next: (result) =>{
+        this.user = result;
+        if(result.address) {
+        this.address = result.address;
+        }
+      },
+      error: (problem) => {
+        console.log(problem);
+      }
+    })
+  }
+
 
   searchAddress(search: String): void {
     this.addressSvc.index().subscribe({
