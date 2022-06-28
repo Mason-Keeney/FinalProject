@@ -54,5 +54,48 @@
 </div>
 
 <div class="row" *ngIf="user?.role == 'role_admin'">
-  <h2>Admin</h2>
+  <br><hr><br><h2>Admin Tables</h2><br><hr><br>
+  <div class="col-4 table-responsive">
+    <h3>Users</h3>
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Disable</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of userList">
+          <td>{{user.username}}</td>
+          <td>{{user.firstName}}</td>
+          <td>{{user.lastName}}</td>
+          <td><button class="btn btn-danger" (click)="deleteUser(user)"><fa-icon [icon]="faUserSlash"></fa-icon></button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-4 table-responsive">
+    <h3>Projects</h3>
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Start Date</th>
+          <th>Estimated End Date</th>
+          <th>Disable</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr >
+          <td></td>
+          <td></td>
+          <td></td>
+          <td><button class="btn btn-danger" (click)="user = user"><fa-icon [icon]="faUserSlash"></fa-icon></button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-4"></div>
 </div>

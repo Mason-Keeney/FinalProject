@@ -1,13 +1,15 @@
+import { ActivePipe } from './../../pipes/active.pipe';
 import { Project } from './../../models/project';
 import { DatePipe } from '@angular/common';
 import { UserService } from './../../services/user.service';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faUserSlash } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user';
 import { ViewChild, AfterViewInit } from '@angular/core';
 import { EdituserComponent } from '../edituser/edituser.component';
 import { Tool } from 'src/app/models/tool';
+import { ProjectService } from 'src/app/services/project.service';
 
 @Component({
   selector: 'app-user-home',
@@ -21,8 +23,10 @@ export class UserHomeComponent implements OnInit{
   user: User | null = null;
   editingUser: Boolean = false;
   faUser = faUser;
+  faUserSlash = faUserSlash;
   today = new Date();
   todayString = this.datePipe.transform(this.today);
+  userList: User[] = [];
 
 
   @ViewChild(EdituserComponent, { static: false })
@@ -31,7 +35,9 @@ export class UserHomeComponent implements OnInit{
   constructor(
     private authService: AuthService,
     private userService: UserService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private activePipe: ActivePipe,
+    private projectService: ProjectService
   ) {}
 
 
@@ -78,6 +84,41 @@ export class UserHomeComponent implements OnInit{
   //   }
   // }
 
+  indexUsers(){
+      this.userService.index().subscribe({
+        next: (result) => {
+          this.userList = result;
+        },
+        error: (problem) => {
+          console.log("UserHomeHttpComponent Error: unable to populate UserList");
+          console.log(problem);
+        }
+      })
+  }
+  reload(){
+    this.indexUsers()
+  }
+
+  deleteUser(deleteUser: User){
+    this.userService.destroy(deleteUser.id).subscribe({
+      next: () => {
+        this.reload();
+      },
+      error: (problem) => {
+        console.log("UserHomeHttpComponent Error: unable to delete user");
+        console.log(problem);
+      }
+    })
+  }
+
+  indexProjects(){
+    this.projectService.index().subscribe({
+      next: (result) => {
+
+      }
+    })
+  }
+
   startProjectView(project: Project){
     console.log(project);
 
@@ -90,6 +131,7 @@ export class UserHomeComponent implements OnInit{
 
   ngOnInit(): void {
     this.authenticateUser();
+    this.indexUsers();
   }
 
   ngAfterContentInit(): void {
