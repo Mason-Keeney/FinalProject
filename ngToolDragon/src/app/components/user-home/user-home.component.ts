@@ -27,6 +27,8 @@ export class UserHomeComponent implements OnInit{
   today = new Date();
   todayString = this.datePipe.transform(this.today);
   userList: User[] = [];
+  projectList: Project[] = [];
+  isAdmin = false;
 
 
   @ViewChild(EdituserComponent, { static: false })
@@ -46,6 +48,11 @@ export class UserHomeComponent implements OnInit{
       next: (result) =>{
         console.log(this.todayString)
         this.user = result;
+        if(this.user.role === "role_admin"){
+           this.indexUsers();
+           this.indexProjects();
+           this.isAdmin = true;
+        }
       },
       error: (problem) => {
         console.log(problem);
@@ -69,6 +76,7 @@ export class UserHomeComponent implements OnInit{
       this.userService.update(this.user.id, this.user).subscribe({
         next: (result) => {
           this.user = result;
+
         },
         error: (problem) => {
           console.log("UserHomeHttpComponent Error: unable to update lastLogin: ");
@@ -77,12 +85,6 @@ export class UserHomeComponent implements OnInit{
       })
     }
   }
-
-  // ngDoCheck(){
-  //   if(this.datePipe.transform(this.user?.lastLogin) != this.todayString){
-  //     this.updateLastLogin();
-  //   }
-  // }
 
   indexUsers(){
       this.userService.index().subscribe({
@@ -111,10 +113,18 @@ export class UserHomeComponent implements OnInit{
     })
   }
 
+  deleteProject(deleteProject: Project){
+    console.log(deleteProject);
+  }
+
   indexProjects(){
     this.projectService.index().subscribe({
       next: (result) => {
-
+        this.projectList = result;
+      },
+      error: (problem) => {
+        console.log("UserHomeHttpComponent Error: unable to populate UserList")
+        console.log(problem);
       }
     })
   }
@@ -131,7 +141,8 @@ export class UserHomeComponent implements OnInit{
 
   ngOnInit(): void {
     this.authenticateUser();
-    this.indexUsers();
+
+
   }
 
   ngAfterContentInit(): void {
