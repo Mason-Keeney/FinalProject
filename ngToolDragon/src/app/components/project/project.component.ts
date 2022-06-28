@@ -28,6 +28,7 @@ export class ProjectComponent implements OnInit {
   startDateString: string = '';
   estimatedEndDateString: string = '';
   user: User = new User;
+  updateChecker: Project = new Project;
 
   constructor(
     private projectServ: ProjectService,
@@ -50,6 +51,16 @@ export class ProjectComponent implements OnInit {
           console.log(problem);
         }
       })
+    }
+
+    setUpdate(project: Project): void {
+
+      if(this.updateChecker != project) {
+        this.updateChecker = project;
+      } else {
+        this.updateChecker = new Project;
+      }
+
     }
 
     reload() {
@@ -119,7 +130,7 @@ export class ProjectComponent implements OnInit {
   deleteProject(project: Project): void {
     this.projectServ.destroy(project.id).subscribe({
       next: () => {
-        window.alert(name + "'s project was deleted");
+        window.alert("project was deleted");
       },
       error: (nojoy) => {
         console.error('ProjectComponent.deleting: error deleting project');

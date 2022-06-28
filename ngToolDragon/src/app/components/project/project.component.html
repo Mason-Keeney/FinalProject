@@ -39,24 +39,36 @@
 </div>
   <div class="col-lg-3">
       <form class="form" *ngIf="selected">
+        <h3>Update</h3>
 
         <div class="input-group mb-3">
           <span class="input-group-text" id="basic-addon1">Description</span>
-          <textarea class="form-control" text="text" name="description" ></textarea>
+          <textarea class="form-control" text="text" name="description" [(ngModel)]="selected.description" ></textarea>
         </div>
 
         <div class="input-group mb-3">
           <span class="input-group-text" id="basic-addon1">Start Date</span>
-          <input class="form-control" type="date" name="startDate"  [(ngModel)]="startDateString">
+          <input class="form-control" type="date" name="startDate"  [(ngModel)]="selected.startDate">
         </div>
 
         <div class="input-group mb-3">
           <span class="input-group-text" id="basic-addon1">End Date</span>
-          <input class="form-control" type="date" name="estimatedEndDate"  [(ngModel)]="estimatedEndDateString">
+          <input class="form-control" type="date" name="estimatedEndDate"  [(ngModel)]="selected.estimatedEndDate">
         </div>
 
-        <button class="btn btn-success" >Sumbit</button>
+        <label for="trainingRequired">Completed</label>: <input type="checkbox" class="form-check-input" name="compelted" [(ngModel)]="selected.completed"> <br> <br>
+
+        <button class="btn btn-warning" (click)="updateProject(selected.id, selected)" >Sumbit</button><br><br>
+
+        <button class="btn btn-danger" (click)="deleteProject(selected)" >Delete</button>
 
       </form>
   </div>
+
+
+
+
+
+
+
 </div>
