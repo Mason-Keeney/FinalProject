@@ -41,7 +41,6 @@
 <div class="col-lg-3">
   <form class="form" *ngIf="selected">
 
-
     <h3>Tool List</h3>
     <table class="table">
       <thead>
@@ -54,7 +53,7 @@
           <th scope="col">Operators</th>
           <th scope="col">Status</th>
           <th scope="col">Condition</th>
-
+          <th scope="col">Add to Project</th>
         </tr>
       </thead>
 
@@ -67,14 +66,10 @@
           <td>{{tool.operators}}</td>
           <td>{{tool.status?.name}}</td>
           <td>{{tool.condition?.name}}</td>
+          <button class="btn btn-success" title="Add Tool">Add</button>
         </tr>
       </tbody>
-
   </table>
-
-
-
-
 
     <h3>Update</h3>
 
@@ -95,17 +90,10 @@
 
         <label for="trainingRequired">Completed</label>: <input type="checkbox" class="form-check-input" name="compelted" [(ngModel)]="selected.completed"> <br> <br>
 
-        <button class="btn btn-warning" (click)="updateProject(selected.id, selected)" >Sumbit</button><br><br>
+        <button class="btn btn-warning" (click)="updateProject(selected.id, selected)" >Submit</button><br><br>
 
         <button class="btn btn-danger" (click)="deleteProject(selected)" >Delete</button>
-
       </form>
   </div>
-
-
-
-
-
-
 
 </div>
