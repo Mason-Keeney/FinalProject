@@ -64,7 +64,6 @@ export class ProjectViewComponent implements OnInit {
     console.log(project);
     project.startDate = new Date(this.startDateString);
     project.estimatedEndDate = new Date(this.estimatedEndDateString);
-    project.owner = this.user;
     console.log(project);
 
     this.projectServ.create(project).subscribe({

@@ -59,6 +59,8 @@ export class ToolService {
   }
 
   create(tool: Tool): Observable<Tool> {
+    console.log(tool);
+
     return this.http.post<Tool>(this.url, tool, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
