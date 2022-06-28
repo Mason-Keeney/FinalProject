@@ -21,7 +21,7 @@
       </thead>
 
       <tbody>
-        <tr   *ngFor="let tool of toolListFull | toolSearch:search">
+        <tr *ngFor="let tool of toolListFull | toolSearch:search">
           <th scope="row">{{tool.id}}</th><td>{{tool.name}}</td>
           <td>{{tool.description}}</td>
           <td>{{tool.availability}}</td>
