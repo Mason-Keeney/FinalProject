@@ -105,7 +105,6 @@ export class ToolComponent implements OnInit {
 
   createTool(tool: Tool): void {
     tool.active = true;
-    tool.owner = this.user;
     console.log(this.user);
     this.toolService.create(tool).subscribe({
       next: (result) => {

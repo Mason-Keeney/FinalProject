@@ -56,7 +56,7 @@ public class Tool {
 	
 	@ManyToOne
 	@JoinColumn(name = "owner_id")
-	@JsonIgnoreProperties({"tools", "projects", "address"})
+//	@JsonIgnoreProperties({"tools", "address"})
 	private User owner;
 	
 	@OneToMany(mappedBy = "tool")

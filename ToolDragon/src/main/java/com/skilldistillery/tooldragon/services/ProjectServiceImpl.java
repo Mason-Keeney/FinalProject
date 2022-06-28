@@ -133,8 +133,9 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public Project create(Project project, String username) {
 		User user = userRepo.findByUsername(username);
-		System.out.println(user);
+		project.setOwner(user);
 		if (user != null) {
+			System.out.println(user.getTools());
 			project.setActive(true);
 			projectRepo.saveAndFlush(project);
 		} else {

@@ -64,11 +64,11 @@ public class User {
 	private Address address;
 	
 	@OneToMany(mappedBy = "owner")
-	@JsonIgnoreProperties({"owner", "participants", "address", "projectTools"})
+	@JsonIgnoreProperties(value = {"owner", "participants", "address", "projectTools"}, allowSetters = true)
 	private List<Project> ownedProjects;
 	
 	@OneToMany(mappedBy = "owner")
-	@JsonIgnoreProperties({"owner", "projectsUsedIn"})
+	@JsonIgnoreProperties(value = {"owner", "projectsUsedIn"}, allowSetters = true)
 	private List<Tool> tools;
 	
 	@OneToMany(mappedBy = "user")
@@ -83,9 +83,10 @@ public class User {
 	@JsonIgnoreProperties({"user", "project"})
 	private List<Participant> participations;
 	
-	
+	 
 	{
 		ownedProjects = new ArrayList<>();
+		tools = new ArrayList<>();
 	}
 	
 	public User() {

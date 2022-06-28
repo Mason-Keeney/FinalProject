@@ -57,11 +57,12 @@ export class ProjectService {
   }
 
   create(project: Project): Observable<Project> {
+    console.log(project);
     return this.http.post<Project>(this.url, project, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(
-          () => new Error('Project.create(): error retrieving Project:' + err)
+          () => new Error('Project.create(): error creating Project:' + err)
         );
       })
     );

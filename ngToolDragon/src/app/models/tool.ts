@@ -36,11 +36,11 @@ export class Tool {
     createdAt: Date | null = null,
     updatedAt: Date | null = null,
     owner: User | null = null,
-    comments: ToolComment[] | null = null,
+    comments: ToolComment[] | null = [],
     condition: ToolCondition | null = null,
-    categories: Category[] | null = null,
+    categories: Category[] | null = [],
     status: Status | null = null,
-    projectUsedIn: ProjectTool[] | null = null
+    projectUsedIn: ProjectTool[] | null = []
 
   ) {
     this.id = id;
