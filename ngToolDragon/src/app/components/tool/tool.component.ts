@@ -44,8 +44,9 @@ export class ToolComponent implements OnInit {
   }
 
   reload() {
-
-
+    this.indexAll();
+    this.authenticateUser();
+    this.updateChecker = new Tool;
   }
 
   checkLogin(): boolean{
@@ -62,6 +63,8 @@ export class ToolComponent implements OnInit {
   }
 
   authenticateUser(){
+    this.toolList = [];
+    this.user = new User;
     this.authService.authenticateUser().subscribe({
       next: (result) =>{
         this.user = result;
@@ -76,6 +79,7 @@ export class ToolComponent implements OnInit {
   }
 
   indexAll() {
+    this.toolListFull = [];
     this.toolService.indexAll().subscribe({
       next: (result) => {
         this.toolListFull = result;
@@ -107,6 +111,7 @@ export class ToolComponent implements OnInit {
       next: (result) => {
         this.tool = result;
         window.alert('A tool was created!');
+        this.reload();
       },
       error: (nojoy) => {
         console.error(
@@ -120,6 +125,7 @@ export class ToolComponent implements OnInit {
   updateTool(id: number | null, tool: Tool): void {
     this.toolService.update(id, tool).subscribe({
       next: (result) => {
+        this.reload();
       },
       error: (nojoy) => {
         console.log('Tool.update(): error updating Tool:');
@@ -132,6 +138,7 @@ export class ToolComponent implements OnInit {
       this.toolService.destroy(tool.id).subscribe({
         next: (result) => {
           window.alert(this.user.username + "'s tool was deleted");
+          this.reload();
         },
         error: (nojoy) => {
           console.error('Tool.delete(): error deleting tool:');

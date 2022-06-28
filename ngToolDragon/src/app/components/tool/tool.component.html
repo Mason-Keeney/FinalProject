@@ -13,7 +13,7 @@
             <th scope="col">ID</th>
             <th scope="col">Name</th>
             <th scope="col">Description</th>
-            <th scope="col">Availability</th>
+            <th scope="col">Available?</th>
             <th scope="col">Training Required</th>
             <th scope="col">Operators</th>
             <th scope="col">Status</th>
@@ -26,7 +26,7 @@
           <tr  *ngFor="let tool of toolList | toolSearch:search">
             <th scope="row">{{tool.id}}</th><td>{{tool.name}}</td>
             <td (click)="setUpdate(tool)" style ="cursor:pointer;">{{tool.description}}</td>
-            <td>{{tool.availability}}</td>
+            <td>{{tool.available}}</td>
             <td>{{tool.trainingRequired}}</td>
             <td>{{tool.operators}}</td>
             <td>{{tool.status?.name}}</td>
@@ -45,7 +45,7 @@
         <th scope="col">ID</th>
         <th scope="col">Name</th>
         <th scope="col">Description</th>
-        <th scope="col">Availability</th>
+        <th scope="col">Available?</th>
         <th scope="col">Training Required</th>
         <th scope="col">Operators</th>
         <th scope="col">Status</th>
@@ -58,7 +58,7 @@
       <tr   *ngFor="let tool of toolListFull | toolSearch:search">
         <th scope="row">{{tool.id}}</th><td>{{tool.name}}</td>
         <td>{{tool.description}}</td>
-        <td>{{tool.availability}}</td>
+        <td>{{tool.available}}</td>
         <td>{{tool.trainingRequired}}</td>
         <td>{{tool.operators}}</td>
         <td>{{tool.status?.name}}</td>
