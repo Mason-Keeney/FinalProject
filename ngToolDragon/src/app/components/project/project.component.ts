@@ -8,6 +8,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { faMagnifyingGlass, faToolbox } from '@fortawesome/free-solid-svg-icons';
+import { AuthService } from 'src/app/services/auth.service';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-project',
@@ -23,21 +25,56 @@ export class ProjectComponent implements OnInit {
   faToolbox = faToolbox;
   selected: Project | null = null;
   newProject: Project = new Project();
+  startDateString: string = '';
+  estimatedEndDateString: string = '';
+  user: User = new User;
+  updateChecker: Project = new Project;
 
   constructor(
     private projectServ: ProjectService,
     private userServ: UserService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
     ) {}
 
     ngOnInit(): void {
+      this.authenticateUser();
       this.index();
+    }
+
+    authenticateUser(){
+      this.authService.authenticateUser().subscribe({
+        next: (result) =>{
+          this.user = result;
+        },
+        error: (problem) => {
+          console.log(problem);
+        }
+      })
+    }
+
+    setUpdate(project: Project): void {
+
+      if(this.updateChecker != project) {
+        this.updateChecker = project;
+      } else {
+        this.updateChecker = new Project;
+      }
+
     }
 
     reload() {
       this.project.id = 1;
       this.show(this.project);
     }
+
+  setSelected(project: Project) {
+    if (this.selected != project) {
+      this.selected = project;
+    } else {
+      this.selected = null;
+    }
+  }
 
   index() {
     this.projectServ.index().subscribe({
@@ -80,6 +117,8 @@ export class ProjectComponent implements OnInit {
   updateProject(id: number | null, project: Project): void {
     this.projectServ.update(id, project).subscribe({
       next: (result) => {
+        this.project = result;
+        window.alert('A project was updated!');
       },
       error: (nojoy) => {
         console.error('ProjectComponent.adding: error updating project');
@@ -91,7 +130,7 @@ export class ProjectComponent implements OnInit {
   deleteProject(project: Project): void {
     this.projectServ.destroy(project.id).subscribe({
       next: () => {
-        window.alert(name + "'s project was deleted");
+        window.alert("project was deleted");
       },
       error: (nojoy) => {
         console.error('ProjectComponent.deleting: error deleting project');
