@@ -1,9 +1,11 @@
+import { InspectProjectComponent } from './../inspect-project/inspect-project.component';
+import { ParticipantComponent } from './../participant/participant.component';
+import { Project } from './../../models/project';
 import { Participant } from './../../models/participant';
 import { UserService } from './../../services/user.service';
 import { Category } from './../../models/category';
 import { ProjectService } from './../../services/project.service';
-import { Component, OnInit } from '@angular/core';
-import { Project } from 'src/app/models/project';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, catchError, throwError } from 'rxjs';
@@ -35,6 +37,9 @@ export class ProjectComponent implements OnInit {
   updateChecker: Project = new Project;
   toolListFull: Tool[] = [];
   toolList: Tool[] = [];
+  participant: Participant = new Participant;
+  participantProject: Project | null = null;
+  inspect: Project | null = null;
 
   constructor(
     private projectServ: ProjectService,
@@ -43,6 +48,12 @@ export class ProjectComponent implements OnInit {
     private authService: AuthService,
     private toolService: ToolService
     ) {}
+
+    @ViewChild(ParticipantComponent, { static: false })
+    participantComponent!: ParticipantComponent;
+
+    @ViewChild(InspectProjectComponent, { static: false })
+    inspectProjectComponent!: InspectProjectComponent;
 
     ngOnInit(): void {
       this.toolIndex();
@@ -82,8 +93,23 @@ export class ProjectComponent implements OnInit {
       return contains;
     }
 
-    addPartRequest(project:Project|null): void {
+    toggleInspect(project: Project){
+      if(this.inspect != project){
+        this.inspect = project;
+      }
+      else {
+        this.inspect = null;
+      }
+    }
 
+    addPartRequest(project:Project|null): void {
+      if(!this.participantProject){
+        this.participant.project = project;
+        this.participant.user = this.user;
+        this.participantProject = project;
+      } else {
+        this.participantProject = null;
+      }
     }
 
     setUpdate(project: Project): void {

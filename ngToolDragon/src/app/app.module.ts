@@ -24,6 +24,9 @@ import { ProjectViewComponent } from './components/project-view/project-view.com
 import { ToolSearchPipe } from './pipes/tool-search.pipe';
 import { ActivePipe } from './pipes/active.pipe';
 import { UserSearchPipe } from './pipes/user-search.pipe';
+import { ParticipantComponent } from './components/participant/participant.component';
+import { OwnerPipe } from './pipes/owner.pipe';
+import { InspectProjectComponent } from './components/inspect-project/inspect-project.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +46,10 @@ import { UserSearchPipe } from './pipes/user-search.pipe';
     ActivePipe,
     ProjectViewComponent,
     ToolSearchPipe,
-    UserSearchPipe
+    UserSearchPipe,
+    ParticipantComponent,
+    OwnerPipe,
+    InspectProjectComponent
   ],
   imports: [
     BrowserModule,
