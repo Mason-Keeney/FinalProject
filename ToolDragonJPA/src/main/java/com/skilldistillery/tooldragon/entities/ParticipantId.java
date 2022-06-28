@@ -19,6 +19,14 @@ public class ParticipantId implements Serializable {
 	public ParticipantId() {
 		super();
 	}
+	
+
+	public ParticipantId(int projectId, int userId) {
+		super();
+		this.projectId = projectId;
+		this.userId = userId;
+	}
+
 
 	public static long getSerialVersionUID() {
 		return serialVersionUID;
