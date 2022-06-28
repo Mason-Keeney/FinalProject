@@ -23,9 +23,9 @@
         </thead>
 
         <tbody>
-          <tr *ngFor="let tool of toolList | toolSearch:search">
+          <tr  *ngFor="let tool of toolList | toolSearch:search">
             <th scope="row">{{tool.id}}</th><td>{{tool.name}}</td>
-            <td>{{tool.description}}</td>
+            <td (click)="setUpdate(tool)" style ="cursor:pointer;">{{tool.description}}</td>
             <td>{{tool.availability}}</td>
             <td>{{tool.trainingRequired}}</td>
             <td>{{tool.operators}}</td>
@@ -55,7 +55,7 @@
     </thead>
 
     <tbody>
-      <tr *ngFor="let tool of toolListFull | toolSearch:search">
+      <tr   *ngFor="let tool of toolListFull | toolSearch:search">
         <th scope="row">{{tool.id}}</th><td>{{tool.name}}</td>
         <td>{{tool.description}}</td>
         <td>{{tool.availability}}</td>
@@ -69,7 +69,7 @@
 </table>
 </div>
 
-<div *ngIf="checkLogin()" class="col-lg-3">
+<div *ngIf="checkLogin() && !updateChecker?.id" class="col-lg-3">
 <form class="form" action="">
   <h3>Add New Tool</h3>
 <input type="text"  class="form-control" placeholder="Tool Name" name="name" [(ngModel)]="newTool.name">
@@ -80,6 +80,20 @@
 <label for="available">Available</label>: <input type="checkbox" class="form-check-input" name="avalible" [(ngModel)]="newTool.available"> <br>
 <label for="trainingRequired">Training Required</label>: <input type="checkbox" class="form-check-input" name="trainingRequired" [(ngModel)]="newTool.trainingRequired"> <br>
 <button class="btn btn-success" title="Add Tool" (click)="createTool(newTool)">Submit</button>
+
+</form>
+</div>
+<div *ngIf="checkLogin() && updateChecker?.id" class="col-lg-3">
+<form class="form" action="">
+  <h3 >Update {{updateChecker.name}}</h3>
+<input type="text"  class="form-control" placeholder="Tool Name" name="name" [(ngModel)]="updateChecker.name" >
+<textarea class="form-control" placeholder="Tool Description" name="description" [(ngModel)]="updateChecker.description"></textarea>
+<input type="text"  class="form-control" placeholder="Tool Availability" name="availability" [(ngModel)]="updateChecker.availability">
+<input type="text"  class="form-control" placeholder="Image URL" name="imageUrl" [(ngModel)]="updateChecker.imageUrl">
+<input type="number"  class="form-control" placeholder="Number of Operators" name="operators" [(ngModel)]="updateChecker.operators">
+<label for="available">Available</label>: <input type="checkbox" class="form-check-input" name="avalible" [(ngModel)]="updateChecker.available"> <br>
+<label for="trainingRequired">Training Required</label>: <input type="checkbox" class="form-check-input" name="trainingRequired" [(ngModel)]="updateChecker.trainingRequired"> <br>
+<button class="btn btn-warning" title="Add Tool" (click)="updateTool(updateChecker.id, updateChecker)">Submit</button>
 </form>
 </div>
 </div>
