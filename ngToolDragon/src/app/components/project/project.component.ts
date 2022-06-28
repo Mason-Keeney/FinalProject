@@ -1,8 +1,11 @@
+import { InspectProjectComponent } from './../inspect-project/inspect-project.component';
+import { ParticipantComponent } from './../participant/participant.component';
+import { Project } from './../../models/project';
+import { Participant } from './../../models/participant';
 import { UserService } from './../../services/user.service';
 import { Category } from './../../models/category';
 import { ProjectService } from './../../services/project.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Project } from 'src/app/models/project';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, catchError, throwError } from 'rxjs';
@@ -22,6 +25,7 @@ import { ProjectToolComponent } from '../project-tool/project-tool.component';
 export class ProjectComponent implements OnInit {
   private url = environment.baseUrl + 'api/project';
   projects: Project[] = [];
+  fullProjects: Project[] = [];
   project: Project = new Project;
   search: string = '';
   faMagnifyingGlass = faMagnifyingGlass;
@@ -37,6 +41,11 @@ export class ProjectComponent implements OnInit {
 
   @ViewChild(ProjectToolComponent, { static: false })
   projectToolComponent!: ProjectToolComponent;
+  toolListFull: Tool[] = [];
+  toolList: Tool[] = [];
+  participant: Participant = new Participant;
+  participantProject: Project | null = null;
+  inspect: Project | null = null;
 
   constructor(
     private projectServ: ProjectService,
@@ -45,9 +54,16 @@ export class ProjectComponent implements OnInit {
     private authService: AuthService
     ) {}
 
+    @ViewChild(ParticipantComponent, { static: false })
+    participantComponent!: ParticipantComponent;
+
+    @ViewChild(InspectProjectComponent, { static: false })
+    inspectProjectComponent!: InspectProjectComponent;
+
     ngOnInit(): void {
       this.authenticateUser();
       this.index();
+      this.indexAll();
     }
 
     authenticateUser(){
@@ -66,6 +82,45 @@ export class ProjectComponent implements OnInit {
       if(this.editingProject){
       } else {
         this.projectToolComponent.ProjectTool = new Project();
+      }
+    }
+
+    projectContains(userID: number | null, projectID: number | null): boolean{
+        let projectRunner = new Project;
+        let userRunner = new User;
+        let projectvar = false;
+        let contains = false;
+        if(projectID) {
+
+      }
+      if(this.user.id === userID && projectvar){
+        if(projectRunner.particpants) {
+        projectRunner.particpants.forEach(Participant => {
+          if(Participant.user?.id === userID){
+            contains = true;
+          }
+        });
+      }
+      }
+      return contains;
+    }
+
+    toggleInspect(project: Project){
+      if(this.inspect != project){
+        this.inspect = project;
+      }
+      else {
+        this.inspect = null;
+      }
+    }
+
+    addPartRequest(project:Project|null): void {
+      if(!this.participantProject){
+        this.participant.project = project;
+        this.participant.user = this.user;
+        this.participantProject = project;
+      } else {
+        this.participantProject = null;
       }
     }
 
@@ -95,6 +150,17 @@ export class ProjectComponent implements OnInit {
     this.projectServ.index().subscribe({
       next: (result) => {
         this.projects = result;
+      },
+      error: (nojoy) => {
+        console.log('Project.index(): error retrieving Projects:');
+        console.log(nojoy);
+      },
+    });
+  }
+  indexAll() {
+    this.projectServ.indexAll().subscribe({
+      next: (result) => {
+        this.fullProjects = result;
       },
       error: (nojoy) => {
         console.log('Project.index(): error retrieving Projects:');
@@ -157,6 +223,17 @@ export class ProjectComponent implements OnInit {
 
   getNumProject() {
     return this.projects.length;
+  }
+  projectIndex() {
+    this.projectServ.indexAll().subscribe({
+      next: (result) => {
+        this.fullProjects = result;
+      },
+      error: (nojoy) => {
+       console.log('Tool.index(): error retrieving Tools:');
+       console.log(nojoy);
+      },
+    });
   }
 
   checkProjectLevel() {

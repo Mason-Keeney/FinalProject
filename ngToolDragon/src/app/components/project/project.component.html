@@ -13,7 +13,8 @@
   <h6><a [routerLink]="['/projectView']">Add a new Project</a></h6>
 
   <div class="col-lg-9 table-responsive">
-    <table class="table">
+    <table class="table" *ngIf="!participantProject">
+
       <thead>
         <tr>
         <th scope="col">ID</th>
@@ -22,22 +23,25 @@
         <th scope="col">End Date</th>
         <th scope="col">Completed</th>
         <th scope="col">Owner</th>
+        <th scope="col">Request</th>
+
       </tr>
     </thead>
-
-
     <tbody>
-      <tr *ngFor="let project of projects | projectSearch:search">
+      <tr *ngFor="let project of fullProjects | projectSearch:search">
         <th scope="row">{{project.id}}</th>
         <td (click)="setSelected(project)" style ="cursor:pointer;">{{project.description}} </td>
         <td>{{project.startDate}}</td>
         <td>{{project.estimatedEndDate}}</td>
         <td>{{project.completed}}</td>
         <td>{{project.owner?.firstName}} {{project.owner?.lastName}}</td>
+        <div *ngIf="project.owner?.id != user.id"><td (click)="addPartRequest(project)"><button class="btn btn-success">Add Me</button></td></div>
       </tr>
     </tbody>
-  </table>
-  <hr><br>
+</table>
+<button class="btn btn-warning" *ngIf="participantProject" (click)="addPartRequest(participantProject)">Back</button>
+<app-participant *ngIf="participantProject" [participant]="participant"></app-participant>
+<hr><br>
 
 
 </div>
@@ -68,5 +72,38 @@
         <button class="btn btn-danger" (click)="deleteProject(selected)" >Delete</button>
       </form>
   </div>
+
+</div>
+
+<div class="row">
+<div class="col-lg-9">
+  <table class="table" *ngIf="!inspect">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Description</th>
+        <th scope="col">Start Date</th>
+        <th scope="col">End Date</th>
+        <th scope="col">Completed</th>
+        <th scope="col">Owner</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let project of fullProjects | owner:user">
+        <th scope="row">{{project.id}}</th>
+        <td (click)="toggleInspect(project)" style ="cursor:pointer;">{{project.description}} </td>
+        <td>{{project.startDate}}</td>
+        <td>{{project.estimatedEndDate}}</td>
+        <td>{{project.completed}}</td>
+        <td>{{project.owner?.firstName}} {{project.owner?.lastName}}</td>
+      </tr>
+    </tbody>
+</table>
+<button *ngIf="inspect" class="btn btn-warning" (click)="toggleInspect(inspect)">Back</button>
+<app-inspect-project *ngIf="inspect" [project]="inspect"></app-inspect-project>
+</div>
+<div class="col-lg-3">
+
+</div>
 
 </div>

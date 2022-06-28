@@ -8,6 +8,7 @@ import {
   faShieldAlt,
   faUserPen,
   faUserSlash,
+  faCircleArrowLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import { User } from 'src/app/models/user';
 import { AddressComponent } from '../address/address.component';
@@ -41,6 +42,7 @@ export class EdituserComponent implements OnInit {
   faShieldAlt = faShieldAlt;
   editAddress: boolean = false;
   faUserSlash = faUserSlash;
+  faCircleArrowLeft = faCircleArrowLeft;
 
   saveEdit(user: User) {
     if (user) {
