@@ -1,3 +1,4 @@
+import { Participant } from './../../models/participant';
 import { UserService } from './../../services/user.service';
 import { Category } from './../../models/category';
 import { ProjectService } from './../../services/project.service';
@@ -21,6 +22,7 @@ import { Tool } from 'src/app/models/tool';
 export class ProjectComponent implements OnInit {
   private url = environment.baseUrl + 'api/project';
   projects: Project[] = [];
+  fullProjects: Project[] = [];
   project: Project = new Project;
   search: string = '';
   faMagnifyingGlass = faMagnifyingGlass;
@@ -46,6 +48,7 @@ export class ProjectComponent implements OnInit {
       this.toolIndex();
       this.authenticateUser();
       this.index();
+      this.indexAll();
     }
 
     authenticateUser(){
@@ -57,6 +60,30 @@ export class ProjectComponent implements OnInit {
           console.log(problem);
         }
       })
+    }
+
+    projectContains(userID: number | null, projectID: number | null): boolean{
+        let projectRunner = new Project;
+        let userRunner = new User;
+        let projectvar = false;
+        let contains = false;
+        if(projectID) {
+
+      }
+      if(this.user.id === userID && projectvar){
+        if(projectRunner.particpants) {
+        projectRunner.particpants.forEach(Participant => {
+          if(Participant.user?.id === userID){
+            contains = true;
+          }
+        });
+      }
+      }
+      return contains;
+    }
+
+    addPartRequest(project:Project|null): void {
+
     }
 
     setUpdate(project: Project): void {
@@ -85,6 +112,17 @@ export class ProjectComponent implements OnInit {
     this.projectServ.index().subscribe({
       next: (result) => {
         this.projects = result;
+      },
+      error: (nojoy) => {
+        console.log('Project.index(): error retrieving Projects:');
+        console.log(nojoy);
+      },
+    });
+  }
+  indexAll() {
+    this.projectServ.indexAll().subscribe({
+      next: (result) => {
+        this.fullProjects = result;
       },
       error: (nojoy) => {
         console.log('Project.index(): error retrieving Projects:');
@@ -149,6 +187,17 @@ export class ProjectComponent implements OnInit {
     this.toolService.indexAll().subscribe({
       next: (result) => {
         this.toolListFull = result;
+      },
+      error: (nojoy) => {
+       console.log('Tool.index(): error retrieving Tools:');
+       console.log(nojoy);
+      },
+    });
+  }
+  projectIndex() {
+    this.projectServ.indexAll().subscribe({
+      next: (result) => {
+        this.fullProjects = result;
       },
       error: (nojoy) => {
        console.log('Tool.index(): error retrieving Tools:');
