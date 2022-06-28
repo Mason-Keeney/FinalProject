@@ -57,6 +57,7 @@
   <br><hr><br><h2>Admin Tables</h2><br><hr><br>
   <div class="col-4 table-responsive">
     <h3>Users</h3>
+    <input type="text" placeholder="Search users..." class="form-control" [(ngModel)]="userSearch">
     <table class="table table-sm">
       <thead>
         <tr>
@@ -64,20 +65,23 @@
           <th scope="col">Username</th>
           <th scope="col">Name</th>
           <th scope="col">Disable</th>
+          <th scope="col">Edit</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let user of userList">
+        <tr *ngFor="let user of userList | userSearch:userSearch">
           <th scope="row">{{user.id}}</th>
           <td>{{user.username}}</td>
           <td>{{user.firstName}} {{user.lastName}}</td>
           <td><button class="btn btn-danger" (click)="deleteUser(user)"><fa-icon [icon]="faUserSlash"></fa-icon></button></td>
+          <td><button class="btn btn-warning"> <fa-icon [icon]="faUserPen"></fa-icon> </button></td>
         </tr>
       </tbody>
     </table>
   </div>
   <div class="col-4 table-responsive">
     <h3>Projects</h3>
+    <input type="text" placeholder="Search projects..." class="form-control" [(ngModel)]="projectSearch">
     <table class="table table-sm">
       <thead>
         <tr>
@@ -85,17 +89,42 @@
           <th scope="col">Description</th>
           <th scope="col">Start Date</th>
           <th scope="col">Disable</th>
+          <th scope="col">Edit</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let project of projectList">
+        <tr *ngFor="let project of projectList | projectSearch:projectSearch">
           <th scope="row">{{project.id}}</th>
           <td>{{project.description}}</td>
           <td>{{project.startDate}}</td>
-          <td><button class="btn btn-danger" (click)="deleteProject(project)"><fa-icon [icon]="faUserSlash"></fa-icon></button></td>
+          <td><button class="btn btn-danger" (click)="deleteProject(project)"><fa-icon [icon]="faTrashCan"></fa-icon></button></td>
+          <td><button class="btn btn-warning"><fa-icon [icon]="faPenToSquare"></fa-icon></button></td>
         </tr>
       </tbody>
     </table>
   </div>
-  <div class="col-4"></div>
+  <div class="col-4 table-responsive">
+    <h3>Tools</h3>
+    <input type="text" placeholder="Search tools..." class="form-control" [(ngModel)]="toolSearch">
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">Disable</th>
+          <th scope="col">Edit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tool of toolList | toolSearch:toolSearch">
+          <th scope="row">{{tool.id}}</th>
+          <td>{{tool.name}}</td>
+          <td>{{tool.description}}</td>
+          <td><button class="btn btn-danger" (click)="deleteTool(tool)"><fa-icon [icon]="faTrashCan"></fa-icon></button></td>
+          <td><button class="btn btn-warning"><fa-icon [icon]="faPenToSquare"></fa-icon></button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

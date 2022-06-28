@@ -1,8 +1,9 @@
+import { ToolService } from './../../services/tool.service';
 import { ActivePipe } from './../../pipes/active.pipe';
 import { Project } from './../../models/project';
 import { DatePipe } from '@angular/common';
 import { UserService } from './../../services/user.service';
-import { faUser, faUserSlash } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faUserSlash, faUserPen, faTrashCan, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user';
@@ -24,11 +25,18 @@ export class UserHomeComponent implements OnInit{
   editingUser: Boolean = false;
   faUser = faUser;
   faUserSlash = faUserSlash;
+  faUserPen = faUserPen;
+  faTrashCan = faTrashCan;
+  faPenToSquare = faPenToSquare;
   today = new Date();
   todayString = this.datePipe.transform(this.today);
   userList: User[] = [];
   projectList: Project[] = [];
   isAdmin = false;
+  toolList: Tool[] = [];
+  userSearch = "";
+  projectSearch = "";
+  toolSearch = "";
 
 
   @ViewChild(EdituserComponent, { static: false })
@@ -39,7 +47,8 @@ export class UserHomeComponent implements OnInit{
     private userService: UserService,
     private datePipe: DatePipe,
     private activePipe: ActivePipe,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private toolService: ToolService
   ) {}
 
 
@@ -51,6 +60,7 @@ export class UserHomeComponent implements OnInit{
         if(this.user.role === "role_admin"){
            this.indexUsers();
            this.indexProjects();
+           this.indexTools();
            this.isAdmin = true;
         }
       },
@@ -98,7 +108,8 @@ export class UserHomeComponent implements OnInit{
       })
   }
   reload(){
-    this.indexUsers()
+    this.indexUsers();
+    this.indexProjects();
   }
 
   deleteUser(deleteUser: User){
@@ -114,7 +125,30 @@ export class UserHomeComponent implements OnInit{
   }
 
   deleteProject(deleteProject: Project){
-    console.log(deleteProject);
+    this.projectService.destroy(deleteProject.id).subscribe({
+      next: () => {
+        this.reload();
+      },
+      error: (problem) => {
+        console.log("UserHomeHttpComponent Error: unable to delete project");
+        console.log(problem);
+
+
+      }
+    })
+  }
+
+  deleteTool(deleteTool: Tool){
+    this.toolService.destroy(deleteTool.id).subscribe({
+      next:() => {
+        this.reload();
+      },
+      error: (problem) => {
+        console.log("UserHomeHttpComponent Error: unable to delete tool");
+        console.log(problem);
+      }
+    })
+
   }
 
   indexProjects(){
@@ -124,6 +158,18 @@ export class UserHomeComponent implements OnInit{
       },
       error: (problem) => {
         console.log("UserHomeHttpComponent Error: unable to populate UserList")
+        console.log(problem);
+      }
+    })
+  }
+
+  indexTools(){
+    this.toolService.index().subscribe({
+      next: (result) => {
+        this.toolList = this.activePipe.transform(result);
+      },
+      error: (problem) => {
+        console.log("UserHomeHttpComponent Error: unable to populate ToolList");
         console.log(problem);
       }
     })
