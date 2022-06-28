@@ -1,3 +1,5 @@
+<div class="row">
+
 <div class="input-group mb-3">
   <span class="input-group-text" id="basic-addon1"><fa-icon [icon]="faMagnifyingGlass"></fa-icon> </span>
 <input class="form-control" type="text" placeholder="Search..." [(ngModel)]="search">
@@ -7,7 +9,7 @@
 
 <h6><a [routerLink]="['/projectView']">Add a new Project</a></h6>
 
-<div class="col-6">
+<div class="col-lg-9 table-responsive">
   <table class="table">
     <thead>
       <tr>
@@ -23,7 +25,8 @@
 
     <tbody>
       <tr *ngFor="let project of projects | projectSearch:search">
-        <th scope="row">{{project.id}}</th><td>{{project.description}}</td>
+        <th scope="row">{{project.id}}</th>
+        <td (click)="setSelected(project)">{{project.description}}</td>
         <td>{{project.startDate}}</td>
         <td>{{project.estimatedEndDate}}</td>
         <td>{{project.completed}}</td>
@@ -31,4 +34,41 @@
       </tr>
     </tbody>
 </table>
+<hr><br>
+
+</div>
+  <div class="col-lg-3">
+      <form class="form" *ngIf="selected">
+        <h3>Update</h3>
+
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon1">Description</span>
+          <textarea class="form-control" text="text" name="description" [(ngModel)]="selected.description" ></textarea>
+        </div>
+
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon1">Start Date</span>
+          <input class="form-control" type="date" name="startDate"  [(ngModel)]="selected.startDate">
+        </div>
+
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon1">End Date</span>
+          <input class="form-control" type="date" name="estimatedEndDate"  [(ngModel)]="selected.estimatedEndDate">
+        </div>
+
+        <label for="trainingRequired">Completed</label>: <input type="checkbox" class="form-check-input" name="compelted" [(ngModel)]="selected.completed"> <br> <br>
+
+        <button class="btn btn-warning" (click)="updateProject(selected.id, selected)" >Sumbit</button><br><br>
+
+        <button class="btn btn-danger" (click)="deleteProject(selected)" >Delete</button>
+
+      </form>
+  </div>
+
+
+
+
+
+
+
 </div>
