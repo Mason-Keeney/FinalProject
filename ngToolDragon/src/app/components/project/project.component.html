@@ -19,18 +19,21 @@
         <th scope="col">End Date</th>
         <th scope="col">Completed</th>
         <th scope="col">Owner</th>
+        <th scope="col">Request</th>
+
       </tr>
     </thead>
 
 
     <tbody>
-      <tr *ngFor="let project of projects | projectSearch:search">
+      <tr *ngFor="let project of fullProjects | projectSearch:search">
         <th scope="row">{{project.id}}</th>
         <td (click)="setSelected(project)" style ="cursor:pointer;">{{project.description}} </td>
         <td>{{project.startDate}}</td>
         <td>{{project.estimatedEndDate}}</td>
         <td>{{project.completed}}</td>
         <td>{{project.owner?.firstName}} {{project.owner?.lastName}}</td>
+        <div *ngIf="project.owner?.id != user.id"><td (click)="addPartRequest(project)"><button>Add Me</button></td></div>
       </tr>
     </tbody>
 </table>
