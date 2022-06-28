@@ -1,30 +1,54 @@
-<h3>Project Description</h3>
+<h3>{{project.description}}</h3>
 
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">Participants</th>
-      <th scope="col">Tools</th>
-      <th scope="col">Request a Tool</th>
+      <th>ID</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th>Completed</th>
     </tr>
   </thead>
 
   <tbody>
     <tr>
-      <!-- <th scope="row">{{participants}}</th> -->
-      <!-- <th scope="row">{{tool.name}}</th> -->
-
-
-
-
-
-
+      <th scope="row">{{project.id}}</th>
+      <th scope="row">{{project.startDate}}</th>
+      <th scope="row">{{project.estimatedEndDate}}</th>
+      <th scope="row"><span class="input-group-text" id="basic-addon1" [ngClass]="setClass(project)"><fa-icon *ngIf="project.completed" [icon]="faCheck"></fa-icon><fa-icon *ngIf="!project.completed" [icon]="faCircleX"></fa-icon></span></th>
     </tr>
+
   </tbody>
 
 
+</table>
 
 
 
+
+
+
+<table class="table" *ngIf="project.projectTools">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Description</th>
+      <th scope="col">Availability</th>
+      <th scope="col">Request Tool</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let tool of toolListFull">
+      <th scope="row">{{tool.id}}</th>
+      <td>{{tool.name}}</td>
+      <td>{{tool.description}}</td>
+      <td>{{tool.availability}}</td>
+      <td><button class="btn btn-success">Request</button></td>
+    </tr>
+  </tbody>
 
 </table>
+
+
