@@ -7,6 +7,7 @@ import { HomeComponent } from './components/home/home.component';
 import { UserHomeComponent } from './components/user-home/user-home.component';
 import { ProjectComponent } from './components/project/project.component';
 import { ToolComponent } from './components/tool/tool.component';
+import { ProjectToolComponent } from './components/project-tool/project-tool.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -16,7 +17,8 @@ const routes: Routes = [
   { path: 'address', component: AddressComponent},
   { path: 'tool', component: ToolComponent},
   { path: 'project', component: ProjectComponent},
-  { path: 'projectView', component: ProjectViewComponent}
+  { path: 'projectView', component: ProjectViewComponent},
+  { path: 'projectTool', component: ProjectToolComponent}
 ];
 
 @NgModule({

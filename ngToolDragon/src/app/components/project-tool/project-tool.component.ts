@@ -1,22 +1,35 @@
+import { ProjectTool } from './../../models/project-tool';
 import { Component, Input, OnInit } from '@angular/core';
+import { Project } from 'src/app/models/project';
 import { Tool } from 'src/app/models/tool';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { ProjectService } from 'src/app/services/project.service';
 import { ToolService } from 'src/app/services/tool.service';
 import { UserService } from 'src/app/services/user.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-inspect-project',
-  templateUrl: './inspect-project.component.html',
-  styleUrls: ['./inspect-project.component.css']
+  selector: 'app-project-tool',
+  templateUrl: './project-tool.component.html',
+  styleUrls: ['./project-tool.component.css']
 })
-export class InspectProjectComponent implements OnInit {
+
+
+export class ProjectToolComponent implements OnInit {
+  // private url = environment.baseUrl + 'api/projectTool';
+  @Input() ProjectTool: any;
+  projects: Project[] = [];
+  project: Project = new Project;
   user: User = new User;
+  newProject: Project = new Project();
+  startDateString: string = '';
+  estimatedEndDateString: string = '';
+  search: string = '';
   toolListFull: Tool[] = [];
   toolList: Tool[] = [];
 
-  @Input() project: any;
+
 
   constructor(
     private projectServ: ProjectService,
@@ -24,6 +37,8 @@ export class InspectProjectComponent implements OnInit {
     private authService: AuthService,
     private toolService: ToolService,
   ) { }
+
+
 
   ngOnInit(): void {
     this.toolIndex();
@@ -52,6 +67,5 @@ export class InspectProjectComponent implements OnInit {
       },
     });
   }
-
 
 }

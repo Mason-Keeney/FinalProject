@@ -24,6 +24,7 @@ import { ProjectViewComponent } from './components/project-view/project-view.com
 import { ToolSearchPipe } from './pipes/tool-search.pipe';
 import { ActivePipe } from './pipes/active.pipe';
 import { UserSearchPipe } from './pipes/user-search.pipe';
+import { ProjectToolComponent } from './components/project-tool/project-tool.component';
 import { ParticipantComponent } from './components/participant/participant.component';
 import { OwnerPipe } from './pipes/owner.pipe';
 import { InspectProjectComponent } from './components/inspect-project/inspect-project.component';
@@ -47,6 +48,7 @@ import { InspectProjectComponent } from './components/inspect-project/inspect-pr
     ProjectViewComponent,
     ToolSearchPipe,
     UserSearchPipe,
+    ProjectToolComponent,
     ParticipantComponent,
     OwnerPipe,
     InspectProjectComponent

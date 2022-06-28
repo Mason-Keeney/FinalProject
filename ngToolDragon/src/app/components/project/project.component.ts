@@ -10,11 +10,12 @@ import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { faMagnifyingGlass, faToolbox } from '@fortawesome/free-solid-svg-icons';
+import { faListCheck, faMagnifyingGlass, faToolbox } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/models/user';
 import { ToolService } from 'src/app/services/tool.service';
 import { Tool } from 'src/app/models/tool';
+import { ProjectToolComponent } from '../project-tool/project-tool.component';
 
 @Component({
   selector: 'app-project',
@@ -35,6 +36,11 @@ export class ProjectComponent implements OnInit {
   estimatedEndDateString: string = '';
   user: User = new User;
   updateChecker: Project = new Project;
+  editingProject: Boolean = false;
+  faListCheck = faListCheck;
+
+  @ViewChild(ProjectToolComponent, { static: false })
+  projectToolComponent!: ProjectToolComponent;
   toolListFull: Tool[] = [];
   toolList: Tool[] = [];
   participant: Participant = new Participant;
@@ -45,8 +51,7 @@ export class ProjectComponent implements OnInit {
     private projectServ: ProjectService,
     private userServ: UserService,
     private router: Router,
-    private authService: AuthService,
-    private toolService: ToolService
+    private authService: AuthService
     ) {}
 
     @ViewChild(ParticipantComponent, { static: false })
@@ -56,7 +61,6 @@ export class ProjectComponent implements OnInit {
     inspectProjectComponent!: InspectProjectComponent;
 
     ngOnInit(): void {
-      this.toolIndex();
       this.authenticateUser();
       this.index();
       this.indexAll();
@@ -71,6 +75,14 @@ export class ProjectComponent implements OnInit {
           console.log(problem);
         }
       })
+    }
+
+    toggleEditproject(){
+      this.editingProject = !this.editingProject;
+      if(this.editingProject){
+      } else {
+        this.projectToolComponent.ProjectTool = new Project();
+      }
     }
 
     projectContains(userID: number | null, projectID: number | null): boolean{
@@ -209,16 +221,8 @@ export class ProjectComponent implements OnInit {
     });
   }
 
-  toolIndex() {
-    this.toolService.indexAll().subscribe({
-      next: (result) => {
-        this.toolListFull = result;
-      },
-      error: (nojoy) => {
-       console.log('Tool.index(): error retrieving Tools:');
-       console.log(nojoy);
-      },
-    });
+  getNumProject() {
+    return this.projects.length;
   }
   projectIndex() {
     this.projectServ.indexAll().subscribe({
@@ -232,9 +236,16 @@ export class ProjectComponent implements OnInit {
     });
   }
 
-
-
-
+  checkProjectLevel() {
+    let numOfTodos = this.getNumProject();
+    if (numOfTodos >= 10) {
+      return 'badge bg-danger';
+    } else if (numOfTodos >= 5) {
+      return 'badge bg-warning';
+    } else {
+      return 'badge bg-success';
+    }
+  }
 
   // loadProject(): void {
   //   this.projectServ.index().subscribe({
