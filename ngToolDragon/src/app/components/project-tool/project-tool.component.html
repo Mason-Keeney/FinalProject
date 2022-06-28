@@ -1,0 +1,39 @@
+<hr>
+
+
+<div class="col-lg-3">
+  <form class="form">
+
+<h3>Tool List</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">Availability</th>
+          <th scope="col">Training Required</th>
+          <th scope="col">Operators</th>
+          <th scope="col">Status</th>
+          <th scope="col">Condition</th>
+          <th scope="col">Add to Project</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr   *ngFor="let tool of toolListFull | toolSearch:search">
+          <th scope="row">{{tool.id}}</th><td>{{tool.name}}</td>
+          <td>{{tool.description}}</td>
+          <td>{{tool.availability}}</td>
+          <td>{{tool.trainingRequired}}</td>
+          <td>{{tool.operators}}</td>
+          <td>{{tool.status?.name}}</td>
+          <td>{{tool.condition?.name}}</td>
+
+          <button class="btn btn-success" title="Add Tool">Add</button>
+
+        </tr>
+      </tbody>
+  </table>
+  </form>
+  </div>

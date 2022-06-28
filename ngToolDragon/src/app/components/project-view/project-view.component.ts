@@ -6,6 +6,8 @@ import { User } from 'src/app/models/user';
 import { ProjectService } from 'src/app/services/project.service';
 import { UserService } from 'src/app/services/user.service';
 import { environment } from 'src/environments/environment';
+import { Tool } from 'src/app/models/tool';
+import { ToolService } from 'src/app/services/tool.service';
 
 @Component({
   selector: 'app-project-view',
@@ -20,17 +22,20 @@ export class ProjectViewComponent implements OnInit {
   newProject: Project = new Project();
   startDateString: string = '';
   estimatedEndDateString: string = '';
+  search: string = '';
+  toolListFull: Tool[] = [];
+  toolList: Tool[] = [];
 
   constructor(
     private projectServ: ProjectService,
     private userServ: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private toolService: ToolService,
   ) { }
 
   ngOnInit(): void {
     this.authenticateUser();
   }
-
 
   authenticateUser(){
     this.authService.authenticateUser().subscribe({
@@ -101,5 +106,7 @@ export class ProjectViewComponent implements OnInit {
       },
     });
   }
+
+
 
 }
