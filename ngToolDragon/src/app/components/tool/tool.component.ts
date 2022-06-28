@@ -27,6 +27,7 @@ export class ToolComponent implements OnInit {
   user: User = new User;
   faToolbox = faToolbox;
   search: string = "";
+  updateChecker: Tool = new Tool;
 
   constructor(
     private http: HttpClient,
@@ -50,7 +51,15 @@ export class ToolComponent implements OnInit {
   checkLogin(): boolean{
     return this.authService.checkLogin();
   }
+  setUpdate(tool: Tool): void {
 
+    if(this.updateChecker != tool) {
+      this.updateChecker = tool;
+    } else {
+      this.updateChecker = new Tool;
+    }
+
+  }
 
   authenticateUser(){
     this.authService.authenticateUser().subscribe({
@@ -108,7 +117,7 @@ export class ToolComponent implements OnInit {
     })
   }
 
-  update(id: number | null, tool: Tool): void {
+  updateTool(id: number | null, tool: Tool): void {
     this.toolService.update(id, tool).subscribe({
       next: (result) => {
       },
