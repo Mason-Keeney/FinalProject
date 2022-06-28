@@ -10,6 +10,8 @@ import { environment } from 'src/environments/environment';
 import { faMagnifyingGlass, faToolbox } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/models/user';
+import { ToolService } from 'src/app/services/tool.service';
+import { Tool } from 'src/app/models/tool';
 
 @Component({
   selector: 'app-project',
@@ -29,15 +31,19 @@ export class ProjectComponent implements OnInit {
   estimatedEndDateString: string = '';
   user: User = new User;
   updateChecker: Project = new Project;
+  toolListFull: Tool[] = [];
+  toolList: Tool[] = [];
 
   constructor(
     private projectServ: ProjectService,
     private userServ: UserService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private toolService: ToolService
     ) {}
 
     ngOnInit(): void {
+      this.toolIndex();
       this.authenticateUser();
       this.index();
     }
@@ -54,7 +60,6 @@ export class ProjectComponent implements OnInit {
     }
 
     setUpdate(project: Project): void {
-
       if(this.updateChecker != project) {
         this.updateChecker = project;
       } else {
@@ -139,6 +144,20 @@ export class ProjectComponent implements OnInit {
       },
     });
   }
+
+  toolIndex() {
+    this.toolService.indexAll().subscribe({
+      next: (result) => {
+        this.toolListFull = result;
+      },
+      error: (nojoy) => {
+       console.log('Tool.index(): error retrieving Tools:');
+       console.log(nojoy);
+      },
+    });
+  }
+
+
 
 
 

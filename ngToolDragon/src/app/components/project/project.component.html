@@ -26,7 +26,7 @@
     <tbody>
       <tr *ngFor="let project of projects | projectSearch:search">
         <th scope="row">{{project.id}}</th>
-        <td (click)="setSelected(project)">{{project.description}}</td>
+        <td (click)="setSelected(project)" style ="cursor:pointer;">{{project.description}} </td>
         <td>{{project.startDate}}</td>
         <td>{{project.estimatedEndDate}}</td>
         <td>{{project.completed}}</td>
@@ -36,10 +36,46 @@
 </table>
 <hr><br>
 
+
 </div>
-  <div class="col-lg-3">
-      <form class="form" *ngIf="selected">
-        <h3>Update</h3>
+<div class="col-lg-3">
+  <form class="form" *ngIf="selected">
+
+    <h3>Tool List</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">Availability</th>
+          <th scope="col">Training Required</th>
+          <th scope="col">Operators</th>
+          <th scope="col">Status</th>
+          <th scope="col">Condition</th>
+
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr   *ngFor="let tool of toolListFull | toolSearch:search">
+          <th scope="row">{{tool.id}}</th><td>{{tool.name}}</td>
+          <td>{{tool.description}}</td>
+          <td>{{tool.availability}}</td>
+          <td>{{tool.trainingRequired}}</td>
+          <td>{{tool.operators}}</td>
+          <td>{{tool.status?.name}}</td>
+          <td>{{tool.condition?.name}}</td>
+        </tr>
+      </tbody>
+
+  </table>
+
+
+
+
+
+    <h3>Update</h3>
 
         <div class="input-group mb-3">
           <span class="input-group-text" id="basic-addon1">Description</span>
