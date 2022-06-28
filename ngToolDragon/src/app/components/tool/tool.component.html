@@ -50,7 +50,6 @@
         <th scope="col">Operators</th>
         <th scope="col">Status</th>
         <th scope="col">Condition</th>
-
       </tr>
     </thead>
 
@@ -80,7 +79,6 @@
 <label for="available">Available</label>: <input type="checkbox" class="form-check-input" name="avalible" [(ngModel)]="newTool.available"> <br>
 <label for="trainingRequired">Training Required</label>: <input type="checkbox" class="form-check-input" name="trainingRequired" [(ngModel)]="newTool.trainingRequired"> <br>
 <button class="btn btn-success" title="Add Tool" (click)="createTool(newTool)">Submit</button>
-
 </form>
 </div>
 <div *ngIf="checkLogin() && updateChecker?.id" class="col-lg-3">
