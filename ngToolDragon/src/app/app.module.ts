@@ -23,6 +23,7 @@ import { ProjectSearchPipe } from './pipes/project-search.pipe';
 import { ProjectViewComponent } from './components/project-view/project-view.component';
 import { ToolSearchPipe } from './pipes/tool-search.pipe';
 import { ActivePipe } from './pipes/active.pipe';
+import { UserSearchPipe } from './pipes/user-search.pipe';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { ActivePipe } from './pipes/active.pipe';
     ToolSearchPipe,
     ActivePipe,
     ProjectViewComponent,
-    ToolSearchPipe
+    ToolSearchPipe,
+    UserSearchPipe
   ],
   imports: [
     BrowserModule,
