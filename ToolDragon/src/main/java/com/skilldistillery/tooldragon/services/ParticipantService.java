@@ -14,7 +14,7 @@ public interface ParticipantService {
 
 	Participant show(String username, ParticipantId participantId);
 
-	Participant create(String username, Participant participant);
+	Participant create(String username, Participant participant, int pid);
 
 	Participant update(String username, Participant participant, ParticipantId participantId);
 

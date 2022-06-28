@@ -57,16 +57,12 @@ public class ParticipantController {
 		return participant;
 	}
 
-	@PostMapping("participants")
-	public Participant create(Principal principal, HttpServletResponse res, HttpServletRequest req,
-			@RequestBody Participant participantId) {
-		Participant participant = null;
-		ParticipantId id = new ParticipantId();
-		id.setProjectId(participantId.getProject().getId());
-		id.setUserId(participantId.getUser().getId());
-		participantId.setId(id);
+	@PostMapping("participants/{pid}")
+	public Participant create(Principal principal, HttpServletResponse res, HttpServletRequest req, @PathVariable int pid,
+			@RequestBody Participant participant) {
+
 		try {
-			participant = participantServ.create(principal.getName(), participantId);
+			participant = participantServ.create(principal.getName(), participant, pid);
 			if (participant != null) {
 				res.setStatus(201);
 				StringBuffer url = req.getRequestURL();
