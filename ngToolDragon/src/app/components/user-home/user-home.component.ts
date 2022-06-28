@@ -3,7 +3,7 @@ import { ActivePipe } from './../../pipes/active.pipe';
 import { Project } from './../../models/project';
 import { DatePipe } from '@angular/common';
 import { UserService } from './../../services/user.service';
-import { faUser, faUserSlash, faUserPen, faTrashCan, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faUserSlash, faUserPen, faTrashCan, faPenToSquare, faFloppyDisk, faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user';
@@ -28,6 +28,8 @@ export class UserHomeComponent implements OnInit{
   faUserPen = faUserPen;
   faTrashCan = faTrashCan;
   faPenToSquare = faPenToSquare;
+  faFloppyDisk = faFloppyDisk;
+  faCircleArrowLeft = faCircleArrowLeft;
   today = new Date();
   todayString = this.datePipe.transform(this.today);
   userList: User[] = [];
@@ -37,6 +39,12 @@ export class UserHomeComponent implements OnInit{
   userSearch = "";
   projectSearch = "";
   toolSearch = "";
+  adminEditUser: User | null = null;
+  adminEditProject: Project | null = null;
+  projectStartDate: string = "";
+  projectEndDate: string = "";
+  adminEditTool: Tool | null = null;
+
 
 
   @ViewChild(EdituserComponent, { static: false })
@@ -65,6 +73,61 @@ export class UserHomeComponent implements OnInit{
         }
       },
       error: (problem) => {
+        console.log(problem);
+      }
+    })
+  }
+
+  startAdminEditUser(user: User){
+    if (this.adminEditUser === user){
+        this.adminEditUser = null;
+    } else {
+      this.adminEditUser = user;
+    }
+  }
+
+  startAdminEditProject(project: Project){
+    if(this.adminEditProject != project){
+      this.adminEditProject = project;
+    } else {
+      this.adminEditProject = null;
+    }
+
+  }
+
+  startAdminEditTool(tool: Tool){
+    if(this.adminEditTool != tool){
+      this.adminEditTool = tool
+    } else{
+      this.adminEditTool = null;
+    }
+  }
+
+  updateProject(project: Project){
+    if(this.projectStartDate != ""){
+      project.startDate = new Date(this.projectStartDate);
+    }
+    if(this.projectEndDate != ""){
+      project.estimatedEndDate = new Date(this.projectEndDate);
+    }
+    this.projectService.update(project.id, project).subscribe({
+      next: (result) => {
+        this.adminEditProject = null;
+      },
+      error: (problem) => {
+        console.log("UserHomeHttpComponent Error: Unable to update project");
+        console.log(problem);
+      }
+    })
+  }
+
+  updateTool(tool: Tool){
+    this.toolService.update(tool.id, tool).subscribe({
+      next: (result) => {
+      this.adminEditTool = null;
+      },
+      error: (problem) => {
+        console.log("UserHomeHttpComponent Error: Unable to update tool");
         console.log(problem);
       }
     })
