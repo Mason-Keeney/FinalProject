@@ -71,7 +71,7 @@ public class ProjectController {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.err.println("Invalid Todo JSON");
+			System.err.println("Invalid project JSON");
 			res.setStatus(400);
 			project = null;
 

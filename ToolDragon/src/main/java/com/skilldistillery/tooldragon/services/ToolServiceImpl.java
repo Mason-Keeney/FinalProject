@@ -67,7 +67,7 @@ public class ToolServiceImpl implements ToolService {
 	@Override
 	public Tool create(String username, Tool tool) {
 		User owner = userRepo.findByUsername(username);
-		System.out.println(owner);
+		System.out.println(owner.getOwnedProjects());
 		if (tool != null) {
 			tool.setOwner(owner);
 			tool.setActive(true);

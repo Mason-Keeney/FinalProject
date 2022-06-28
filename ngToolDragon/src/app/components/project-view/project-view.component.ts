@@ -61,16 +61,18 @@ export class ProjectViewComponent implements OnInit {
   }
 
   addProject(project: Project): void {
+    console.log(project);
     project.startDate = new Date(this.startDateString);
     project.estimatedEndDate = new Date(this.estimatedEndDateString);
-    project.owner = this.user;
+    console.log(project);
+
     this.projectServ.create(project).subscribe({
       next: (result) => {
         this.project = result;
         window.alert('A project was created!');
       },
       error: (fail) => {
-        console.error('ProjectComponent.adding: error creating project');
+        console.error('ProjectViewComponent.adding: error creating project');
         console.error(fail);
       },
     });
