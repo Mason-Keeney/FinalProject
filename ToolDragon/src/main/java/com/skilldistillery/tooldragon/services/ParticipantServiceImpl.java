@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 
 import com.skilldistillery.tooldragon.entities.Participant;
 import com.skilldistillery.tooldragon.entities.ParticipantId;
+import com.skilldistillery.tooldragon.entities.Project;
 import com.skilldistillery.tooldragon.entities.User;
 import com.skilldistillery.tooldragon.repositories.ParticapantRepository;
+import com.skilldistillery.tooldragon.repositories.ProjectRepository;
 import com.skilldistillery.tooldragon.repositories.UserRepository;
 
 @Service
@@ -20,6 +22,9 @@ public class ParticipantServiceImpl implements ParticipantService {
 
 	@Autowired
 	private UserRepository userRepo;
+
+	@Autowired
+	private ProjectRepository projectRepo;
 
 	@Override
 	public Participant getParticipantById(ParticipantId participantId, User userId, String username) {
@@ -53,8 +58,19 @@ public class ParticipantServiceImpl implements ParticipantService {
 	}
 
 	@Override
-	public Participant create(String username, Participant participant) {
-		if (userRepo.findByUsername(username) != null) {
+	public Participant create(String username, Participant participant, int pid) {
+
+		User user = userRepo.findByUsername(username);
+		if (user != null) {
+			participant.setUser(user);
+			Optional<Project> projectOpt = projectRepo.findById(pid);
+			
+			if(projectOpt.isPresent()) {
+				Project p = projectOpt.get();
+				participant.setProject(p);
+				ParticipantId id = new ParticipantId(p.getId(), user.getId());
+				participant.setId(id);
+			}
 			if (participant != null) {
 				participant = participantRepo.saveAndFlush(participant);
 			}

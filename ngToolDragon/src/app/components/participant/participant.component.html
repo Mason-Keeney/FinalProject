@@ -1,1 +1,7 @@
-<p>participant works! {{participant.user?.firstName}}</p>
+
+  <form class="form" action="">
+    <h3>Request to be a part of project {{pid}}!</h3>
+    <textarea class="form-control"  placeholder="Request comment" name="comment"  [(ngModel)]="participant.participantComment"></textarea>
+    <button class="btn btn-success" (click)="createParticipant(participant)">Submit</button>
+
+  </form>
