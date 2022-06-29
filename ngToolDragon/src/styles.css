@@ -1,17 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.css";
 
-.hero {
+/* .hero {
   background-image: url(assets/dragonbackgroundop40.png);
-  /* background: linear-gradient(#ffffff, #232332); */
+  background: linear-gradient(#ffffff, #232332);
   max-width: 125%;
   max-height: fill;
-  /* background-color: #232332; */
+  background-color: #232332;
   background-position: #232332;
   background-size: 100%, auto;
   background-repeat: no-repeat;
-  /* background-image: url(assets/dragonbackground.jpg); */
-}
+  background-image: url(assets/dragonbackground.jpg);
+} */
 
 /* .hero::after{
   position: absolute;
@@ -21,3 +21,78 @@
   bottom: 0px;
   background-color: rgba(0,0,0,0.25);
 } */
+
+.navbar-light {
+  background-color: #9F4B2C !important;
+}
+
+
+
+.hero {
+  background-image: linear-gradient(45deg, #7f5217, #C68E17);
+  background-size: 100%, auto;
+  background-repeat: no-repeat;
+  font-family: sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6{
+  font-variant: small-caps;
+  font-family: 'Times New Roman', Times, serif;
+  color: #0A0908;
+}
+
+.btn-warning {
+  background-color: #C68E17;
+  border-color: #C68E17;
+}
+
+.btn-danger {
+  background-color: #9f4B2C;
+  border-color: #9F4B2C;
+}
+
+.btn-success {
+  background-color: #6D765D;
+  border-color: #6D765D;
+}
+
+.btn-secondary {
+  background-color: #708090;
+  border-color: #708090;
+}
+
+.btn-info.disabled{
+  background-color: #EAE0D5;
+  border-color: #EAE0D5;
+}
+
+#basic-addon1{
+ background-color: #22333B;
+ border-color: #22333B;
+ color: white;
+}
+ input[type=text] {
+    background-color: #EAE0D5;
+ }
+
+ .form-control{
+  background-color: #EAE0D5;
+ }
+
+ input[type=number]{
+  background-color: #EAE0D5;
+ }
+
+ input[type=checkbox]:checked{
+  background-color: #22333B;
+  border-color: #22333B;
+ }
+
+.table td, .table th{
+  border-color: #C68E17;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+  color: #564E58;
+}
