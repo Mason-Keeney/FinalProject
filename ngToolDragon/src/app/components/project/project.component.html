@@ -35,7 +35,7 @@
         <td>{{project.estimatedEndDate}}</td>
         <td>{{project.completed}}</td>
         <td>{{project.owner?.firstName}} {{project.owner?.lastName}}</td>
-        <div *ngIf="project.owner?.id != user.id"><td (click)="addPartRequest(project)"><button class="btn btn-success">Add Me</button></td></div>
+        <div *ngIf="!projectContains(project)"><td (click)="addPartRequest(project)"><button class="btn btn-success">Add Me</button></td></div>
       </tr>
     </tbody>
 </table>

@@ -38,6 +38,7 @@ export class ProjectComponent implements OnInit {
   updateChecker: Project = new Project;
   editingProject: Boolean = false;
   faListCheck = faListCheck;
+  displayParticipantButton: boolean = false;
 
   @ViewChild(ProjectToolComponent, { static: false })
   projectToolComponent!: ProjectToolComponent;
@@ -85,24 +86,25 @@ export class ProjectComponent implements OnInit {
       }
     }
 
-    projectContains(userID: number | null, projectID: number | null): boolean{
-        let projectRunner = new Project;
-        let userRunner = new User;
-        let projectvar = false;
-        let contains = false;
-        if(projectID) {
+    projectContains(project: Project): boolean{
+      if(project.owner?.id === this.user.id){
+        return true;
+      }
+     console.log(project.particpants);
+    if(project.particpants) {
+      for (let index = 0; index < project.particpants.length; index++) {
+      let participant = project.particpants[index];
+      console.log(participant.user?.id)
+      console.log(this.user.id);
+      console.log(participant.user?.id == this.user.id);
+      if(participant.user?.id == this.user.id) {
+
+        return true;
+      }
 
       }
-      if(this.user.id === userID && projectvar){
-        if(projectRunner.particpants) {
-        projectRunner.particpants.forEach(Participant => {
-          if(Participant.user?.id === userID){
-            contains = true;
-          }
-        });
-      }
-      }
-      return contains;
+    }
+    return false;
     }
 
     toggleInspect(project: Project){
