@@ -45,7 +45,13 @@
       <td>{{tool.name}}</td>
       <td>{{tool.description}}</td>
       <td>{{tool.availability}}</td>
-      <td><button class="btn btn-success">Request</button></td>
+
+      <div *ngIf="tool.owner?.id != user.id">
+        <td (click)="addToolRequest(project)"><button class="btn btn-success">Request</button></td>
+      </div>
+
+      <!-- <div *ngIf="project.owner?.id != project.id"><td (click)="addToolRequest(project)"><button class="btn btn-success">Request</button></td></div> -->
+
     </tr>
   </tbody>
 
