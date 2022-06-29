@@ -8,6 +8,7 @@
           <th scope="col">Name</th>
           <th scope="col">Description</th>
           <th scope="col">Add</th>
+
         </tr>
       </thead>
       <tbody>
@@ -15,7 +16,7 @@
           <th scope="row">{{material.id}}</th>
           <td (click)="toggleSelected(material)" style="cursor:pointer;">{{material.name}}</td>
           <td>{{material.description}}</td>
-          <td><button class="btn btn-success" (click)="toggleSelected(material)"><fa-icon [icon]="faPlus"></fa-icon></button></td>
+          <td><button class="btn btn-success disabled"  (click)="toggleSelected(material)"><fa-icon [icon]="faPlus"></fa-icon></button></td>
         </tr>
       </tbody>
     </table>
