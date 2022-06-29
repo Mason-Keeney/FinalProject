@@ -33,13 +33,19 @@ export class ProjectComponent implements OnInit {
   newProject: Project = new Project();
   selected: Project | null = null;
   updateChecker: Project = new Project;
+  participantProject: Project | null = null;
+  inspect: Project | null = null;
 
   allParticipantsList: Participant[] = [];
+  participant: Participant = new Participant;
 
   search: string = '';
   startDateString: string = '';
   estimatedEndDateString: string = '';
   user: User = new User;
+
+  toolListFull: Tool[] = [];
+  toolList: Tool[] = [];
 
   editingProject: Boolean = false;
 
@@ -56,11 +62,7 @@ export class ProjectComponent implements OnInit {
 
   @ViewChild(ProjectToolComponent, { static: false })
   projectToolComponent!: ProjectToolComponent;
-  toolListFull: Tool[] = [];
-  toolList: Tool[] = [];
-  participant: Participant = new Participant;
-  participantProject: Project | null = null;
-  inspect: Project | null = null;
+
 
   constructor(
     private projectServ: ProjectService,

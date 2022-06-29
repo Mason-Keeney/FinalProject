@@ -112,7 +112,7 @@
 
     <button class="btn btn-warning" (click)="addToolRequest(tool)"><fa-icon [icon]="faArrowRotateLeft"></fa-icon></button>
     <hr>
-    <app-project-tool-create [inheritedTool]="tool" [inheritedProject]="project"></app-project-tool-create>
+    <app-project-tool-create [inheritedTool]="tool" [inheritedProject]="project" (reload)="reload()"></app-project-tool-create>
   </div>
   <div class="col-lg-6"></div>
 </div>
