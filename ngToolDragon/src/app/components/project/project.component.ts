@@ -301,9 +301,9 @@ export class ProjectComponent implements OnInit {
 
   setCompletedClass(project: Project): string{
     if(project.completed){
-      return "btn btn-success";
+      return "btn btn-success disabled";
     } else {
-      return "btn btn-warning";
+      return "btn btn-warning disabled";
     }
   }
 
