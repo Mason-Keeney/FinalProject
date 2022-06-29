@@ -103,6 +103,10 @@ export class ProjectComponent implements OnInit {
       }
     }
 
+    checkLogin(): boolean{
+      return this.authService.checkLogin();
+    }
+
     projectContains(project: Project): boolean{
     let show: boolean = false;
     if(project.owner?.id === this.user.id){
