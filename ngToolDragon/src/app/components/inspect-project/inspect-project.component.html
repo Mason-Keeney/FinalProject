@@ -36,6 +36,7 @@
           <th>ID</th>
           <th>Name</th>
           <th>Description</th>
+          <th>Status</th>
         </tr>
       </thead>
       <tbody>
@@ -43,6 +44,10 @@
           <td>{{projectTool.tool?.id}}</td>
           <td>{{projectTool.tool?.name}}</td>
           <td>{{projectTool.tool?.description}}</td>
+          <td><button *ngIf="!projectTool.dateApproved" class="btn btn-secondary" title="Waiting Approval"><fa-icon [icon]="faClock"></fa-icon></button>
+              <button *ngIf="projectTool.dateApproved" class="btn btn-success" title="Approved"><fa-icon [icon]="faCheck"></fa-icon></button>
+              <button class="btn btn-danger" title="Remove" style="margin-left: 3px;" (click)="removeProjectTool(projectTool)"><fa-icon [icon]="faCircleXmark"></fa-icon></button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -62,12 +67,13 @@
         <tr *ngFor="let participant of project.particpants">
           <td>{{participant.user?.id}}</td>
           <td>{{participant.user?.firstName}} {{participant.user?.lastName}}</td>
-          <td><button *ngIf="!participant.dateApproved" class="btn btn-success" style="margin-right: 3px"><fa-icon [icon]="faPlusCircle" title="Accept"></fa-icon></button>
-              <span *ngIf="participant.dateApproved" class="btn btn-secondary" style="margin-right: 3px"><fa-icon [icon]="faDragon" title="Accepted"></fa-icon></span>
-              <button class="btn btn-danger"><fa-icon [icon]="faCircleXmark" title="Decline"></fa-icon></button></td>
+          <td><button *ngIf="!participant.dateApproved" class="btn btn-success" style="margin-right: 3px" (click)="viewParticipant(participant)"><fa-icon [icon]="faPlusCircle" title="Accept"></fa-icon></button>
+              <span *ngIf="participant.dateApproved" class="btn btn-secondary" style="margin-right: 3px" (click)="viewParticipant(participant)"><fa-icon [icon]="faDragon" title="Accepted"></fa-icon></span>
+              <button class="btn btn-danger" (click)="declineParticipant(participant)" ><fa-icon [icon]="faCircleXmark" title="Decline"></fa-icon></button></td>
         </tr>
       </tbody>
     </table>
+    <app-view-participant *ngIf="viewParticipantDetails" [inheritedParticipant]="selectedParticipant" (reload)="reload()"></app-view-participant>
   </div>
 </div>
 

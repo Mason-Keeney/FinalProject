@@ -1,0 +1,4 @@
+<p>{{user.firstName}} {{user.lastName}}</p>
+<p>{{participant.participantComment}}</p>
+<p *ngIf="participant.dateApproved">Status: Approved</p> <p *ngIf="!participant.dateApproved">Status: Waiting Approval</p>
+<button *ngIf="!participant.dateApproved" class="btn btn-success" (click)="approveParticipant()" ><fa-icon [icon]="faPlusCircle"></fa-icon></button>
