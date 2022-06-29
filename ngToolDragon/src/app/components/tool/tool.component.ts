@@ -113,7 +113,9 @@ export class ToolComponent implements OnInit {
       next: (result) => {
         this.tool = result;
         window.alert('A tool was created!');
+
         this.reload();
+        this.newTool = new Tool;
       },
       error: (nojoy) => {
         console.error(
