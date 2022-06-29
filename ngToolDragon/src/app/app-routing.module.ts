@@ -4,10 +4,11 @@ import { RegisterComponent } from './components/register/register.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
-import { UserHomeComponent } from './components/user-home/user-home.component';
 import { ProjectComponent } from './components/project/project.component';
 import { ToolComponent } from './components/tool/tool.component';
 import { ProjectToolComponent } from './components/project-tool/project-tool.component';
+import { MaterialComponent } from './components/material/material.component';
+import { UserHomeComponent } from './components/user-home/user-home.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -18,7 +19,8 @@ const routes: Routes = [
   { path: 'tool', component: ToolComponent},
   { path: 'project', component: ProjectComponent},
   { path: 'projectView', component: ProjectViewComponent},
-  { path: 'projectTool', component: ProjectToolComponent}
+  { path: 'projectTool', component: ProjectToolComponent},
+  { path: 'material', component: MaterialComponent}
 ];
 
 @NgModule({
