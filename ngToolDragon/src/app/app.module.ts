@@ -28,6 +28,8 @@ import { ProjectToolComponent } from './components/project-tool/project-tool.com
 import { ParticipantComponent } from './components/participant/participant.component';
 import { OwnerPipe } from './pipes/owner.pipe';
 import { InspectProjectComponent } from './components/inspect-project/inspect-project.component';
+import { MaterialComponent } from './components/material/material.component';
+import { ProjectMaterialComponent } from './components/project-material/project-material.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,9 @@ import { InspectProjectComponent } from './components/inspect-project/inspect-pr
     ProjectToolComponent,
     ParticipantComponent,
     OwnerPipe,
-    InspectProjectComponent
+    InspectProjectComponent,
+    MaterialComponent,
+    ProjectMaterialComponent
   ],
   imports: [
     BrowserModule,
