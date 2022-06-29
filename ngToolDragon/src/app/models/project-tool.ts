@@ -4,7 +4,7 @@ import { Tool } from './tool';
 export class ProjectTool {
   tool: Tool | null;
   project: Project | null;
-  projectComment: ProjectComment | null;
+  projectComment: string | null;
   dateCreated: Date | null;
   dateApproved: Date | null;
   projectOwnerRating: number | null;
@@ -17,7 +17,7 @@ export class ProjectTool {
   constructor(
     tool: Tool | null = null,
     project: Project | null = null,
-    projectComment: ProjectComment | null = null,
+    projectComment: string | null = null,
     dateCreated: Date | null = null,
     dateApproved: Date | null = null,
     projectOwnerRating: number | null = 0,

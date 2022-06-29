@@ -1,0 +1,8 @@
+<h4>Request: {{tool.name}} For: {{project.description}}</h4>
+
+<form class="form">
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="basic-addon1">Comment</span><input type="text" class="form-control" name="comment" [(ngModel)]="comment">
+    <button class="btn btn-primary"><fa-icon [icon]="faHammer" title="Request" (click)="buildProjectTool(comment)"></fa-icon></button>
+  </div>
+</form>

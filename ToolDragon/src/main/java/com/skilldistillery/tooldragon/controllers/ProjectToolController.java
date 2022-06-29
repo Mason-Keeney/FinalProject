@@ -59,16 +59,12 @@ public class ProjectToolController {
 		
 	}
 	
-	@PostMapping("projecttools")
-	public ProjectTool create(Principal principal, HttpServletResponse res, HttpServletRequest req, @RequestBody ProjectTool projTool) {
+	@PostMapping("projecttools/{pid}/{tid}")
+	public ProjectTool create(Principal principal, HttpServletResponse res, HttpServletRequest req, @PathVariable int pid, @PathVariable int tid, @RequestBody ProjectTool projTool) {
 		ProjectTool tool = null;
-		ProjectToolId id = new ProjectToolId();
-		id.setProjectId(projTool.getProject().getId());
-		id.setToolId(projTool.getTool().getId());
-		projTool.setId(id);
 		
 		try {
-			tool = projToolService.create(principal.getName(), projTool);
+			tool = projToolService.create(principal.getName(), projTool, pid, tid);
 			if(tool != null) {
 				res.setStatus(201);
 				StringBuffer url = req.getRequestURL();

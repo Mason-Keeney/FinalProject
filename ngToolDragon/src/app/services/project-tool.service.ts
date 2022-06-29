@@ -51,8 +51,8 @@ export class ProjectToolService {
     );
   }
 
-  create(projectTool: ProjectTool): Observable<ProjectTool> {
-    return this.http.post<ProjectTool>(this.url, projectTool, this.getHttpOptions()).pipe(
+  create(projectTool: ProjectTool, pid: number | null, tid: number | null): Observable<ProjectTool> {
+    return this.http.post<ProjectTool>(this.url + '/' + pid + '/' + tid, projectTool, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(
