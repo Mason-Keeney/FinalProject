@@ -39,8 +39,8 @@
   <tbody>
     <tr *ngFor="let projectTool of projectToolsOnTool">
       <td >{{projectTool.project?.description}}</td>
-      <td >{{projectTool.project?.startDate}}</td>
-      <td >{{projectTool.project?.estimatedEndDate}}</td>
+      <td >{{projectTool.project?.startDate | date: "MMM-dd-yyy"}}</td>
+      <td >{{projectTool.project?.estimatedEndDate | date: "MMM-dd-yyy"}}</td>
       <td >
         <button *ngIf="!projectTool.dateApproved" class="btn btn-success" (click)="approveProjectTool(projectTool)" title="Approve"><fa-icon [icon]="faCheck"></fa-icon></button>
         <button *ngIf="projectTool.dateApproved" class="btn btn-secondary" title="Approved"><fa-icon [icon]="faClock"></fa-icon></button>
