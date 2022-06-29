@@ -3,11 +3,13 @@
 <div class="row">
 
 <div class="col-lg-9 table-responsive">
-  <input type="text" placeholder="Search..." [(ngModel)]="search">
-
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="basic-addon1"><fa-icon [icon]="faMagnifyingGlass"></fa-icon> </span>
+  <input type="text" placeholder="Search..." class="form-control" [(ngModel)]="search">
+    </div>
   <div *ngIf="checkLogin()">
     <h3>My Tools</h3>
-      <table class="table">
+      <table class="table" *ngIf="!updateChecker.name">
         <thead>
           <tr>
             <th scope="col">ID</th>
@@ -24,8 +26,9 @@
 
         <tbody>
           <tr  *ngFor="let tool of toolList | toolSearch:search">
-            <th scope="row">{{tool.id}}</th><td>{{tool.name}}</td>
-            <td (click)="setUpdate(tool)" style ="cursor:pointer;">{{tool.description}}</td>
+            <th scope="row">{{tool.id}}</th>
+            <td  (click)="setUpdate(tool)" style ="cursor:pointer;">{{tool.name}}</td>
+            <td>{{tool.description}}</td>
             <td>{{tool.available}}</td>
             <td>{{tool.trainingRequired}}</td>
             <td>{{tool.operators}}</td>
@@ -35,6 +38,8 @@
           </tr>
         </tbody>
       </table>
+      <button *ngIf="updateChecker.name" class="btn btn-warning" (click)="setUpdate(updateChecker)"><fa-icon [icon]="faArrowRotateLeft"></fa-icon></button>
+      <app-view-tool *ngIf="updateChecker.name" [inheritedTool]="updateChecker"></app-view-tool>
     <br><hr><br>
     </div>
 

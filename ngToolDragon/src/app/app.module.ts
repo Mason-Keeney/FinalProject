@@ -33,6 +33,9 @@ import { ProjectMaterialComponent } from './components/project-material/project-
 import { UserPresentPipe } from './pipes/user-present.pipe';
 import { ProjectPresentPipe } from './pipes/project-present.pipe';
 import { ProjectToolCreateComponent } from './components/project-tool-create/project-tool-create.component';
+import { ViewParticipantComponent } from './components/view-participant/view-participant.component';
+import { ViewToolComponent } from './components/view-tool/view-tool.component';
+import { ToolPresentPipe } from './pipes/tool-present.pipe';
 
 @NgModule({
   declarations: [
@@ -61,7 +64,10 @@ import { ProjectToolCreateComponent } from './components/project-tool-create/pro
     ProjectMaterialComponent,
     UserPresentPipe,
     ProjectPresentPipe,
-    ProjectToolCreateComponent
+    ProjectToolCreateComponent,
+    ViewParticipantComponent,
+    ViewToolComponent,
+    ToolPresentPipe
   ],
   imports: [
     BrowserModule,
@@ -75,7 +81,8 @@ import { ProjectToolCreateComponent } from './components/project-tool-create/pro
     DatePipe,
     ProjectSearchPipe,
     ActivePipe,
-    ProjectPresentPipe
+    ProjectPresentPipe,
+    ToolPresentPipe
   ],
   bootstrap: [AppComponent]
 })

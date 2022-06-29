@@ -35,7 +35,7 @@ export class ProjectService {
   }
 
   indexAll(): Observable<Project[]> {
-    return this.http.get<Project[]>(this.url + "/all", this.getHttpOptions()).pipe(
+    return this.http.get<Project[]>(this.url + "/all").pipe(
     catchError((err: any) => {
       console.log(err);
       return throwError(

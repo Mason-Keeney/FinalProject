@@ -1,7 +1,7 @@
 import { ProjectTool } from './../../models/project-tool';
 import { ProjectToolService } from './../../services/project-tool.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Tool } from 'src/app/models/tool';
 import { User } from 'src/app/models/user';
 import { Project } from 'src/app/models/project';
@@ -17,6 +17,7 @@ export class ProjectToolCreateComponent implements OnInit {
   // Inherited Fields
   @Input() inheritedTool: any;
   @Input() inheritedProject: any;
+  @Output("reload") reload: EventEmitter<any> = new EventEmitter();
 
 
   //Fields
@@ -60,6 +61,7 @@ export class ProjectToolCreateComponent implements OnInit {
     this.projectToolService.create(this.projectTool, pid, tid).subscribe({
       next: (result) => {
         this.projectTool = result;
+        this.reload.emit();
       },
       error: (problem) => {
         console.log("ProjectToolCreateHttpComponent Error: unable to Create ProjectTool");

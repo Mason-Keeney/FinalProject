@@ -1,5 +1,5 @@
 import { ActivePipe } from './../../pipes/active.pipe';
-import { faToolbox } from '@fortawesome/free-solid-svg-icons';
+import { faToolbox, faArrowRotateLeft, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { User } from 'src/app/models/user';
 import { ToolService } from './../../services/tool.service';
 import { HttpClient } from '@angular/common/http';
@@ -25,9 +25,12 @@ export class ToolComponent implements OnInit {
   tool: Tool = new Tool;
   newTool: Tool = new Tool;
   user: User = new User;
-  faToolbox = faToolbox;
   search: string = "";
   updateChecker: Tool = new Tool;
+
+  faToolbox = faToolbox;
+  faArrowRotateLeft = faArrowRotateLeft;
+  faMagnifyingGlass = faMagnifyingGlass;
 
   constructor(
     private http: HttpClient,

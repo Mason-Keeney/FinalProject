@@ -11,7 +11,7 @@
 </div>
 
 
-<div class="row">
+<div class="row" *ngIf="checkLogin()">
 <div class="col-lg-9">
   <h3>My Projects <span [ngClass]="checkProjectLevel()"> {{getNumProject()}} </span> </h3>
   <h6><a [routerLink]="['/projectView']">Add a new Project</a></h6>
@@ -37,12 +37,13 @@
       </tr>
     </tbody>
 </table>
-
+<button *ngIf="inspect" class="btn btn-warning" (click)="toggleInspect(inspect)"><fa-icon [icon]="faArrowRotateLeft"></fa-icon></button>
+<hr>
 <app-inspect-project *ngIf="inspect" [inheritedProject]="inspect"></app-inspect-project>
 </div>
 <div class="col-lg-3">
   <form class="form" *ngIf="inspect">
-    <button *ngIf="inspect" class="btn btn-warning" (click)="toggleInspect(inspect)"><fa-icon [icon]="faArrowRotateLeft"></fa-icon></button>
+
 <hr>
     <h3>Update</h3>
 
@@ -87,7 +88,7 @@
         <th scope="col">End Date</th>
         <th scope="col">Completed</th>
         <th scope="col">Owner</th>
-        <th scope="col">Participant Information</th>
+        <th scope="col" *ngIf="checkLogin()">Participant Information</th>
 
       </tr>
     </thead>
@@ -100,8 +101,8 @@
           <td *ngIf="project.completed"><button [ngClass]="setCompletedClass(project)"><fa-icon [icon]="faCheck"></fa-icon></button></td>
           <td *ngIf="!project.completed"><button [ngClass]="setCompletedClass(project)" ><fa-icon [icon]="faCircleXmark"></fa-icon></button></td>
         <td>{{project.owner?.firstName}} {{project.owner?.lastName}}</td>
-        <td *ngIf="!projectContains(project)" (click)="addPartRequest(project)"><button class="btn btn-success"><fa-icon [icon]="faPlusCircle"></fa-icon></button></td>
-        <td *ngIf="projectContains(project)" (click)="viewParticipant(project)"><button class="btn btn-info disabled"><fa-icon [icon]="faEye"></fa-icon></button></td>
+        <td *ngIf="!projectContains(project) && checkLogin()" (click)="addPartRequest(project)"><button class="btn btn-success"><fa-icon [icon]="faPlusCircle"></fa-icon></button></td>
+        <td *ngIf="projectContains(project) && checkLogin()" (click)="viewParticipant(project)"><button class="btn btn-info disabled"><fa-icon [icon]="faEye"></fa-icon></button></td>
       </tr>
     </tbody>
 </table>

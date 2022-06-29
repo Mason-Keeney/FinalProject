@@ -2,7 +2,7 @@ import { ParticipantService } from './../../services/participant.service';
 import { ProjectPresentPipe } from './../../pipes/project-present.pipe';
 import { ProjectToolService } from './../../services/project-tool.service';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { faCalendarCheck, faCheck, faPlusCircle, faDragon, faCircleXmark, faArrowRotateLeft, faA } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarCheck, faCheck, faPlusCircle, faDragon, faCircleXmark, faArrowRotateLeft, faA, faClock } from '@fortawesome/free-solid-svg-icons';
 import { Project } from 'src/app/models/project';
 import { Tool } from 'src/app/models/tool';
 import { User } from 'src/app/models/user';
@@ -22,17 +22,23 @@ import { Participant } from 'src/app/models/participant';
   styleUrls: ['./inspect-project.component.css']
 })
 export class InspectProjectComponent implements OnInit {
+
+  participantsList: Participant[] = [];
+  projectToolList: ProjectTool[] = [];
+  selectedParticipant: Participant = new Participant();
+
   user: User = new User;
   projects: Project[] = [];
+  project: Project = new Project();
+
   toolListFull: Tool[] = [];
   toolList: Tool[] = [];
   tool: Tool = new Tool;
   toolProject: Tool | null = null;
+
   selectTool: boolean = false;
   createToolRequest: boolean = false;
-  projectToolList: ProjectTool[] = [];
-  participantsList: Participant[] = [];
-  project: Project = new Project();
+  viewParticipantDetails: boolean = false;
 
   // fa-icons
   faCheck = faCheck;
@@ -41,6 +47,7 @@ export class InspectProjectComponent implements OnInit {
   faDragon = faDragon;
   faCircleXmark = faCircleXmark;
   faArrowRotateLeft = faArrowRotateLeft;
+  faClock = faClock;
 
 
   @Input() inheritedProject: any;
@@ -84,6 +91,15 @@ export class InspectProjectComponent implements OnInit {
     })
   }
 
+  reload(){
+    console.log("reached reload");
+
+    this.toolIndex();
+    this.authenticateUser();
+    this.indexProjectTool();
+    this.indexParticipants();
+  }
+
   toolIndex() {
     this.toolService.indexAll().subscribe({
       next: (result) => {
@@ -101,6 +117,10 @@ export class InspectProjectComponent implements OnInit {
       next: (result) => {
         this.projectToolList = result;
         this.project.projectTools = this.projectPresentPipe.transform(this.projectToolList, this.project)
+      },
+      error: (problem) => {
+        console.log("InspectProjectHttpComponent Error: unable to populate ProjectTools");
+        console.log(problem);
       }
     })
   }
@@ -146,6 +166,45 @@ export class InspectProjectComponent implements OnInit {
     } else {
       this.tool = new Tool();
       this.createToolRequest = false;
+    }
+  }
+
+  viewParticipant(participant: Participant){
+    console.log(participant)
+    this.selectedParticipant = participant;
+    this.viewParticipantDetails = !this.viewParticipantDetails;
+    this.reload();
+  }
+
+  declineParticipant(participant: Participant){
+    let tempProject = participant.project;
+    let tempUser = participant.user;
+    if(tempProject && tempUser){
+      this.participantService.destroy(tempProject?.id, tempUser.id).subscribe({
+        next: () => {
+          this.reload();
+        },
+        error: (problem) => {
+          console.log("InspectProjectHttpComponent Error: unable to destroy Participant");
+          console.log(problem);
+        }
+      })
+    }
+  }
+
+  removeProjectTool(projectTool: ProjectTool){
+    let tempProject = projectTool.project;
+    let tempTool = projectTool.tool;
+    if(tempProject && tempTool){
+      this.projectToolService.destroy(tempProject.id, tempTool.id).subscribe({
+       next: () => {
+        this.reload();
+       },
+       error: (problem) => {
+        console.log("InspectProjectHttpComponent Error: unable to remove ProjectTool");
+        console.log(problem);
+       }
+      })
     }
   }
 

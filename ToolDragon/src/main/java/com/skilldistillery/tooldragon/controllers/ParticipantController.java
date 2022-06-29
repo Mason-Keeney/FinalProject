@@ -102,6 +102,7 @@ public class ParticipantController {
 		ParticipantId id = new ParticipantId();
 		id.setProjectId(pid);
 		id.setUserId(uid);
+		System.out.println(id);
 		try {
 			boolean deleted = participantServ.destroy(principal.getName(), id);
 			if (deleted) {
