@@ -6,9 +6,14 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.skilldistillery.tooldragon.entities.Project;
 import com.skilldistillery.tooldragon.entities.ProjectTool;
 import com.skilldistillery.tooldragon.entities.ProjectToolId;
+import com.skilldistillery.tooldragon.entities.Tool;
+import com.skilldistillery.tooldragon.entities.User;
+import com.skilldistillery.tooldragon.repositories.ProjectRepository;
 import com.skilldistillery.tooldragon.repositories.ProjectToolRepository;
+import com.skilldistillery.tooldragon.repositories.ToolRepository;
 import com.skilldistillery.tooldragon.repositories.UserRepository;
 
 @Service
@@ -19,6 +24,12 @@ public class ProjectToolServiceImpl implements ProjectToolService {
 	
 	@Autowired
 	private UserRepository userRepo;
+	
+	@Autowired
+	private ProjectRepository projectRepo;
+	
+	@Autowired
+	private ToolRepository toolRepo;
 
 	@Override
 	public List<ProjectTool> index(String username) {
@@ -42,9 +53,28 @@ public class ProjectToolServiceImpl implements ProjectToolService {
 	}
 
 	@Override
-	public ProjectTool create(String username, ProjectTool projTool) {
-		if (userRepo.findByUsername(username) != null) {
+	public ProjectTool create(String username, ProjectTool projTool, int pid, int tid) {
+		User user = userRepo.findByUsername(username);
+		Project project = null;
+		Tool tool = null;
+		Optional<Project> projectOpt = projectRepo.findById(pid);
+		if(projectOpt.isPresent()) {
+			project = projectOpt.get();
+		}
+		
+		Optional<Tool> toolOpt = toolRepo.findById(tid);
+		if(toolOpt.isPresent()) {
+			tool = toolOpt.get();
+		}
+		ProjectToolId id = new ProjectToolId();
+		id.setProjectId(pid);
+		id.setToolId(tid);
+		
+		if (user != null) {
 			if (projTool != null) {
+				projTool.setProject(project);
+				projTool.setTool(tool);
+				projTool.setId(id);
 				projTool = projToolRepo.saveAndFlush(projTool);
 			}
 		}

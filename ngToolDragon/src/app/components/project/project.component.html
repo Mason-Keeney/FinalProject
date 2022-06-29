@@ -1,85 +1,20 @@
 <div class="row">
-
-
-
+<h1>Projects</h1>
+<div class="col-4">
   <div class="input-group mb-3">
     <span class="input-group-text" id="basic-addon1"><fa-icon [icon]="faMagnifyingGlass"></fa-icon> </span>
     <input class="form-control" type="text" placeholder="Search..." [(ngModel)]="search">
   </div>
-
-
-  <h1>Projects <span [ngClass]="checkProjectLevel()"> {{getNumProject()}} </span> </h1>
-
-  <h6><a [routerLink]="['/projectView']">Add a new Project</a></h6>
-
-  <div class="col-lg-9 table-responsive">
-    <table class="table" *ngIf="!participantProject">
-
-      <thead>
-        <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Description</th>
-        <th scope="col">Start Date</th>
-        <th scope="col">End Date</th>
-        <th scope="col">Completed</th>
-        <th scope="col">Owner</th>
-        <th scope="col">Participant Information</th>
-
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let project of fullProjects | projectSearch:search">
-        <th scope="row">{{project.id}}</th>
-        <td (click)="setSelected(project)" style ="cursor:pointer;">{{project.description}} </td>
-        <td>{{project.startDate | date: "MMM-dd-yyyy"}}</td>
-        <td>{{project.estimatedEndDate | date: "MMM-dd-yyyy"}}</td>
-        <td *ngIf="project.completed"><button [ngClass]="setCompletedClass(project)"><fa-icon [icon]="faCheck"></fa-icon></button></td>
-        <td *ngIf="!project.completed"><button [ngClass]="setCompletedClass(project)" ><fa-icon [icon]="faCircleXmark"></fa-icon></button></td>
-        <td>{{project.owner?.firstName}} {{project.owner?.lastName}}</td>
-        <td *ngIf="!projectContains(project)" (click)="addPartRequest(project)"><button class="btn btn-success"><fa-icon [icon]="faPlusCircle"></fa-icon></button></td>
-        <td *ngIf="projectContains(project)" (click)="viewParticipant(project)"><button class="btn btn-info disabled"><fa-icon [icon]="faEye"></fa-icon></button></td>
-      </tr>
-    </tbody>
-</table>
-<button class="btn btn-warning" *ngIf="participantProject" (click)="addPartRequest(participantProject)">Back</button>
-<app-participant *ngIf="participantProject" [participant]="participant"></app-participant>
-<hr><br>
-
-
 </div>
-<br>
-<div class="col-lg-3">
-  <form class="form" *ngIf="selected">
-
-    <h3>Update</h3>
-
-    <div class="input-group mb-3">
-      <span class="input-group-text" id="basic-addon1">Description</span>
-      <textarea class="form-control" text="text" name="description" [(ngModel)]="selected.description" ></textarea>
-    </div>
-
-    <div class="input-group mb-3">
-      <span class="input-group-text" id="basic-addon1">Start Date</span>
-      <input class="form-control" type="date" name="startDate"  [(ngModel)]="selected.startDate">
-    </div>
-
-    <div class="input-group mb-3">
-      <span class="input-group-text" id="basic-addon1">End Date</span>
-          <input class="form-control" type="date" name="estimatedEndDate"  [(ngModel)]="selected.estimatedEndDate">
-        </div>
-
-        <label for="trainingRequired">Completed</label>: <input type="checkbox" class="form-check-input" name="compelted" [(ngModel)]="selected.completed"> <br> <br>
-
-        <button class="btn btn-warning" (click)="updateProject(selected.id, selected)" >Submit</button><br><br>
-
-        <button class="btn btn-danger" (click)="deleteProject(selected)" >Delete</button><br><br><hr>
-      </form>
-  </div>
-
+<div class="col-4"></div>
+<div class="col-4"></div>
 </div>
+
 
 <div class="row">
 <div class="col-lg-9">
+  <h3>My Projects <span [ngClass]="checkProjectLevel()"> {{getNumProject()}} </span> </h3>
+  <h6><a [routerLink]="['/projectView']">Add a new Project</a></h6>
   <table class="table" *ngIf="!inspect">
     <thead>
       <tr>
@@ -102,12 +37,83 @@
       </tr>
     </tbody>
 </table>
-<button *ngIf="inspect" class="btn btn-warning" (click)="toggleInspect(inspect)"><fa-icon [icon]="faArrowRotateLeft"></fa-icon></button>
-<hr>
+
 <app-inspect-project *ngIf="inspect" [inheritedProject]="inspect"></app-inspect-project>
 </div>
 <div class="col-lg-3">
+  <form class="form" *ngIf="inspect">
+    <button *ngIf="inspect" class="btn btn-warning" (click)="toggleInspect(inspect)"><fa-icon [icon]="faArrowRotateLeft"></fa-icon></button>
+<hr>
+    <h3>Update</h3>
+
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="basic-addon1">Description</span>
+      <textarea class="form-control" text="text" name="description" [(ngModel)]="inspect.description" ></textarea>
+    </div>
+
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="basic-addon1">Start Date</span>
+      <input class="form-control" type="date" name="startDate"  [(ngModel)]="inspect.startDate">
+    </div>
+
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="basic-addon1">End Date</span>
+          <input class="form-control" type="date" name="estimatedEndDate"  [(ngModel)]="inspect.estimatedEndDate">
+        </div>
+
+        <label for="trainingRequired">Completed</label>: <input type="checkbox" class="form-check-input" name="compelted" [(ngModel)]="inspect.completed"> <br> <br>
+
+        <button class="btn btn-warning" (click)="updateProject(inspect.id, inspect)" >Submit</button><br><br>
+
+        <button class="btn btn-danger" (click)="deleteProject(inspect)" >Delete</button><br><br><hr>
+      </form>
+</div>
 
 </div>
+
+<div class="row">
+  <h3>All Projects</h3>
+
+
+
+  <div class="col-lg-9 table-responsive">
+    <table class="table" *ngIf="!participantProject">
+
+      <thead>
+        <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Description</th>
+        <th scope="col">Start Date</th>
+        <th scope="col">End Date</th>
+        <th scope="col">Completed</th>
+        <th scope="col">Owner</th>
+        <th scope="col">Participant Information</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let project of fullProjects | projectSearch:search">
+        <th scope="row">{{project.id}}</th>
+        <td (click)="setSelected(project)" style ="cursor:pointer;">{{project.description}} </td>
+        <td>{{project.startDate | date: "MMM-dd-yyyy"}}</td>
+        <td>{{project.estimatedEndDate | date: "MMM-dd-yyyy"}}</td>
+          <td *ngIf="project.completed"><button [ngClass]="setCompletedClass(project)"><fa-icon [icon]="faCheck"></fa-icon></button></td>
+          <td *ngIf="!project.completed"><button [ngClass]="setCompletedClass(project)" ><fa-icon [icon]="faCircleXmark"></fa-icon></button></td>
+        <td>{{project.owner?.firstName}} {{project.owner?.lastName}}</td>
+        <td *ngIf="!projectContains(project)" (click)="addPartRequest(project)"><button class="btn btn-success"><fa-icon [icon]="faPlusCircle"></fa-icon></button></td>
+        <td *ngIf="projectContains(project)" (click)="viewParticipant(project)"><button class="btn btn-info disabled"><fa-icon [icon]="faEye"></fa-icon></button></td>
+      </tr>
+    </tbody>
+</table>
+<button class="btn btn-warning" *ngIf="participantProject" (click)="addPartRequest(participantProject)">Back</button>
+<app-participant *ngIf="participantProject" [participant]="participant"></app-participant>
+<hr><br>
+
+
+</div>
+<br>
+<div class="col-lg-3">
+
+  </div>
 
 </div>

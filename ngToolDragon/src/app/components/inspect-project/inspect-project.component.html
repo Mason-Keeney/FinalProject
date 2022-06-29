@@ -72,7 +72,7 @@
 </div>
 
 
-<div class="row" *ngIf="selectTool">
+<div class="row" *ngIf="selectTool && !createToolRequest">
 
   <table class="table">
     <thead>
@@ -96,12 +96,19 @@
           <td (click)="addToolRequest(tool)"><button class="btn btn-success">Request</button></td>
         </div>
 
-        <!-- <div *ngIf="project.owner?.id != project.id"><td (click)="addToolRequest(project)"><button class="btn btn-success">Request</button></td></div> -->
-
       </tr>
     </tbody>
 
   </table>
+</div>
+<div class="row" *ngIf="selectTool && createToolRequest">
+  <div class="col-lg-6">
+
+    <button class="btn btn-warning" (click)="addToolRequest(tool)"><fa-icon [icon]="faArrowRotateLeft"></fa-icon></button>
+    <hr>
+    <app-project-tool-create [inheritedTool]="tool" [inheritedProject]="project"></app-project-tool-create>
+  </div>
+  <div class="col-lg-6"></div>
 </div>
 
 

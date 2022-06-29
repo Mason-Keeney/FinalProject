@@ -32,6 +32,7 @@ import { MaterialComponent } from './components/material/material.component';
 import { ProjectMaterialComponent } from './components/project-material/project-material.component';
 import { UserPresentPipe } from './pipes/user-present.pipe';
 import { ProjectPresentPipe } from './pipes/project-present.pipe';
+import { ProjectToolCreateComponent } from './components/project-tool-create/project-tool-create.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { ProjectPresentPipe } from './pipes/project-present.pipe';
     MaterialComponent,
     ProjectMaterialComponent,
     UserPresentPipe,
-    ProjectPresentPipe
+    ProjectPresentPipe,
+    ProjectToolCreateComponent
   ],
   imports: [
     BrowserModule,

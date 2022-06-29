@@ -2,7 +2,7 @@ import { ParticipantService } from './../../services/participant.service';
 import { ProjectPresentPipe } from './../../pipes/project-present.pipe';
 import { ProjectToolService } from './../../services/project-tool.service';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { faCalendarCheck, faCheck, faPlusCircle, faDragon, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarCheck, faCheck, faPlusCircle, faDragon, faCircleXmark, faArrowRotateLeft, faA } from '@fortawesome/free-solid-svg-icons';
 import { Project } from 'src/app/models/project';
 import { Tool } from 'src/app/models/tool';
 import { User } from 'src/app/models/user';
@@ -29,6 +29,7 @@ export class InspectProjectComponent implements OnInit {
   tool: Tool = new Tool;
   toolProject: Tool | null = null;
   selectTool: boolean = false;
+  createToolRequest: boolean = false;
   projectToolList: ProjectTool[] = [];
   participantsList: Participant[] = [];
   project: Project = new Project();
@@ -39,6 +40,7 @@ export class InspectProjectComponent implements OnInit {
   faPlusCircle = faPlusCircle;
   faDragon = faDragon;
   faCircleXmark = faCircleXmark;
+  faArrowRotateLeft = faArrowRotateLeft;
 
 
   @Input() inheritedProject: any;
@@ -137,8 +139,14 @@ export class InspectProjectComponent implements OnInit {
     }
   }
 
-  addToolRequest(tool: Tool | null): void {
-    console.log(tool);
+  addToolRequest(tool: Tool): void {
+    if(this.tool != tool){
+      this.tool = tool;
+      this.createToolRequest = true;
+    } else {
+      this.tool = new Tool();
+      this.createToolRequest = false;
+    }
   }
 
 
