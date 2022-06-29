@@ -12,7 +12,7 @@ import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { faListCheck, faMagnifyingGlass, faToolbox, faPlusCircle, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faListCheck, faMagnifyingGlass, faToolbox, faPlusCircle, faEye, faArrowRotateLeft, faCheck, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/models/user';
 import { ToolService } from 'src/app/services/tool.service';
@@ -50,6 +50,9 @@ export class ProjectComponent implements OnInit {
   faListCheck = faListCheck;
   faPlusCircle = faPlusCircle;
   faEye = faEye;
+  faArrowRotateLeft = faArrowRotateLeft;
+  faCheck = faCheck;
+  faCircleXmark = faCircleXmark;
 
   @ViewChild(ProjectToolComponent, { static: false })
   projectToolComponent!: ProjectToolComponent;
@@ -287,6 +290,14 @@ export class ProjectComponent implements OnInit {
       return 'badge bg-warning';
     } else {
       return 'badge bg-success';
+    }
+  }
+
+  setCompletedClass(project: Project): string{
+    if(project.completed){
+      return "btn btn-success";
+    } else {
+      return "btn btn-warning";
     }
   }
 

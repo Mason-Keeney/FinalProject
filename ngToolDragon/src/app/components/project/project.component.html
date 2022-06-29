@@ -23,7 +23,7 @@
         <th scope="col">End Date</th>
         <th scope="col">Completed</th>
         <th scope="col">Owner</th>
-        <th scope="col">Request</th>
+        <th scope="col">Participant Information</th>
 
       </tr>
     </thead>
@@ -31,12 +31,13 @@
       <tr *ngFor="let project of fullProjects | projectSearch:search">
         <th scope="row">{{project.id}}</th>
         <td (click)="setSelected(project)" style ="cursor:pointer;">{{project.description}} </td>
-        <td>{{project.startDate}}</td>
-        <td>{{project.estimatedEndDate}}</td>
-        <td>{{project.completed}}</td>
+        <td>{{project.startDate | date: "MMM-dd-yyyy"}}</td>
+        <td>{{project.estimatedEndDate | date: "MMM-dd-yyyy"}}</td>
+        <td *ngIf="project.completed"><button [ngClass]="setCompletedClass(project)"><fa-icon [icon]="faCheck"></fa-icon></button></td>
+        <td *ngIf="!project.completed"><button [ngClass]="setCompletedClass(project)" ><fa-icon [icon]="faCircleXmark"></fa-icon></button></td>
         <td>{{project.owner?.firstName}} {{project.owner?.lastName}}</td>
         <td *ngIf="!projectContains(project)" (click)="addPartRequest(project)"><button class="btn btn-success"><fa-icon [icon]="faPlusCircle"></fa-icon></button></td>
-        <td *ngIf="projectContains(project)" (click)="viewParticipant(project)"><button class="btn btn-info"><fa-icon [icon]="faEye"></fa-icon></button></td>
+        <td *ngIf="projectContains(project)" (click)="viewParticipant(project)"><button class="btn btn-info disabled"><fa-icon [icon]="faEye"></fa-icon></button></td>
       </tr>
     </tbody>
 </table>
@@ -94,15 +95,16 @@
       <tr *ngFor="let project of fullProjects | owner:user">
         <th scope="row">{{project.id}}</th>
         <td (click)="toggleInspect(project)" style ="cursor:pointer;">{{project.description}} </td>
-        <td>{{project.startDate}}</td>
-        <td>{{project.estimatedEndDate}}</td>
+        <td>{{project.startDate | date: "MMM-dd-yyyy"}}</td>
+        <td>{{project.estimatedEndDate | date: "MMM-dd-yyyy"}}</td>
         <td>{{project.completed}}</td>
         <td>{{project.owner?.firstName}} {{project.owner?.lastName}}</td>
       </tr>
     </tbody>
 </table>
-<button *ngIf="inspect" class="btn btn-warning" (click)="toggleInspect(inspect)">Back</button>
-<app-inspect-project *ngIf="inspect" [project]="inspect"></app-inspect-project>
+<button *ngIf="inspect" class="btn btn-warning" (click)="toggleInspect(inspect)"><fa-icon [icon]="faArrowRotateLeft"></fa-icon></button>
+<hr>
+<app-inspect-project *ngIf="inspect" [inheritedProject]="inspect"></app-inspect-project>
 </div>
 <div class="col-lg-3">
 

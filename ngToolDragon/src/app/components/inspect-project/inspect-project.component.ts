@@ -1,5 +1,8 @@
+import { ParticipantService } from './../../services/participant.service';
+import { ProjectPresentPipe } from './../../pipes/project-present.pipe';
+import { ProjectToolService } from './../../services/project-tool.service';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { faCheck, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarCheck, faCheck, faPlusCircle, faDragon, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { Project } from 'src/app/models/project';
 import { Tool } from 'src/app/models/tool';
 import { User } from 'src/app/models/user';
@@ -10,6 +13,8 @@ import { UserService } from 'src/app/services/user.service';
 import { ParticipantComponent } from '../participant/participant.component';
 import { ProjectToolComponent } from '../project-tool/project-tool.component';
 import { ToolComponent } from '../tool/tool.component';
+import { ProjectTool } from 'src/app/models/project-tool';
+import { Participant } from 'src/app/models/participant';
 
 @Component({
   selector: 'app-inspect-project',
@@ -23,13 +28,20 @@ export class InspectProjectComponent implements OnInit {
   toolList: Tool[] = [];
   tool: Tool = new Tool;
   toolProject: Tool | null = null;
+  selectTool: boolean = false;
+  projectToolList: ProjectTool[] = [];
+  participantsList: Participant[] = [];
+  project: Project = new Project();
 
   // fa-icons
   faCheck = faCheck;
-  faCircleX = faCircleXmark;
+  faCalendarCheck = faCalendarCheck;
+  faPlusCircle = faPlusCircle;
+  faDragon = faDragon;
+  faCircleXmark = faCircleXmark;
 
 
-  @Input() project: any;
+  @Input() inheritedProject: any;
 
   constructor(
     private projectServ: ProjectService,
@@ -37,6 +49,9 @@ export class InspectProjectComponent implements OnInit {
     private toolServ: ToolService,
     private authService: AuthService,
     private toolService: ToolService,
+    private projectToolService: ProjectToolService,
+    private projectPresentPipe: ProjectPresentPipe,
+    private participantService: ParticipantService
   ) { }
 
   @ViewChild(ParticipantComponent, { static: false })
@@ -49,8 +64,11 @@ export class InspectProjectComponent implements OnInit {
   // materialComponent!: MaterialComponent;
 
   ngOnInit(): void {
+    this.project = this.inheritedProject;
     this.toolIndex();
     this.authenticateUser();
+    this.indexProjectTool();
+    this.indexParticipants();
   }
 
   authenticateUser(){
@@ -76,6 +94,29 @@ export class InspectProjectComponent implements OnInit {
     });
   }
 
+  indexProjectTool(){
+    this.projectToolService.index().subscribe({
+      next: (result) => {
+        this.projectToolList = result;
+        this.project.projectTools = this.projectPresentPipe.transform(this.projectToolList, this.project)
+      }
+    })
+  }
+
+  indexParticipants(){
+    this.participantService.index().subscribe({
+      next: (result) => {
+        this.participantsList = result;
+        this.project.particpants = this.projectPresentPipe.transform(this.participantsList, this.project)
+      },
+      error: (problem) => {
+        console.log("InspectProjectHttpComponent Error: unable to populate ParticipantsList")
+        console.log(problem);
+
+      }
+    })
+  }
+
   show(tool: Tool): void {
     this.toolServ.show(tool.id).subscribe({
       next: (result) => {
@@ -97,13 +138,7 @@ export class InspectProjectComponent implements OnInit {
   }
 
   addToolRequest(tool: Tool | null): void {
-    if(!this.toolProject){
-      this.project.tool = tool;
-      this.project.user = this.user;
-      this.toolProject = tool;
-    } else {
-      this.toolProject = null;
-    }
+    console.log(tool);
   }
 
 

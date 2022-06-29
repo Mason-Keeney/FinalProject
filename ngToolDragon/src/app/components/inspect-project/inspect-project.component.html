@@ -1,60 +1,107 @@
-<h3>{{project.description}}</h3>
+<div class="row">
+    <h3>{{project.description}}</h3>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Start Date</th>
-      <th>End Date</th>
-      <th>Completed</th>
-    </tr>
-  </thead>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Image</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Last Updated</th>
+          <th>Completed</th>
+        </tr>
+      </thead>
 
-  <tbody>
-    <tr>
-      <th scope="row">{{project.id}}</th>
-      <th scope="row">{{project.startDate}}</th>
-      <th scope="row">{{project.estimatedEndDate}}</th>
-      <th scope="row"><span class="input-group-text" id="basic-addon1" [ngClass]="setClass(project)"><fa-icon *ngIf="project.completed" [icon]="faCheck"></fa-icon><fa-icon *ngIf="!project.completed" [icon]="faCircleX"></fa-icon></span></th>
-    </tr>
+      <tbody>
+        <tr>
+          <th scope="row">{{project.id}}</th>
+          <td>{{project.imageUrl}}</td>
+          <td>{{project.startDate | date: "MMM-dd-yyyy"}}</td>
+          <td>{{project.estimatedEndDate | date: "MMM-dd-yyyy"}}</td>
+          <td>{{project.updatedAt | date: "MMM-dd-yyyy"}}</td>
+          <td  *ngIf="project.completed"><button class="input-group-text" id="basic-addon1" class="btn btn-success"><fa-icon [icon]="faCheck"></fa-icon></button></td>
+          <td  *ngIf="!project.completed"><button class="input-group-text" id="basic-addon1" class="btn btn-warning"><fa-icon [icon]="faCalendarCheck"></fa-icon></button></td>
+        </tr>
+      </tbody>
+    </table>
+</div>
 
-  </tbody>
+<div class="row">
+  <div class="col-lg-6" *ngIf="project.projectTools">
+    <h4>Project Tools <button class="btn btn-success" (click)="selectTool = !selectTool"><fa-icon [icon]="faPlusCircle"></fa-icon></button></h4>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let projectTool of project.projectTools">
+          <td>{{projectTool.tool?.id}}</td>
+          <td>{{projectTool.tool?.name}}</td>
+          <td>{{projectTool.tool?.description}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col-lg-6">
+    <h4>Project Participants</h4>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Request Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let participant of project.particpants">
+          <td>{{participant.user?.id}}</td>
+          <td>{{participant.user?.firstName}} {{participant.user?.lastName}}</td>
+          <td><button *ngIf="!participant.dateApproved" class="btn btn-success" style="margin-right: 3px"><fa-icon [icon]="faPlusCircle" title="Accept"></fa-icon></button>
+              <span *ngIf="participant.dateApproved" class="btn btn-secondary" style="margin-right: 3px"><fa-icon [icon]="faDragon" title="Accepted"></fa-icon></span>
+              <button class="btn btn-danger"><fa-icon [icon]="faCircleXmark" title="Decline"></fa-icon></button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 
 
-</table>
+<div class="row" *ngIf="selectTool">
 
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Availability</th>
+        <th scope="col">Request Tool</th>
+      </tr>
+    </thead>
 
+    <tbody>
+      <tr *ngFor="let tool of toolListFull">
+        <th scope="row">{{tool.id}}</th>
+        <td>{{tool.name}}</td>
+        <td>{{tool.description}}</td>
+        <td>{{tool.availability}}</td>
 
+        <div *ngIf="tool.owner?.id != user.id">
+          <td (click)="addToolRequest(tool)"><button class="btn btn-success">Request</button></td>
+        </div>
 
+        <!-- <div *ngIf="project.owner?.id != project.id"><td (click)="addToolRequest(project)"><button class="btn btn-success">Request</button></td></div> -->
 
+      </tr>
+    </tbody>
 
-<table class="table" *ngIf="project.projectTools">
-  <thead>
-    <tr>
-      <th scope="col">ID</th>
-      <th scope="col">Name</th>
-      <th scope="col">Description</th>
-      <th scope="col">Availability</th>
-      <th scope="col">Request Tool</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <tr *ngFor="let tool of toolListFull">
-      <th scope="row">{{tool.id}}</th>
-      <td>{{tool.name}}</td>
-      <td>{{tool.description}}</td>
-      <td>{{tool.availability}}</td>
-
-      <div *ngIf="tool.owner?.id != user.id">
-        <td (click)="addToolRequest(project)"><button class="btn btn-success">Request</button></td>
-      </div>
-
-      <!-- <div *ngIf="project.owner?.id != project.id"><td (click)="addToolRequest(project)"><button class="btn btn-success">Request</button></td></div> -->
-
-    </tr>
-  </tbody>
-
-</table>
+  </table>
+</div>
 
 
