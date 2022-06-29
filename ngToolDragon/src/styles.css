@@ -27,11 +27,13 @@
 }
 
 .hero {
-  background: linear-gradient(45deg, #7f5217, #C68E17) no-repeat center center fixed;
-  -webkit-background-size: cover;
+  background: #C68E17;
+  background-image: url(assets/scaletest22.png);
+  background-image: url(assets/scaletest22.png), linear-gradient(45deg, #7f5217, #C68E17);
+  /* -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
-  background-size: cover;
+  background-size: cover; */
   font-family: sans-serif;
 }
 
@@ -52,8 +54,8 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .btn-success {
-  background-color: #6D765D;
-  border-color: #6D765D;
+  background-color: #2a6041;
+  border-color: #2a6041;
 }
 
 .btn-secondary {
@@ -64,6 +66,10 @@ h1, h2, h3, h4, h5, h6{
 .btn-info.disabled{
   background-color: #EAE0D5;
   border-color: #EAE0D5;
+}
+.btn-primary{
+  background-color: #564E58;
+  border-color: #564E58;
 }
 
 #basic-addon1{
@@ -89,8 +95,9 @@ h1, h2, h3, h4, h5, h6{
  }
 
 .table td, .table th{
-  border-color: #C68E17;
+  border-color: #00000067;
   font-family: Arial, Helvetica, sans-serif;
+  color: #0A0908;
 }
 
 a {

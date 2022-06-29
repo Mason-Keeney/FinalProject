@@ -1,11 +1,11 @@
-<div class="row">
+ <div class="row">
     <h3>{{project.description}}</h3>
 
     <table class="table">
       <thead>
         <tr>
           <th>ID</th>
-          <th>Image</th>
+
           <th>Start Date</th>
           <th>End Date</th>
           <th>Last Updated</th>
@@ -16,7 +16,7 @@
       <tbody>
         <tr>
           <th scope="row">{{project.id}}</th>
-          <td>{{project.imageUrl}}</td>
+
           <td>{{project.startDate | date: "MMM-dd-yyyy"}}</td>
           <td>{{project.estimatedEndDate | date: "MMM-dd-yyyy"}}</td>
           <td>{{project.updatedAt | date: "MMM-dd-yyyy"}}</td>
