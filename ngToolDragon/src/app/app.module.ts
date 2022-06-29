@@ -30,6 +30,8 @@ import { OwnerPipe } from './pipes/owner.pipe';
 import { InspectProjectComponent } from './components/inspect-project/inspect-project.component';
 import { MaterialComponent } from './components/material/material.component';
 import { ProjectMaterialComponent } from './components/project-material/project-material.component';
+import { UserPresentPipe } from './pipes/user-present.pipe';
+import { ProjectPresentPipe } from './pipes/project-present.pipe';
 
 @NgModule({
   declarations: [
@@ -55,7 +57,9 @@ import { ProjectMaterialComponent } from './components/project-material/project-
     OwnerPipe,
     InspectProjectComponent,
     MaterialComponent,
-    ProjectMaterialComponent
+    ProjectMaterialComponent,
+    UserPresentPipe,
+    ProjectPresentPipe
   ],
   imports: [
     BrowserModule,
@@ -68,7 +72,8 @@ import { ProjectMaterialComponent } from './components/project-material/project-
   providers: [
     DatePipe,
     ProjectSearchPipe,
-    ActivePipe
+    ActivePipe,
+    ProjectPresentPipe
   ],
   bootstrap: [AppComponent]
 })
