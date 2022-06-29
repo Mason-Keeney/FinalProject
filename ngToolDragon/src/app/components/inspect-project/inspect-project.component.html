@@ -36,6 +36,7 @@
           <th>ID</th>
           <th>Name</th>
           <th>Description</th>
+          <th>Status</th>
         </tr>
       </thead>
       <tbody>
@@ -43,6 +44,10 @@
           <td>{{projectTool.tool?.id}}</td>
           <td>{{projectTool.tool?.name}}</td>
           <td>{{projectTool.tool?.description}}</td>
+          <td><button *ngIf="!projectTool.dateApproved" class="btn btn-secondary" title="Waiting Approval"><fa-icon [icon]="faClock"></fa-icon></button>
+              <button *ngIf="projectTool.dateApproved" class="btn btn-success" title="Approved"><fa-icon [icon]="faCheck"></fa-icon></button>
+              <button class="btn btn-danger" title="Remove" style="margin-left: 3px;" (click)="removeProjectTool(projectTool)"><fa-icon [icon]="faCircleXmark"></fa-icon></button>
+          </td>
         </tr>
       </tbody>
     </table>

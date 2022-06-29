@@ -2,7 +2,7 @@ import { ParticipantService } from './../../services/participant.service';
 import { ProjectPresentPipe } from './../../pipes/project-present.pipe';
 import { ProjectToolService } from './../../services/project-tool.service';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { faCalendarCheck, faCheck, faPlusCircle, faDragon, faCircleXmark, faArrowRotateLeft, faA } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarCheck, faCheck, faPlusCircle, faDragon, faCircleXmark, faArrowRotateLeft, faA, faClock } from '@fortawesome/free-solid-svg-icons';
 import { Project } from 'src/app/models/project';
 import { Tool } from 'src/app/models/tool';
 import { User } from 'src/app/models/user';
@@ -47,6 +47,7 @@ export class InspectProjectComponent implements OnInit {
   faDragon = faDragon;
   faCircleXmark = faCircleXmark;
   faArrowRotateLeft = faArrowRotateLeft;
+  faClock = faClock;
 
 
   @Input() inheritedProject: any;
@@ -187,6 +188,22 @@ export class InspectProjectComponent implements OnInit {
           console.log("InspectProjectHttpComponent Error: unable to destroy Participant");
           console.log(problem);
         }
+      })
+    }
+  }
+
+  removeProjectTool(projectTool: ProjectTool){
+    let tempProject = projectTool.project;
+    let tempTool = projectTool.tool;
+    if(tempProject && tempTool){
+      this.projectToolService.destroy(tempProject.id, tempTool.id).subscribe({
+       next: () => {
+        this.reload();
+       },
+       error: (problem) => {
+        console.log("InspectProjectHttpComponent Error: unable to remove ProjectTool");
+        console.log(problem);
+       }
       })
     }
   }
