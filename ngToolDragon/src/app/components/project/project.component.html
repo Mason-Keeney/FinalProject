@@ -37,12 +37,13 @@
       </tr>
     </tbody>
 </table>
-
+<button *ngIf="inspect" class="btn btn-warning" (click)="toggleInspect(inspect)"><fa-icon [icon]="faArrowRotateLeft"></fa-icon></button>
+<hr>
 <app-inspect-project *ngIf="inspect" [inheritedProject]="inspect"></app-inspect-project>
 </div>
 <div class="col-lg-3">
   <form class="form" *ngIf="inspect">
-    <button *ngIf="inspect" class="btn btn-warning" (click)="toggleInspect(inspect)"><fa-icon [icon]="faArrowRotateLeft"></fa-icon></button>
+
 <hr>
     <h3>Update</h3>
 
