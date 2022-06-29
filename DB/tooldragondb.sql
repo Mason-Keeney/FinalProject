@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `project` (
   `cancelled` TINYINT NULL,
   `active` TINYINT(1) NULL,
   `image_url` VARCHAR(2000) NULL,
-  `address_id` INT NULL,
+  `address_id` INT NOT NULL,
   `owner_id` INT NOT NULL,
   `created_at` DATETIME NULL,
   PRIMARY KEY (`id`),
@@ -360,7 +360,7 @@ DROP TABLE IF EXISTS `project_material` ;
 CREATE TABLE IF NOT EXISTS `project_material` (
   `material_id` INT NOT NULL,
   `project_id` INT NOT NULL,
-  `id` INT NOT NULL AUTO_INCREMENT,
+  `id` INT NOT NULL,
   `quantity` VARCHAR(45) NULL,
   `status_id` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -506,7 +506,11 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `tooldragondb`;
-INSERT INTO `address` (`id`, `street1`, `street2`, `city`, `state`, `postal_code`, `active`) VALUES (1, '123 chase lane', NULL, 'el paso', 'texas', '79928', 1);
+INSERT INTO `address` (`id`, `street1`, `street2`, `city`, `state`, `postal_code`, `active`) VALUES (1, '123 chase lane', NULL, 'Denver', 'Colorado', '80014', 1);
+INSERT INTO `address` (`id`, `street1`, `street2`, `city`, `state`, `postal_code`, `active`) VALUES (2, '7839 Evergreen Ave', NULL, 'Denver', 'Colorado', '80019', 1);
+INSERT INTO `address` (`id`, `street1`, `street2`, `city`, `state`, `postal_code`, `active`) VALUES (3, '527 Depot St', NULL, 'Denver', 'Colorado', '80203', 1);
+INSERT INTO `address` (`id`, `street1`, `street2`, `city`, `state`, `postal_code`, `active`) VALUES (4, '173 Brickyard St', NULL, 'Denver', 'Colorado', '80207', 1);
+INSERT INTO `address` (`id`, `street1`, `street2`, `city`, `state`, `postal_code`, `active`) VALUES (5, '672 High Noon Dr', NULL, 'Denver', 'Colorado', '80202', 1);
 
 COMMIT;
 
@@ -516,7 +520,11 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `tooldragondb`;
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `image_url`, `description`, `address_id`, `created_at`, `updated_at`, `last_login`, `background_image_url`, `enabled`, `role`) VALUES (1, 'Angel', 'Casillas', 'acadmin', '$2a$10$iLZuVQKCjz0QH0xGZFuUeeXuZm7orxQzNlMCKINdR/DvvJIvwX0he', NULL, 'desc', 1, NULL, NULL, NULL, NULL, 1, 'role_admin');
+INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `image_url`, `description`, `address_id`, `created_at`, `updated_at`, `last_login`, `background_image_url`, `enabled`, `role`) VALUES (1, 'Angel', 'Casillas', 'acadmin', '$2a$10$iLZuVQKCjz0QH0xGZFuUeeXuZm7orxQzNlMCKINdR/DvvJIvwX0he', NULL, 'Looking to meet new poeple on projects!', 1, NULL, NULL, NULL, NULL, 1, 'role_admin');
+INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `image_url`, `description`, `address_id`, `created_at`, `updated_at`, `last_login`, `background_image_url`, `enabled`, `role`) VALUES (2, 'Mason', 'Keeney', 'mkadmin', '$2a$10$v48I6trqwt1KPFukmfuBuOkI0bYZZibw8GkFzISGF5vDdnKI8RriW', NULL, 'Love making new projects and love lending a helping hand', 2, NULL, NULL, NULL, NULL, 1, 'role_admin');
+INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `image_url`, `description`, `address_id`, `created_at`, `updated_at`, `last_login`, `background_image_url`, `enabled`, `role`) VALUES (3, 'Devan', 'Mapp', 'dmadmin', '$2a$10$x4GpEEF.G5bc2/vjJRTLIeRyFanS/gB39S.gPZGCBda3u87KyiJga', NULL, 'Here to help anyone with projects or just using some of the many tools i have!', 3, NULL, NULL, NULL, NULL, 1, 'role_admin');
+INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `image_url`, `description`, `address_id`, `created_at`, `updated_at`, `last_login`, `background_image_url`, `enabled`, `role`) VALUES (4, 'User', 'Mann', 'userman', '$2a$10$1GY7ASeEFXni70jhl/xnJuBMfdykhBuNVWLwA/7lE9hWL3mouyG4y', NULL, 'Hello Mann here, Join for free moneys!', 4, NULL, NULL, NULL, NULL, 1, 'user');
+INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `image_url`, `description`, `address_id`, `created_at`, `updated_at`, `last_login`, `background_image_url`, `enabled`, `role`) VALUES (5, 'Noah', 'Johnson', 'noahj', '$2a$10$nrCN0cm5ogd90tEF5nURjOLx8Kwp8BRMCsWmPyKljBD/WJGefxwa.', NULL, 'Many questions and Many answers!', 5, NULL, NULL, NULL, NULL, 1, 'user');
 
 COMMIT;
 
@@ -526,7 +534,15 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `tooldragondb`;
-INSERT INTO `project` (`id`, `description`, `start_date`, `updated_at`, `estimated_end_date`, `completed`, `cancelled`, `active`, `image_url`, `address_id`, `owner_id`, `created_at`) VALUES (1, 'landscaping my yard', NULL, NULL, NULL, NULL, NULL, 1, NULL, 1, 1, NULL);
+INSERT INTO `project` (`id`, `description`, `start_date`, `updated_at`, `estimated_end_date`, `completed`, `cancelled`, `active`, `image_url`, `address_id`, `owner_id`, `created_at`) VALUES (1, 'landscaping my yard', '2022-06-29', NULL, '2022-07-10', NULL, NULL, 1, NULL, 1, 1, '2022-06-25');
+INSERT INTO `project` (`id`, `description`, `start_date`, `updated_at`, `estimated_end_date`, `completed`, `cancelled`, `active`, `image_url`, `address_id`, `owner_id`, `created_at`) VALUES (2, 'Cedar Potting Bench', '2022-07-11', NULL, '2022-07-14', NULL, NULL, 1, NULL, 2, 2, '2022-07-7');
+INSERT INTO `project` (`id`, `description`, `start_date`, `updated_at`, `estimated_end_date`, `completed`, `cancelled`, `active`, `image_url`, `address_id`, `owner_id`, `created_at`) VALUES (3, 'Install Vinyl Flooring', '2022-07-5', NULL, '2022-07-11', NULL, NULL, 1, NULL, 2, 2, '2022-07-3');
+INSERT INTO `project` (`id`, `description`, `start_date`, `updated_at`, `estimated_end_date`, `completed`, `cancelled`, `active`, `image_url`, `address_id`, `owner_id`, `created_at`) VALUES (4, 'Building a shed', '2022-07-2', NULL, '2022-07-12', NULL, NULL, 1, NULL, 3, 3, '2022-07-1');
+INSERT INTO `project` (`id`, `description`, `start_date`, `updated_at`, `estimated_end_date`, `completed`, `cancelled`, `active`, `image_url`, `address_id`, `owner_id`, `created_at`) VALUES (5, 'Sealing Drafty Windows and Doors', '2022-07-1', NULL, '2022-07-14', NULL, NULL, 1, NULL, 4, 4, '2022-06-28');
+INSERT INTO `project` (`id`, `description`, `start_date`, `updated_at`, `estimated_end_date`, `completed`, `cancelled`, `active`, `image_url`, `address_id`, `owner_id`, `created_at`) VALUES (6, 'Building a Built-in Bookcase', '2022-07-17', NULL, '2022-07-23', NULL, NULL, 1, NULL, 5, 5, '2022-07-15');
+INSERT INTO `project` (`id`, `description`, `start_date`, `updated_at`, `estimated_end_date`, `completed`, `cancelled`, `active`, `image_url`, `address_id`, `owner_id`, `created_at`) VALUES (7, 'Prepping a deck for staning', '2022-07-21', NULL, '2022-07-28', NULL, NULL, 1, NULL, 4, 4, '2022-07-17');
+INSERT INTO `project` (`id`, `description`, `start_date`, `updated_at`, `estimated_end_date`, `completed`, `cancelled`, `active`, `image_url`, `address_id`, `owner_id`, `created_at`) VALUES (8, 'Building a Raised Garden Bed', '2022-07-24', NULL, '2022-07-28', NULL, NULL, 1, NULL, 5, 5, '2022-07-20');
+INSERT INTO `project` (`id`, `description`, `start_date`, `updated_at`, `estimated_end_date`, `completed`, `cancelled`, `active`, `image_url`, `address_id`, `owner_id`, `created_at`) VALUES (9, 'Painting my house', '2022-07-9', NULL, '2022-07-14', NULL, NULL, 1, NULL, 5, 5, '2022-07-3');
 
 COMMIT;
 
@@ -561,7 +577,23 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `tooldragondb`;
-INSERT INTO `tool` (`id`, `name`, `description`, `availability`, `training_required`, `operators`, `active`, `image_url`, `status_id`, `tool_condition_id`, `owner_id`, `created_at`, `updated_at`, `available`) VALUES (1, 'hammer', NULL, NULL, NULL, NULL, 1, NULL, 1, 1, 1, NULL, NULL, 1);
+INSERT INTO `tool` (`id`, `name`, `description`, `availability`, `training_required`, `operators`, `active`, `image_url`, `status_id`, `tool_condition_id`, `owner_id`, `created_at`, `updated_at`, `available`) VALUES (1, 'Hammer', 'Decent shape but works!', 'available', 1, 1, 1, NULL, 2, 1, 1, '2022-06-25', NULL, 3);
+INSERT INTO `tool` (`id`, `name`, `description`, `availability`, `training_required`, `operators`, `active`, `image_url`, `status_id`, `tool_condition_id`, `owner_id`, `created_at`, `updated_at`, `available`) VALUES (2, 'Screwdriver', 'Some that i dont use', 'available', 1, 1, 1, NULL, 1, 1, 1, '2022-06-20', NULL, 4);
+INSERT INTO `tool` (`id`, `name`, `description`, `availability`, `training_required`, `operators`, `active`, `image_url`, `status_id`, `tool_condition_id`, `owner_id`, `created_at`, `updated_at`, `available`) VALUES (3, 'Saw', 'Works like a charm', 'available', 2, 1, 1, NULL, 2, 2, 2, '2022-06-10', NULL, 2);
+INSERT INTO `tool` (`id`, `name`, `description`, `availability`, `training_required`, `operators`, `active`, `image_url`, `status_id`, `tool_condition_id`, `owner_id`, `created_at`, `updated_at`, `available`) VALUES (4, 'Sander', 'Helps get the job done', 'available', 2, 1, 1, NULL, 2, 4, 2, '2022-06-11', NULL, 1);
+INSERT INTO `tool` (`id`, `name`, `description`, `availability`, `training_required`, `operators`, `active`, `image_url`, `status_id`, `tool_condition_id`, `owner_id`, `created_at`, `updated_at`, `available`) VALUES (5, 'Paint Sprayer', 'Faster than doing it with a brush', 'available', 1, 1, 1, NULL, 3, 3, 3, '2022-06-03', NULL, 1);
+INSERT INTO `tool` (`id`, `name`, `description`, `availability`, `training_required`, `operators`, `active`, `image_url`, `status_id`, `tool_condition_id`, `owner_id`, `created_at`, `updated_at`, `available`) VALUES (6, 'Nailer', 'Who needs a hammer', 'available', 1, 1, 1, NULL, 2, 2, 3, '2022-06-14', NULL, 3);
+INSERT INTO `tool` (`id`, `name`, `description`, `availability`, `training_required`, `operators`, `active`, `image_url`, `status_id`, `tool_condition_id`, `owner_id`, `created_at`, `updated_at`, `available`) VALUES (7, 'Air Compressor', 'Have it dont use it much', 'available', 2, 1, 1, NULL, 1, 1, 3, '2022-06-12', NULL, 1);
+INSERT INTO `tool` (`id`, `name`, `description`, `availability`, `training_required`, `operators`, `active`, `image_url`, `status_id`, `tool_condition_id`, `owner_id`, `created_at`, `updated_at`, `available`) VALUES (8, 'Lawn Mower', 'Gas powered mower', 'available', 2, 1, 1, NULL, 2, 2, 4, '2022-06-21', NULL, 1);
+INSERT INTO `tool` (`id`, `name`, `description`, `availability`, `training_required`, `operators`, `active`, `image_url`, `status_id`, `tool_condition_id`, `owner_id`, `created_at`, `updated_at`, `available`) VALUES (9, 'Chainsaw', 'Electric powerd', 'available', 2, 1, 1, NULL, 2, 2, 5, '2022-06-15', NULL, 2);
+INSERT INTO `tool` (`id`, `name`, `description`, `availability`, `training_required`, `operators`, `active`, `image_url`, `status_id`, `tool_condition_id`, `owner_id`, `created_at`, `updated_at`, `available`) VALUES (10, 'Heater', 'it heats and thats about it', 'available', 2, 1, 1, NULL, 3, 3, 5, '2022-06-18', NULL, 2);
+INSERT INTO `tool` (`id`, `name`, `description`, `availability`, `training_required`, `operators`, `active`, `image_url`, `status_id`, `tool_condition_id`, `owner_id`, `created_at`, `updated_at`, `available`) VALUES (11, 'Generator', 'Incase people use this for remote sites', 'available', 2, 2, 1, NULL, 1, 3, 3, '2022-06-07', NULL, 1);
+INSERT INTO `tool` (`id`, `name`, `description`, `availability`, `training_required`, `operators`, `active`, `image_url`, `status_id`, `tool_condition_id`, `owner_id`, `created_at`, `updated_at`, `available`) VALUES (12, 'Power Drill', 'Who doesnt need one right...right?', 'available', 1, 1, 1, NULL, 1, 4, 1, '2022-06-10', NULL, 4);
+INSERT INTO `tool` (`id`, `name`, `description`, `availability`, `training_required`, `operators`, `active`, `image_url`, `status_id`, `tool_condition_id`, `owner_id`, `created_at`, `updated_at`, `available`) VALUES (13, 'Tile Saw', 'Help keep tiles neatly straight', 'available', 2, 1, 1, NULL, 1, 1, 2, '2022-06-13', NULL, 3);
+INSERT INTO `tool` (`id`, `name`, `description`, `availability`, `training_required`, `operators`, `active`, `image_url`, `status_id`, `tool_condition_id`, `owner_id`, `created_at`, `updated_at`, `available`) VALUES (14, 'Table Saw', 'Moveable and usefull', 'available', 1, 1, 1, NULL, 1, 1, 5, '2022-06-13', NULL, 1);
+INSERT INTO `tool` (`id`, `name`, `description`, `availability`, `training_required`, `operators`, `active`, `image_url`, `status_id`, `tool_condition_id`, `owner_id`, `created_at`, `updated_at`, `available`) VALUES (15, 'Wrench', 'Have plenty pls take', 'available', 1, 1, 1, NULL, 1, 2, 5, '2022-06-13', NULL, 4);
+INSERT INTO `tool` (`id`, `name`, `description`, `availability`, `training_required`, `operators`, `active`, `image_url`, `status_id`, `tool_condition_id`, `owner_id`, `created_at`, `updated_at`, `available`) VALUES (16, 'Welder', 'Userfull for smaller projects', 'available', 1, 1, 1, NULL, 1, 2, 2, '2022-06-13', NULL, 2);
+INSERT INTO `tool` (`id`, `name`, `description`, `availability`, `training_required`, `operators`, `active`, `image_url`, `status_id`, `tool_condition_id`, `owner_id`, `created_at`, `updated_at`, `available`) VALUES (17, 'Vaccum', 'Small and usefull for smaller areas', 'available', 1, 1, 1, NULL, 2, 1, 2, '2022-06-13', NULL, 1);
 
 COMMIT;
 
@@ -581,7 +613,20 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `tooldragondb`;
-INSERT INTO `material` (`id`, `name`, `description`, `active`) VALUES (1, 'nails', NULL, 1);
+INSERT INTO `material` (`id`, `name`, `description`, `active`) VALUES (1, 'nails', 'i have plenty', 1);
+INSERT INTO `material` (`id`, `name`, `description`, `active`) VALUES (2, 'wood', 'various types and lengths', 1);
+INSERT INTO `material` (`id`, `name`, `description`, `active`) VALUES (3, 'stone', 'they would go great for decoration', 1);
+INSERT INTO `material` (`id`, `name`, `description`, `active`) VALUES (4, 'concrete mix', 'lots of concrete bags', 1);
+INSERT INTO `material` (`id`, `name`, `description`, `active`) VALUES (5, 'paint', 'differnt colors of paint', 1);
+INSERT INTO `material` (`id`, `name`, `description`, `active`) VALUES (6, 'metal', 'metal for reinforcement', 1);
+INSERT INTO `material` (`id`, `name`, `description`, `active`) VALUES (7, 'plumbing', 'lots of pipes', 1);
+INSERT INTO `material` (`id`, `name`, `description`, `active`) VALUES (8, 'tiles', 'some left over tiles', 1);
+INSERT INTO `material` (`id`, `name`, `description`, `active`) VALUES (9, 'insulation', 'have insulation thats in good condition', 1);
+INSERT INTO `material` (`id`, `name`, `description`, `active`) VALUES (10, 'drywall', 'have plenty of drywalls', 1);
+INSERT INTO `material` (`id`, `name`, `description`, `active`) VALUES (11, 'ladders', 'have a few i can lend', 1);
+INSERT INTO `material` (`id`, `name`, `description`, `active`) VALUES (12, 'roofing shingles', 'good shingles that can be used', 1);
+INSERT INTO `material` (`id`, `name`, `description`, `active`) VALUES (13, 'concrete tools', 'tools to mix concrete', 1);
+INSERT INTO `material` (`id`, `name`, `description`, `active`) VALUES (14, 'lifting equipment', 'lifting or moving heavy objects', 1);
 
 COMMIT;
 
@@ -604,6 +649,19 @@ COMMIT;
 START TRANSACTION;
 USE `tooldragondb`;
 INSERT INTO `participant` (`project_id`, `user_id`, `participant_comment`, `date_created`, `date_approved`, `rating`, `rating_comment`, `rating_date`) VALUES (1, 1, NULL, '2022-06-22', '2022-06-22', NULL, NULL, NULL);
+INSERT INTO `participant` (`project_id`, `user_id`, `participant_comment`, `date_created`, `date_approved`, `rating`, `rating_comment`, `rating_date`) VALUES (2, 2, NULL, '2022-07-7', '2022-07-7', NULL, NULL, NULL);
+INSERT INTO `participant` (`project_id`, `user_id`, `participant_comment`, `date_created`, `date_approved`, `rating`, `rating_comment`, `rating_date`) VALUES (3, 2, NULL, '2022-07-3', '2022-07-3', NULL, NULL, NULL);
+INSERT INTO `participant` (`project_id`, `user_id`, `participant_comment`, `date_created`, `date_approved`, `rating`, `rating_comment`, `rating_date`) VALUES (4, 3, NULL, '2022-07-1', '2022-07-1', NULL, NULL, NULL);
+INSERT INTO `participant` (`project_id`, `user_id`, `participant_comment`, `date_created`, `date_approved`, `rating`, `rating_comment`, `rating_date`) VALUES (5, 4, NULL, '2022-06-28', '2022-06-28', NULL, NULL, NULL);
+INSERT INTO `participant` (`project_id`, `user_id`, `participant_comment`, `date_created`, `date_approved`, `rating`, `rating_comment`, `rating_date`) VALUES (6, 5, NULL, '2022-07-15', '2022-07-15', NULL, NULL, NULL);
+INSERT INTO `participant` (`project_id`, `user_id`, `participant_comment`, `date_created`, `date_approved`, `rating`, `rating_comment`, `rating_date`) VALUES (7, 4, NULL, '2022-07-17', '2022-07-17', NULL, NULL, NULL);
+INSERT INTO `participant` (`project_id`, `user_id`, `participant_comment`, `date_created`, `date_approved`, `rating`, `rating_comment`, `rating_date`) VALUES (8, 5, NULL, '2022-07-20', '2022-07-20', NULL, NULL, NULL);
+INSERT INTO `participant` (`project_id`, `user_id`, `participant_comment`, `date_created`, `date_approved`, `rating`, `rating_comment`, `rating_date`) VALUES (9, 5, NULL, '2022-07-03', '2022-07-03', NULL, NULL, NULL);
+INSERT INTO `participant` (`project_id`, `user_id`, `participant_comment`, `date_created`, `date_approved`, `rating`, `rating_comment`, `rating_date`) VALUES (8, 1, NULL, '2022-07-20', '2022-07-20', NULL, NULL, NULL);
+INSERT INTO `participant` (`project_id`, `user_id`, `participant_comment`, `date_created`, `date_approved`, `rating`, `rating_comment`, `rating_date`) VALUES (6, 2, NULL, '2022-07-15', '2022-07-15', NULL, NULL, NULL);
+INSERT INTO `participant` (`project_id`, `user_id`, `participant_comment`, `date_created`, `date_approved`, `rating`, `rating_comment`, `rating_date`) VALUES (7, 3, NULL, '2022-07-17', '2022-07-17', NULL, NULL, NULL);
+INSERT INTO `participant` (`project_id`, `user_id`, `participant_comment`, `date_created`, `date_approved`, `rating`, `rating_comment`, `rating_date`) VALUES (8, 3, NULL, '2022-07-20', '2022-07-20', NULL, NULL, NULL);
+INSERT INTO `participant` (`project_id`, `user_id`, `participant_comment`, `date_created`, `date_approved`, `rating`, `rating_comment`, `rating_date`) VALUES (2, 4, NULL, '2022-07-7', '2022-07-7', NULL, NULL, NULL);
 
 COMMIT;
 
