@@ -1,3 +1,5 @@
+import { ProjectPresentPipe } from './../../pipes/project-present.pipe';
+import { ParticipantService } from './../../services/participant.service';
 import { InspectProjectComponent } from './../inspect-project/inspect-project.component';
 import { ParticipantComponent } from './../participant/participant.component';
 import { Project } from './../../models/project';
@@ -10,7 +12,7 @@ import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { faListCheck, faMagnifyingGlass, faToolbox } from '@fortawesome/free-solid-svg-icons';
+import { faListCheck, faMagnifyingGlass, faToolbox, faPlusCircle, faEye } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/models/user';
 import { ToolService } from 'src/app/services/tool.service';
@@ -24,21 +26,30 @@ import { ProjectToolComponent } from '../project-tool/project-tool.component';
 })
 export class ProjectComponent implements OnInit {
   private url = environment.baseUrl + 'api/project';
+
   projects: Project[] = [];
   fullProjects: Project[] = [];
   project: Project = new Project;
-  search: string = '';
-  faMagnifyingGlass = faMagnifyingGlass;
-  faToolbox = faToolbox;
-  selected: Project | null = null;
   newProject: Project = new Project();
+  selected: Project | null = null;
+  updateChecker: Project = new Project;
+
+  allParticipantsList: Participant[] = [];
+
+  search: string = '';
   startDateString: string = '';
   estimatedEndDateString: string = '';
   user: User = new User;
-  updateChecker: Project = new Project;
+
   editingProject: Boolean = false;
+
+
+  //FA-ICONS
+  faMagnifyingGlass = faMagnifyingGlass;
+  faToolbox = faToolbox;
   faListCheck = faListCheck;
-  displayParticipantButton: boolean = false;
+  faPlusCircle = faPlusCircle;
+  faEye = faEye;
 
   @ViewChild(ProjectToolComponent, { static: false })
   projectToolComponent!: ProjectToolComponent;
@@ -52,7 +63,9 @@ export class ProjectComponent implements OnInit {
     private projectServ: ProjectService,
     private userServ: UserService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private participantService: ParticipantService,
+    private projectPresentPipe: ProjectPresentPipe
     ) {}
 
     @ViewChild(ParticipantComponent, { static: false })
@@ -65,6 +78,7 @@ export class ProjectComponent implements OnInit {
       this.authenticateUser();
       this.index();
       this.indexAll();
+      this.indexParticipants();
     }
 
     authenticateUser(){
@@ -87,25 +101,40 @@ export class ProjectComponent implements OnInit {
     }
 
     projectContains(project: Project): boolean{
-      if(project.owner?.id === this.user.id){
-        return true;
-      }
-     console.log(project.particpants);
-    if(project.particpants) {
-      for (let index = 0; index < project.particpants.length; index++) {
-      let participant = project.particpants[index];
-      console.log(participant.user?.id)
-      console.log(this.user.id);
-      console.log(participant.user?.id == this.user.id);
-      if(participant.user?.id == this.user.id) {
+    let show: boolean = false;
+    if(project.owner?.id === this.user.id){
+        show = true;
+    }
 
-        return true;
-      }
-
+    if(!show){
+      project.particpants = this.projectPresentPipe.transform(this.allParticipantsList, project);
+      if(project.particpants) {
+        for (let index = 0; index < project.particpants.length; index++) {
+          let user = project.particpants[index].user;
+          if(user?.id == this.user.id) {
+            show = true;
+          }
+        }
       }
     }
-    return false;
+    return show;
     }
+
+
+   viewParticipant(project: Project){
+    let participant: Participant = new Participant;
+    this.participantService.show(project.id, this.user.id).subscribe({
+      next: (result) => {
+        participant = result;
+        console.log(participant);
+      },
+      error: (problem) => {
+        console.log("ProjectHttpComponent Error: unable to find Participant");
+        console.log(problem);
+      }
+    })
+
+   }
 
     toggleInspect(project: Project){
       if(this.inspect != project){
@@ -114,6 +143,18 @@ export class ProjectComponent implements OnInit {
       else {
         this.inspect = null;
       }
+    }
+
+    indexParticipants(){
+      this.participantService.index().subscribe({
+        next:(result) => {
+         this.allParticipantsList = result;
+        },
+        error: (problem) => {
+          console.log("ProjectHttpComponent Error: unable to populate ParticipantList")
+          console.log(problem);
+        }
+      })
     }
 
     addPartRequest(project:Project|null): void {
