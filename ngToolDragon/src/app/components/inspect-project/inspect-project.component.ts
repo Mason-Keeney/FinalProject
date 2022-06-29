@@ -22,6 +22,7 @@ export class InspectProjectComponent implements OnInit {
   toolListFull: Tool[] = [];
   toolList: Tool[] = [];
   tool: Tool = new Tool;
+  toolProject: Tool | null = null;
 
   // fa-icons
   faCheck = faCheck;
@@ -95,13 +96,13 @@ export class InspectProjectComponent implements OnInit {
     }
   }
 
-  addToolRequest(project:Project | null): void {
-    if(!this.participantProject){
-      this.participant.project = project;
-      this.participant.user = this.user;
-      this.participantProject = project;
+  addToolRequest(tool: Tool | null): void {
+    if(!this.toolProject){
+      this.project.tool = tool;
+      this.project.user = this.user;
+      this.toolProject = tool;
     } else {
-      this.participantProject = null;
+      this.toolProject = null;
     }
   }
 
