@@ -215,7 +215,7 @@ export class UserHomeComponent implements OnInit{
   }
 
   indexProjects(){
-    this.projectService.index().subscribe({
+    this.projectService.indexAll().subscribe({
       next: (result) => {
         this.projectList = result;
       },
