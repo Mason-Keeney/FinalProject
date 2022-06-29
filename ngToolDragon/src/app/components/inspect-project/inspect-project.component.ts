@@ -95,6 +95,15 @@ export class InspectProjectComponent implements OnInit {
     }
   }
 
+  addToolRequest(project:Project | null): void {
+    if(!this.participantProject){
+      this.participant.project = project;
+      this.participant.user = this.user;
+      this.participantProject = project;
+    } else {
+      this.participantProject = null;
+    }
+  }
 
 
 }
