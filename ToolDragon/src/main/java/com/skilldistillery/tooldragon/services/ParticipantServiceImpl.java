@@ -107,12 +107,16 @@ public class ParticipantServiceImpl implements ParticipantService {
 	@Override
 	public boolean destroy(String username, ParticipantId participantId) {
 		boolean deleted = false;
+		System.out.println(participantId);
 		Participant toDelete = null;
 		if (userRepo.findByUsername(username) != null) {
+			System.out.println("reached after user test");
 			Optional<Participant> op = participantRepo.findById(participantId);
 			if (op.isPresent()) {
+				System.out.println("reached op.isPresent() test");
 				toDelete = op.get();
 				if (toDelete != null) {
+					System.out.println("found participant");
 					participantRepo.delete(toDelete);
 					deleted = true;
 				}
