@@ -1,5 +1,9 @@
 .hero{
   justify-content: center;
   background-image: url(src/assets/dragonbackground.jpg);
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
