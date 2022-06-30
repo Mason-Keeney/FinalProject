@@ -35,6 +35,8 @@ export class ProjectComponent implements OnInit {
   updateChecker: Project = new Project;
   participantProject: Project | null = null;
   inspect: Project | null = null;
+  updateStartDate: string = "";
+  updateEndDate: string = "";
 
   allParticipantsList: Participant[] = [];
   participant: Participant = new Participant;
@@ -176,18 +178,19 @@ export class ProjectComponent implements OnInit {
       }
     }
 
-    setUpdate(project: Project): void {
-      if(this.updateChecker != project) {
-        this.updateChecker = project;
-      } else {
-        this.updateChecker = new Project;
-      }
+    // setUpdate(project: Project): void {
+    //   if(this.updateChecker != project) {
+    //     this.updateChecker = project;
+    //   } else {
+    //     this.updateChecker = new Project;
+    //   }
 
-    }
+    // }
 
     reload() {
-      this.project.id = 1;
-      this.show(this.project);
+      this.index();
+      this.indexAll();
+      this.indexParticipants();
     }
 
   setSelected(project: Project) {
@@ -239,6 +242,7 @@ export class ProjectComponent implements OnInit {
       next: (result) => {
         this.project = result;
         window.alert('A project was created!');
+        this.reload();
       },
       error: (fail) => {
         console.error('ProjectComponent.adding: error creating project');
@@ -248,10 +252,17 @@ export class ProjectComponent implements OnInit {
   }
 
   updateProject(id: number | null, project: Project): void {
+    let startDate: Date = new Date(this.updateStartDate);
+    let endDate: Date = new Date(this.updateEndDate);
+    project.startDate = startDate;
+    project.estimatedEndDate = endDate;
+    console.log(project);
+
     this.projectServ.update(id, project).subscribe({
       next: (result) => {
         this.project = result;
         window.alert('A project was updated!');
+        this.reload();
       },
       error: (nojoy) => {
         console.error('ProjectComponent.adding: error updating project');
@@ -264,6 +275,7 @@ export class ProjectComponent implements OnInit {
     this.projectServ.destroy(project.id).subscribe({
       next: () => {
         window.alert("project was deleted");
+        this.reload();
       },
       error: (nojoy) => {
         console.error('ProjectComponent.deleting: error deleting project');

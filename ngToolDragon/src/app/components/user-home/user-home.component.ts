@@ -34,6 +34,7 @@ export class UserHomeComponent implements OnInit{
   todayString = this.datePipe.transform(this.today);
   userList: User[] = [];
   projectList: Project[] = [];
+  ownedProjects: Project[] = [];
   isAdmin = false;
   toolList: Tool[] = [];
   userSearch = "";
@@ -65,6 +66,9 @@ export class UserHomeComponent implements OnInit{
       next: (result) =>{
         console.log(this.todayString)
         this.user = result;
+        if(this.user && this.user.ownedProjects) {
+        this.ownedProjects = this.activePipe.transform(this.user.ownedProjects)
+        }
         if(this.user.role === "role_admin"){
            this.indexUsers();
            this.indexProjects();

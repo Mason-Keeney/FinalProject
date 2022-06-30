@@ -17,7 +17,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let project of user?.ownedProjects">
+      <tr *ngFor="let project of ownedProjects">
         <th scope="row">{{project.id}}</th>
         <td (click)="startProjectView(project)" style="cursor: pointer;">{{project.description}}</td>
         <td>{{project.startDate | date: "MMM-dd-yyy"}}</td>
