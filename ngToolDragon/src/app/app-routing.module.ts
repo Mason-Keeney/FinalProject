@@ -20,12 +20,11 @@ const routes: Routes = [
   { path: 'project', component: ProjectComponent},
   { path: 'projectView', component: ProjectViewComponent},
   { path: 'projectTool', component: ProjectToolComponent},
-  { path: 'material', component: MaterialComponent},
-  { path: "**", component: HomeComponent}
+  { path: 'material', component: MaterialComponent}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {useHash:true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -30,10 +30,6 @@
   background: #C68E17;
   background-image: url(assets/scaletest22.png);
   background-image: url(assets/scaletest22.png), linear-gradient(45deg, #7f5217, #C68E17);
-  /* -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover; */
   font-family: sans-serif;
 }
 
