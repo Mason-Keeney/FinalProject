@@ -27,6 +27,7 @@ public class AddressController {
 
 	@Autowired
 	private AddressService addressService;
+//	private String city;
 
 	@GetMapping("addresses")
 	public List<Address> index(HttpServletRequest req, HttpServletResponse res, Principal principal) {
@@ -43,6 +44,11 @@ public class AddressController {
 		if (address == null) {
 			res.setStatus(404);
 		}
+//	Thread Safety Failure (setting and calling a class variable, if multiple threads are passing)	
+//		setCity(address.getCity());
+//		if("Fresno".equals(getCity())) {
+//			System.out.println("Fresno rules");
+//		}
 		return address;
 	}
 
@@ -92,5 +98,13 @@ public class AddressController {
 			res.setStatus(400);
 		}
 	}
+
+//	public String getCity() {
+//		return city;
+//	}
+//
+//	public void setCity(String city) {
+//		this.city = city;
+//	}
 
 }

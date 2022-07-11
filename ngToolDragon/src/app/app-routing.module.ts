@@ -20,7 +20,8 @@ const routes: Routes = [
   { path: 'project', component: ProjectComponent},
   { path: 'projectView', component: ProjectViewComponent},
   { path: 'projectTool', component: ProjectToolComponent},
-  { path: 'material', component: MaterialComponent}
+  { path: 'material', component: MaterialComponent},
+  { path: "**", component: HomeComponent}
 ];
 
 @NgModule({
