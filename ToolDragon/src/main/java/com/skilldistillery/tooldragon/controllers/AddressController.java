@@ -44,7 +44,7 @@ public class AddressController {
 		if (address == null) {
 			res.setStatus(404);
 		}
-//	Thread Safety Failure (setting and calling a class variable, if multiple threads are passing)	
+//	Thread Safety Failure Example (setting and calling a class variable, if multiple threads are passing they can change the class variable before it is called in the getter)	
 //		setCity(address.getCity());
 //		if("Fresno".equals(getCity())) {
 //			System.out.println("Fresno rules");
